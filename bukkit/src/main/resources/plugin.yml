@@ -1,0 +1,5 @@
+name: LeaderOS-Auth
+authors: [ leaderos, efekurbann ]
+main: net.leaderos.auth.Bukkit
+version: "${shared.version}"
+api-version: 1.13
