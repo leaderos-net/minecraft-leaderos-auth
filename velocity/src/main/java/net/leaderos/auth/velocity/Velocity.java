@@ -33,6 +33,7 @@ import org.slf4j.Logger;
 
 import java.io.File;
 import java.nio.file.Path;
+import java.util.Collections;
 
 /**
  * Main class of velocity
@@ -189,8 +190,14 @@ public class Velocity {
         limboServer = factory.createLimbo(world)
                 .setName("LeaderOS-Auth")
                 .setWorldTime(0)
-                .registerCommand(new LimboCommandMeta(this.configFile.getSettings().getLoginCommands()))
-                .registerCommand(new LimboCommandMeta(this.configFile.getSettings().getRegisterCommands()))
                 .setGameMode(GameMode.ADVENTURE);
+
+        for (String command : this.configFile.getSettings().getLoginCommands()) {
+            limboServer.registerCommand(new LimboCommandMeta(Collections.singleton(command)));
+        }
+
+        for (String command : this.configFile.getSettings().getRegisterCommands()) {
+            limboServer.registerCommand(new LimboCommandMeta(Collections.singleton(command)));
+        }
     }
 }
