@@ -9,7 +9,7 @@
         <version>1.0</version>
     </parent>
 
-    <artifactId>leaderos-velocity</artifactId>
+    <artifactId>leaderos-auth-velocity</artifactId>
     <version>${shared.version}</version>
     <packaging>jar</packaging>
 
@@ -18,6 +18,13 @@
         <maven.compiler.target>12</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
+
+    <repositories>
+        <repository>
+            <id>elytrium-repo</id>
+            <url>https://maven.elytrium.net/repo/</url>
+        </repository>
+    </repositories>
 
     <dependencies>
         <!-- Velocity -->
@@ -57,9 +64,15 @@
             <groupId>net.elytrium.limboapi</groupId>
             <artifactId>api</artifactId>
             <version>1.1.27</version>
-            <scope>system</scope>
-            <systemPath>${project.basedir}/libs/limboapi-1.1.27-SNAPSHOT (2).jar</systemPath>
+            <scope>provided</scope>
         </dependency>
+        <!--<dependency>
+            <groupId>net.elytrium.limboapi</groupId>
+            <artifactId>api</artifactId>
+            <version>1.1.27</version>
+            <scope>system</scope>
+            <systemPath>${project.basedir}/libs/limboapi-1.1.27-SNAPSHOT.jar</systemPath>
+        </dependency>-->
     </dependencies>
 
 </project>

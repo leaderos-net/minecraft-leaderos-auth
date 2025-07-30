@@ -38,26 +38,23 @@ public class tr extends Language {
         private String anErrorOccurred = "{prefix} &cİsteğiniz işlenirken bir hata oluştu. Lütfen daha sonra tekrar deneyin.";
 
         private List<String> kickTimeout = List.of(
-                "{prefix}",
-                "",
-                "&cSüre dolduğu için sunucudan atıldınız.");
+                "&cSüre dolduğu için sunucudan atıldınız.",
+                "&cDevam etmek için lütfen sunucuya tekrar bağlanın."
+        );
 
         private List<String> kickAnError = List.of(
-                "{prefix}",
-                "",
-                "&cİlgili servislere şu anda erişilemiyor.",
-                "&cLütfen daha sonra tekrar deneyin.");
+                "&cGiriş sistemlerine şu anda erişilemiyor.",
+                "&cLütfen daha sonra tekrar deneyin."
+        );
 
         private List<String> kickNotRegistered = List.of(
-                "{prefix}",
-                "",
-                "&cKayıtlı değilsin.",
-                "&cLütfen devam etmek için sitemizden kayıt olun.");
+                "&cSunucuda kayıtlı değilsiniz!",
+                "&cLütfen devam etmek için sitemizden kayıt olun."
+        );
 
         private List<String> kickWrongPassword = List.of(
-                "{prefix}",
-                "",
-                "&cHatalı şifre.");
+                "&cHatalı şifre!"
+        );
 
         private String unknownAuthCommand = "{prefix} &cBilinmeyen komut! Lütfen &a/register <şifre> <şifre> &aveya &a/login <şifre> &ckomutlarını kullanın.";
 
@@ -88,15 +85,15 @@ public class tr extends Language {
 
             private String passwordTooLong = "{prefix} &cŞifre {max} karakterden kısa olmalıdır!";
 
-            private String alreadyRegistered = "{prefix} &cZaten kayıtlısınız!";
+            private String alreadyRegistered = "{prefix} &cZaten kayıtlısınız! Lütfen giriş yapınız.";
 
-            private String invalidName = "{prefix} &cAdınız geçersiz! Lütfen geçerli bir ad kullanın.";
+            private String invalidName = "{prefix} &cKullanıcı adınız geçersiz! Lütfen geçerli bir kullanıcı ad kullanınız.";
 
             private String registerLimit = "{prefix} &cİzin verilen maksimum kayıt sayısına ulaştınız!";
 
             private String success = "{prefix} &aBaşarıyla kayıt oldunuz!";
 
-            private String unsafePassword = "{prefix} &cŞifreniz çok zayıf! Lütfen daha güçlü bir şifre seçin.";
+            private String unsafePassword = "{prefix} &cŞifreniz çok zayıf! Lütfen daha güçlü bir şifre seçiniz.";
 
         }
 
@@ -114,7 +111,7 @@ public class tr extends Language {
 
             private String incorrectPassword = "{prefix} &cYanlış şifre!";
 
-            private String accountNotFound = "{prefix} &cKayıtlı değilsiniz!";
+            private String accountNotFound = "{prefix} &cSunucumuza kayıtlı değilsiniz! Lütfen kayıt olunuz.";
 
             private String success = "{prefix} &aBaşarıyla giriş yaptınız!";
 
@@ -130,7 +127,7 @@ public class tr extends Language {
             /**
              * Invalid argument message
              */
-            private String invalidArgument = "{prefix} &cGeçersiz argüman!";
+            private String invalidArgument = "{prefix} &cGeçersiz argüman girdiniz!";
 
             /**
              * Unknown command message
@@ -140,17 +137,17 @@ public class tr extends Language {
             /**
              * Not enough arguments message
              */
-            private String notEnoughArguments = "{prefix} &cYetersiz argüman!";
+            private String notEnoughArguments = "{prefix} &cGerekli argümanları girmediniz!";
 
             /**
              * too many arguments message
              */
-            private String tooManyArguments = "{prefix} &cÇok fazla argüman!";
+            private String tooManyArguments = "{prefix} &cÇok fazla argüman girdiniz!";
 
             /**
              * no perm message
              */
-            private String noPerm = "{prefix} &cYeterli izniniz yok!";
+            private String noPerm = "{prefix} &cBu işlemi yapabilmek için yeterli yetkiye sahip değilsin!";
 
         }
     }

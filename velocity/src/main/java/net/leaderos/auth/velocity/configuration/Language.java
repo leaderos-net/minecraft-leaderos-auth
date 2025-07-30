@@ -39,27 +39,23 @@ public class Language extends OkaeriConfig {
         private String anErrorOccurred = "{prefix} &cAn error occurred while processing your request. Please try again later.";
 
         private List<String> kickTimeout = List.of(
-                "{prefix}",
-                "",
                 "&cYou have been kicked due to inactivity.",
-                "&cPlease rejoin the server to continue.");
+                "&cPlease rejoin the server to continue."
+        );
 
         private List<String> kickAnError = List.of(
-                "{prefix}",
-                "",
                 "&cOur auth servers is down at this moment.",
-                "&cPlease try again later.");
+                "&cPlease try again later."
+        );
 
         private List<String> kickNotRegistered = List.of(
-                "{prefix}",
-                "",
-                "&cYou are not registered.",
-                "&cPlease register from our website to continue.");
+                "&cYou are not registered!",
+                "&cPlease register from our website to continue."
+        );
 
         private List<String> kickWrongPassword = List.of(
-                "{prefix}",
-                "",
-                "&cWrong password.");
+                "&cWrong password!"
+        );
 
         private String unknownAuthCommand = "{prefix} &cUnknown authentication command! Please use &a/register <password> <password> &cor &a/login <password> &ccommands.";
 

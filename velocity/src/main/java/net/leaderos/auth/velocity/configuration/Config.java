@@ -35,7 +35,13 @@ public class Config extends OkaeriConfig {
         private String lang = "en";
 
         @Comment("Url of your website")
-        private String url = "https://v6.leaderos.com.tr";
+        private String url = "https://yourwebsite.com";
+
+        @Comment({
+                "API Key for request",
+                "You can get your API key from Dashboard > API",
+        })
+        private String apiKey = "YOUR_API_KEY";
 
         @Comment({
                 "Debug mode for API requests.",
@@ -46,27 +52,29 @@ public class Config extends OkaeriConfig {
         })
         private DebugMode debugMode = DebugMode.ONLY_ERRORS;
 
-        @Comment("API Key for request")
-        private String apiKey = "TR_474fc1c8ed2ebf582f225f6e0220ff8b";
-
-        @Comment({"Should session system be enabled?",
-                "If enabled, players will be able to join the server without authentication if they succeeded an auth before (with the same IP)."})
+        @Comment({
+                "Should session system be enabled?",
+                "If enabled, players will be able to join the server without authentication if they succeeded an auth before (with the same IP)."
+        })
         private boolean session = false;
 
-        @Comment("Should we block players who are not registered?")
-        private boolean blockNotRegistered = false;
+        @Comment("Should unregistered players be kicked immediately?")
+        private boolean kickNonRegistered = false;
 
-        @Comment("In seconds, how long should the authentication process take before timing out?")
+        @Comment("How many seconds should players who fail to log in or register be given before they are kicked?")
         private int authTimeout = 60; // in seconds
 
-        private List<String> loginCommands = List.of("login", "log", "l");
+        @Comment("How many seconds should players wait before sending another command?")
+        private int commandCooldown = 3; // in seconds
 
-        private List<String> registerCommands = List.of("register", "reg", "r");
+        private List<String> loginCommands = List.of("login", "log", "l", "giris", "giriş");
+
+        private List<String> registerCommands = List.of("register", "reg", "kayit", "kayıt");
 
         private int minPasswordLength = 5;
         private int maxPasswordLength = 32;
 
-        private List<String> unsafePasswords = List.of("123456", "password", "qwerty", "123456789", "help");
+        private List<String> unsafePasswords = List.of("123456", "password", "qwerty", "123456789", "help", "sifre", "12345", "asd123", "qwe123");
 
         private boolean kickOnWrongPassword = true;
 

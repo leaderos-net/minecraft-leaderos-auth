@@ -43,7 +43,7 @@ public class ConnectionListener {
                 RESPONSE_CACHE.put(event.getUsername(), response);
             }
 
-            if (plugin.getConfigFile().getSettings().isBlockNotRegistered() && response == AuthResponse.ACCOUNT_NOT_FOUND) {
+            if (plugin.getConfigFile().getSettings().isKickNonRegistered() && response == AuthResponse.ACCOUNT_NOT_FOUND) {
                 Shared.getDebugAPI().send("Player " + event.getUsername() + " is not registered, blocking connection.", false);
                 event.setResult(PreLoginEvent.PreLoginComponentResult.denied(
                         Component.join(JoinConfiguration.newlines(),

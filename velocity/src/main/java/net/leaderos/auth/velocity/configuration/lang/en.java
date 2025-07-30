@@ -39,16 +39,23 @@ public class en extends Language {
         private String anErrorOccurred = "{prefix} &cAn error occurred while processing your request. Please try again later.";
 
         private List<String> kickTimeout = List.of(
-                "{prefix}",
-                "",
                 "&cYou have been kicked due to inactivity.",
-                "&cPlease rejoin the server to continue.");
+                "&cPlease rejoin the server to continue."
+        );
+
+        private List<String> kickAnError = List.of(
+                "&cOur auth servers is down at this moment.",
+                "&cPlease try again later."
+        );
 
         private List<String> kickNotRegistered = List.of(
-                "{prefix}",
-                "",
-                "&cYou are not registered.",
-                "&cPlease register from our website to continue.");
+                "&cYou are not registered!",
+                "&cPlease register from our website to continue."
+        );
+
+        private List<String> kickWrongPassword = List.of(
+                "&cWrong password!"
+        );
 
         private String unknownAuthCommand = "{prefix} &cUnknown authentication command! Please use &a/register <password> <password> &cor &a/login <password> &ccommands.";
 
@@ -86,6 +93,8 @@ public class en extends Language {
             private String registerLimit = "{prefix} &cYou have reached the maximum number of registrations allowed!";
 
             private String success = "{prefix} &aYou have successfully registered!";
+
+            private String unsafePassword = "{prefix} &cYour password is too weak! Please choose a stronger password.";
 
         }
 
