@@ -132,14 +132,14 @@ public class AuthSessionHandler implements LimboSessionHandler {
                 return;
             }
 
-            int minPasswordLength = plugin.getConfigFile().getSettings().getMinPasswordLength();
+            int minPasswordLength = Math.max(plugin.getConfigFile().getSettings().getMinPasswordLength(), 4);
             if (password.length() < minPasswordLength) {
                 ChatUtil.sendMessage(proxyPlayer, ChatUtil.replacePlaceholders(plugin.getLangFile().getMessages().getRegister().getPasswordTooShort(),
                         new Placeholder("{min}", minPasswordLength + "")));
                 return;
             }
 
-            int maxPasswordLength = plugin.getConfigFile().getSettings().getMaxPasswordLength();
+            int maxPasswordLength = 32;
             if (password.length() > maxPasswordLength) {
                 ChatUtil.sendMessage(proxyPlayer, ChatUtil.replacePlaceholders(plugin.getLangFile().getMessages().getRegister().getPasswordTooLong(),
                         new Placeholder("{max}", maxPasswordLength + "")));

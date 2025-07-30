@@ -61,22 +61,26 @@ public class Config extends OkaeriConfig {
         @Comment("Should unregistered players be kicked immediately?")
         private boolean kickNonRegistered = false;
 
+        @Comment("Should players be kicked if they fail to log in with the wrong password?")
+        private boolean kickOnWrongPassword = true;
+
         @Comment("How many seconds should players who fail to log in or register be given before they are kicked?")
         private int authTimeout = 60; // in seconds
 
         @Comment("How many seconds should players wait before sending another command?")
         private int commandCooldown = 3; // in seconds
 
+        @Comment("Minimum password length for registration.")
+        private int minPasswordLength = 5;
+
+        @Comment("List of commands that will be used to log in")
         private List<String> loginCommands = List.of("login", "log", "l", "giris", "giriş");
 
+        @Comment("List of commands that will be used to register")
         private List<String> registerCommands = List.of("register", "reg", "kayit", "kayıt");
 
-        private int minPasswordLength = 5;
-        private int maxPasswordLength = 32;
-
+        @Comment("Blacklist of passwords that cannot be used")
         private List<String> unsafePasswords = List.of("123456", "password", "qwerty", "123456789", "help", "sifre", "12345", "asd123", "qwe123");
-
-        private boolean kickOnWrongPassword = true;
 
     }
 }
