@@ -10,7 +10,6 @@ public class RegisterRequest extends PostRequest {
         super("auth/register", new HashMap<String, String>() {{
             put("username", username);
             put("password", password);
-            put("email", "your@email.com");
             put("ip", ip);
         }});
     }
