@@ -11,6 +11,7 @@ import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.JoinConfiguration;
 import net.leaderos.auth.velocity.Velocity;
 import net.leaderos.auth.velocity.handler.AuthSessionHandler;
+import net.leaderos.auth.velocity.handler.ValidSessionHandler;
 import net.leaderos.auth.velocity.helpers.ChatUtil;
 import net.leaderos.shared.Shared;
 import net.leaderos.shared.helpers.AuthResponse;
@@ -65,13 +66,13 @@ public class ConnectionListener {
                 // If the player is already authenticated, allow them to join directly
                 if (response == AuthResponse.HAS_SESSION && plugin.getConfigFile().getSettings().isSession()) {
                     Shared.getDebugAPI().send("Player " + playerName + " has active session, allowing direct login.", false);
+                    plugin.getLimboServer().spawnPlayer(player, new ValidSessionHandler());
                     return;
                 }
 
                 // Spawn player in auth limbo
                 Shared.getDebugAPI().send("Spawning player " + playerName + " in limbo for authentication.", false);
                 plugin.getLimboServer().spawnPlayer(player, new AuthSessionHandler(player, ip, response, plugin));
-
             } catch (Exception e) {
                 Shared.getDebugAPI().send("Error processing player " + playerName + ": " + e.getMessage(), true);
 
