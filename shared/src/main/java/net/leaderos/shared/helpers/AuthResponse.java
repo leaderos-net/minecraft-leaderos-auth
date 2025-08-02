@@ -21,4 +21,8 @@ public enum AuthResponse {
 
     ;
 
+    public boolean isAuthenticated() {
+        return this == HAS_SESSION || this == SUCCESS;
+    }
+
 }

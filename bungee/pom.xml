@@ -9,7 +9,7 @@
         <version>1.0</version>
     </parent>
 
-    <artifactId>leaderos-bungee</artifactId>
+    <artifactId>leaderos-auth-bungee</artifactId>
     <version>${shared.version}</version>
     <packaging>jar</packaging>
 

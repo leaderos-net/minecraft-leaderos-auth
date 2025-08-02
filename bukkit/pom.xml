@@ -9,7 +9,7 @@
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>leaderos-bukkit</artifactId>
+    <artifactId>leaderos-auth-bukkit</artifactId>
     <version>${shared.version}</version>
     <packaging>jar</packaging>
 
