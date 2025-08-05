@@ -53,6 +53,19 @@ public class Config extends OkaeriConfig {
         })
         private DebugMode debugMode = DebugMode.ONLY_ERRORS;
 
+        @Comment("Send players to another server after login/register")
+        private SendAfterAuth sendAfterAuth = new SendAfterAuth();
+
+        @Getter
+        @Setter
+        public static class SendAfterAuth extends OkaeriConfig {
+            @Comment("Should player be sent to another server after authentication?")
+            private boolean enabled = false;
+
+            @Comment("Name of the server to send player to after authentication")
+            private String server = "lobby";
+        }
+
         @Comment({
                 "Should session system be enabled?",
                 "If enabled, players will be able to join the server without authentication if they succeeded an auth before (with the same IP)."
@@ -80,18 +93,5 @@ public class Config extends OkaeriConfig {
 
         @Comment("Blacklist of passwords that cannot be used")
         private List<String> unsafePasswords = Lists.newArrayList("123456", "password", "qwerty", "123456789", "help", "sifre", "12345", "asd123", "qwe123");
-
-        private SendAfterAuth sendAfterAuth = new SendAfterAuth();
-
-        @Getter
-        @Setter
-        public static class SendAfterAuth extends OkaeriConfig {
-            @Comment("Should player be sent to another server after authentication?")
-            private boolean enabled = false;
-
-            @Comment("Name of the server to send player to after authentication")
-            private String server = "lobby";
-        }
-
     }
 }
