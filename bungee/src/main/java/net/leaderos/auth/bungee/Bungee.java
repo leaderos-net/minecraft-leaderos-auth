@@ -34,7 +34,7 @@ public class Bungee extends Plugin {
 
         shared = new Shared("", "", new DebugBungee());
 
-        new Metrics(this, 26803);
+        new Metrics(this, 26805);
 
         this.getProxy().getPluginManager().registerListener(this, new PluginMessageListener(this));
         this.getProxy().getPluginManager().registerListener(this, new PlayerListener(this));
