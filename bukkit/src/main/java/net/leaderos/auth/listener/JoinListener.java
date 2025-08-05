@@ -42,12 +42,16 @@ public class JoinListener implements Listener {
         long joinTime = System.currentTimeMillis();
         AtomicInteger i = new AtomicInteger();
         plugin.getServer().getScheduler().runTaskTimer(plugin, (task) -> {
-            if (plugin.isAuthenticated(player)) return;
+            if (plugin.isAuthenticated(player)) {
+                task.cancel();
+                return;
+            }
 
             if (System.currentTimeMillis() - joinTime > plugin.getConfigFile().getSettings().getAuthTimeout() * 1000L) {
                 player.kickPlayer(String.join("\n",
                         ChatUtil.replacePlaceholders(plugin.getLangFile().getMessages().getKickTimeout(),
                                 new Placeholder("{prefix}", plugin.getLangFile().getMessages().getPrefix()))));
+                task.cancel();
                 return;
             }
 
