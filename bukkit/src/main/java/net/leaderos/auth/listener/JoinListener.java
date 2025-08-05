@@ -5,6 +5,7 @@ import net.leaderos.auth.Bukkit;
 import net.leaderos.auth.helpers.ChatUtil;
 import net.leaderos.shared.helpers.AuthResponse;
 import net.leaderos.shared.helpers.Placeholder;
+import org.bukkit.GameMode;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -27,6 +28,10 @@ public class JoinListener implements Listener {
         if (currentStatus.isAuthenticated()) {
             plugin.forceLogin(player);
             return;
+        }
+
+        if (plugin.getConfigFile().getSettings().isForceSurvivalMode()) {
+            player.setGameMode(GameMode.SURVIVAL);
         }
 
         if (currentStatus == AuthResponse.LOGIN_REQUIRED) {
