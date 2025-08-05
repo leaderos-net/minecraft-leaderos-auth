@@ -59,7 +59,7 @@ public class Config extends OkaeriConfig {
         })
         private boolean session = false;
 
-        @Comment("Should players be forced to survival mode during authentication?")
+        @Comment("Force survival gamemode when player joins?")
         private boolean forceSurvivalMode = false;
 
         @Comment("Should unregistered players be kicked immediately?")
