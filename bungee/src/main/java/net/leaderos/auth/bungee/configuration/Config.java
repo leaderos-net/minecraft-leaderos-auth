@@ -42,8 +42,8 @@ public class Config extends OkaeriConfig {
         })
         private DebugMode debugMode = DebugMode.ONLY_ERRORS;
 
-        @Comment("Which server should we forcefully move players to?")
-        private String authServer = "auth";
+        @Comment("Players will be redirected to this server to login/register.")
+        private String authServer = "auth_lobby";
 
         @Comment("List of commands that will be allowed")
         private List<String> allowedCommands = Lists.newArrayList("login", "log", "l", "giris", "giriş",

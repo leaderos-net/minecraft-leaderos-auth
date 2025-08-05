@@ -122,7 +122,7 @@ public class Bukkit extends JavaPlugin {
     public void sendPlayerToLobby(Player player) {
         ByteArrayDataOutput out = ByteStreams.newDataOutput();
         out.writeUTF("Connect");
-        out.writeUTF(configFile.getSettings().getGameServer());
+        out.writeUTF(configFile.getSettings().getSendPlayerTo());
         player.sendPluginMessage(this, "BungeeCord", out.toByteArray());
     }
 
@@ -145,7 +145,7 @@ public class Bukkit extends JavaPlugin {
         ChatUtil.sendMessage(player, langFile.getMessages().getLogin().getSuccess());
         this.sendStatus(player, true);
 
-        if (configFile.getSettings().isMoveAfterAuth()) {
+        if (configFile.getSettings().isBungeecord()) {
             this.getServer().getScheduler().runTaskLater(this, () -> {
                 this.sendPlayerToLobby(player);
             }, 20L);
@@ -157,7 +157,7 @@ public class Bukkit extends JavaPlugin {
         ChatUtil.sendMessage(player, langFile.getMessages().getRegister().getSuccess());
         this.sendStatus(player, true);
 
-        if (configFile.getSettings().isMoveAfterAuth()) {
+        if (configFile.getSettings().isBungeecord()) {
             this.getServer().getScheduler().runTaskLater(this, () -> {
                 this.sendPlayerToLobby(player);
             }, 20L);
