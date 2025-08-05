@@ -34,7 +34,7 @@ public class Bungee extends Plugin {
 
         shared = new Shared("", "", new DebugBungee());
 
-        new Metrics(this, 20387); // TODO replace with the actual plugin ID
+        new Metrics(this, 26803);
 
         this.getProxy().getPluginManager().registerListener(this, new PluginMessageListener(this));
         this.getProxy().getPluginManager().registerListener(this, new PlayerListener(this));

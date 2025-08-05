@@ -139,7 +139,7 @@ public class Velocity {
         Velocity.getInstance().getCommandManager().register(commandMeta, new LeaderOSCommand());
 
         // bStats
-        metricsFactory.make(this, 20387);
+        metricsFactory.make(this, 26803);
 
         this.factory = (LimboFactory) this.server.getPluginManager().getPlugin("limboapi")
                 .flatMap(PluginContainer::getInstance).orElseThrow();

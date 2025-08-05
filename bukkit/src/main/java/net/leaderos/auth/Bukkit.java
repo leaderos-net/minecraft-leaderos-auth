@@ -61,7 +61,7 @@ public class Bukkit extends JavaPlugin {
             getLogger().warning("You are using an insecure URL (http://) for the API. Please use https:// for security reasons.");
         }
 
-        new Metrics(this, 20387);
+        new Metrics(this, 26803);
 
         getServer().getMessenger().registerOutgoingPluginChannel(this, "BungeeCord");
 
