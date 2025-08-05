@@ -55,6 +55,7 @@ public class RegisterCommand extends BaseCommand {
                 }
 
                 if (result == AuthResponse.SUCCESS) {
+                    player.resetTitle();
                     plugin.forceRegister(player);
                 } else if (result == AuthResponse.USERNAME_ALREADY_EXIST) {
                     ChatUtil.sendMessage(player, plugin.getLangFile().getMessages().getRegister().getAlreadyRegistered());

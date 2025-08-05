@@ -38,6 +38,7 @@ public class LoginCommand extends BaseCommand {
                 }
 
                 if (result == AuthResponse.SUCCESS) {
+                    player.resetTitle();
                     plugin.forceLogin(player);
                 } else if (result == AuthResponse.USER_NOT_FOUND) {
                     ChatUtil.sendMessage(player, plugin.getLangFile().getMessages().getLogin().getAccountNotFound());
