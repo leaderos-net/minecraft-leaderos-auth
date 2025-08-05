@@ -53,19 +53,6 @@ public class Config extends OkaeriConfig {
         })
         private DebugMode debugMode = DebugMode.ONLY_ERRORS;
 
-        @Comment("Send players to another server after login/register")
-        private SendAfterAuth sendAfterAuth = new SendAfterAuth();
-
-        @Getter
-        @Setter
-        public static class SendAfterAuth extends OkaeriConfig {
-            @Comment("Should player be sent to another server after authentication?")
-            private boolean enabled = false;
-
-            @Comment("Name of the server to send player to after authentication")
-            private String server = "lobby";
-        }
-
         @Comment({
                 "Should session system be enabled?",
                 "If enabled, players will be able to join the server without authentication if they succeeded an auth before (with the same IP)."
@@ -86,6 +73,19 @@ public class Config extends OkaeriConfig {
 
         @Comment("Minimum password length for registration.")
         private int minPasswordLength = 5;
+
+        @Comment("Send players to another server after login/register")
+        private SendAfterAuth sendAfterAuth = new SendAfterAuth();
+
+        @Getter
+        @Setter
+        public static class SendAfterAuth extends OkaeriConfig {
+            @Comment("Should player be sent to another server after authentication?")
+            private boolean enabled = false;
+
+            @Comment("Name of the server to send player to after authentication")
+            private String server = "lobby";
+        }
 
         @Comment("List of commands that will be allowed")
         private List<String> allowedCommands = Lists.newArrayList("login", "log", "l", "giris", "giriş",
