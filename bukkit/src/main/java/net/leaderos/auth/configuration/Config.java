@@ -81,17 +81,17 @@ public class Config extends OkaeriConfig {
         @Comment("Blacklist of passwords that cannot be used")
         private List<String> unsafePasswords = Lists.newArrayList("123456", "password", "qwerty", "123456789", "help", "sifre", "12345", "asd123", "qwe123");
 
-        @Comment({
-                "Should BungeeCord support be enabled?",
-                "If enabled, players will be sent to another server after registration/login."
-        })
-        private boolean bungeecord = false;
+        private SendAfterAuth sendAfterAuth = new SendAfterAuth();
 
-        @Comment({
-                "Send player to this BungeeCord server after register/login",
-                "This is only used if bungeecord is enabled.",
-        })
-        private String sendPlayerTo = "lobby";
+        @Getter
+        @Setter
+        public static class SendAfterAuth extends OkaeriConfig {
+            @Comment("Should player be sent to another server after authentication?")
+            private boolean enabled = false;
+
+            @Comment("Name of the server to send player to after authentication")
+            private String server = "lobby";
+        }
 
     }
 }
