@@ -82,7 +82,6 @@ public class ConnectionListener implements Listener {
     public void onQuit(PlayerQuitEvent event) {
         Player player = event.getPlayer();
         STATUS_MAP.remove(player.getName());
-        plugin.sendStatus(player, false);
     }
 
 }

@@ -5,6 +5,7 @@ import net.leaderos.auth.bungee.Bungee;
 import net.leaderos.shared.Shared;
 import net.md_5.bungee.api.connection.ProxiedPlayer;
 import net.md_5.bungee.api.event.ChatEvent;
+import net.md_5.bungee.api.event.PlayerDisconnectEvent;
 import net.md_5.bungee.api.event.ServerConnectEvent;
 import net.md_5.bungee.api.plugin.Listener;
 import net.md_5.bungee.event.EventHandler;
@@ -13,6 +14,12 @@ import net.md_5.bungee.event.EventHandler;
 public class PlayerListener implements Listener {
 
     private final Bungee plugin;
+
+    @EventHandler
+    public void onQuit(PlayerDisconnectEvent event) {
+        ProxiedPlayer player = event.getPlayer();
+        plugin.getAuthenticatedPlayers().remove(player.getName());
+    }
 
     @EventHandler
     public void onCommand(ChatEvent event) {
