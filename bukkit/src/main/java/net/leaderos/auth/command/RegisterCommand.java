@@ -16,7 +16,7 @@ import static net.leaderos.auth.listener.ConnectionListener.RESPONSE_CACHE;
 import static net.leaderos.auth.listener.ConnectionListener.STATUS_MAP;
 
 @RequiredArgsConstructor
-@Command(value = "register", alias = {"r", "reg", "kayit", "kayıt", "kaydol"})
+@Command(value = "register", alias = {"reg", "kayit", "kayıt", "kaydol"})
 public class RegisterCommand extends BaseCommand {
 
     private final Bukkit plugin;

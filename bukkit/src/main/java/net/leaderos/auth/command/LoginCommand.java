@@ -16,7 +16,7 @@ import static net.leaderos.auth.listener.ConnectionListener.RESPONSE_CACHE;
 import static net.leaderos.auth.listener.ConnectionListener.STATUS_MAP;
 
 @RequiredArgsConstructor
-@Command(value = "login", alias = {"l", "log", "gir", "giris"})
+@Command(value = "login", alias = {"log", "l", "giris", "giriş", "gir"})
 public class LoginCommand extends BaseCommand {
 
     private final Bukkit plugin;

@@ -74,10 +74,10 @@ public class Config extends OkaeriConfig {
         private int minPasswordLength = 5;
 
         @Comment("List of commands that will be used to log in")
-        private List<String> loginCommands = List.of("login", "log", "l", "giris", "giriş");
+        private List<String> loginCommands = List.of("login", "log", "l", "giris", "giriş", "gir");
 
         @Comment("List of commands that will be used to register")
-        private List<String> registerCommands = List.of("register", "reg", "kaydol", "kayit", "kayıt");
+        private List<String> registerCommands = List.of("register", "reg", "kayit", "kayıt", "kaydol");
 
         @Comment("Blacklist of passwords that cannot be used")
         private List<String> unsafePasswords = List.of("123456", "password", "qwerty", "123456789", "help", "sifre", "12345", "asd123", "qwe123");

@@ -91,8 +91,7 @@ public class Config extends OkaeriConfig {
         }
 
         @Comment("List of commands that will be allowed")
-        private List<String> allowedCommands = Lists.newArrayList("login", "log", "l", "giris", "giriş",
-                "register", "reg", "kaydol", "kayit", "kayıt");
+        private List<String> allowedCommands = Lists.newArrayList("login", "log", "l", "giris", "giriş", "gir", "register", "reg", "kayit", "kayıt", "kaydol");
 
         @Comment("Blacklist of passwords that cannot be used")
         private List<String> unsafePasswords = Lists.newArrayList("123456", "password", "qwerty", "123456789", "help", "sifre", "12345", "asd123", "qwe123");
