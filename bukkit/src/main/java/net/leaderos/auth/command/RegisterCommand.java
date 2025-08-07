@@ -12,6 +12,8 @@ import net.leaderos.shared.helpers.AuthUtil;
 import net.leaderos.shared.helpers.Placeholder;
 import org.bukkit.entity.Player;
 
+import static net.leaderos.auth.listener.ConnectionListener.STATUS_MAP;
+
 @RequiredArgsConstructor
 @Command(value = "register", alias = {"r", "reg", "kayit", "kayıt", "kaydol"})
 public class RegisterCommand extends BaseCommand {
@@ -20,6 +22,12 @@ public class RegisterCommand extends BaseCommand {
 
     @Default
     public void onRegister(Player player, String password, String passwordConfirm) {
+        AuthResponse currentStatus = STATUS_MAP.get(player.getName());
+        if (currentStatus.isAuthenticated()) {
+            ChatUtil.sendMessage(player, plugin.getLangFile().getMessages().getAlreadyLoggedIn());
+            return;
+        }
+
         String ip = player.getAddress().getAddress().getHostAddress();
 
         if (!password.equals(passwordConfirm)) {
