@@ -12,6 +12,7 @@ import net.leaderos.shared.helpers.AuthUtil;
 import net.leaderos.shared.helpers.Placeholder;
 import org.bukkit.entity.Player;
 
+import static net.leaderos.auth.listener.ConnectionListener.RESPONSE_CACHE;
 import static net.leaderos.auth.listener.ConnectionListener.STATUS_MAP;
 
 @RequiredArgsConstructor
@@ -40,6 +41,7 @@ public class LoginCommand extends BaseCommand {
                 if (result == AuthResponse.SUCCESS) {
                     player.resetTitle();
                     plugin.forceLogin(player);
+                    RESPONSE_CACHE.invalidate(player.getName());
                 } else if (result == AuthResponse.USER_NOT_FOUND) {
                     ChatUtil.sendMessage(player, plugin.getLangFile().getMessages().getLogin().getAccountNotFound());
                 } else if (result == AuthResponse.WRONG_PASSWORD) {
