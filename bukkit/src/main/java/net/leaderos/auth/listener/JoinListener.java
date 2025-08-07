@@ -27,6 +27,9 @@ public class JoinListener implements Listener {
         // No need for a isSession check here, as we handle it in the ConnectionListener
         if (currentStatus.isAuthenticated()) {
             plugin.forceLogin(player);
+            plugin.getServer().getScheduler().runTaskLater(plugin, () -> {
+                plugin.sendStatus(player, currentStatus.isAuthenticated());
+            }, 5);
             return;
         }
 
