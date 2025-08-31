@@ -61,6 +61,8 @@ public class tr extends Language {
 
         private String reload = "{prefix} &aEklenti başarıyla yeniden yüklendi.";
 
+        private String setSpawn = "{prefix} &aSpawn noktası başarıyla ayarlandı.";
+
         private Register register = new Register();
         private Login login = new Login();
         /**

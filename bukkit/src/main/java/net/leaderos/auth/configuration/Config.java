@@ -90,6 +90,22 @@ public class Config extends OkaeriConfig {
             private String server = "lobby";
         }
 
+        @Comment("Teleport players to spawn on join")
+        private Spawn spawn = new Spawn();
+
+        @Getter
+        @Setter
+        public static class Spawn extends OkaeriConfig {
+            @Comment("Force teleport to spawn on join?")
+            private boolean forceTeleportOnJoin = true;
+
+            @Comment({
+                    "Spawn location in format world,x,y,z,yaw,pitch",
+                    "Use /leaderosauth setspawn to set the location"
+            })
+            private String location = "";
+        }
+
         @Comment("List of commands that will be allowed")
         private List<String> allowedCommands = Lists.newArrayList("login", "log", "l", "giris", "giriş", "gir", "register", "reg", "kayit", "kayıt", "kaydol");
 

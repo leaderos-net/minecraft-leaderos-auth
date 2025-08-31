@@ -62,6 +62,8 @@ public class Language extends OkaeriConfig {
 
         private String reload = "{prefix} &aPlugin reloaded successfully.";
 
+        private String setSpawn = "{prefix} &aSpawn location set successfully.";
+
         private String alreadyLoggedIn = "{prefix} &cYou are already logged in!";
 
         private Register register = new Register();

@@ -62,6 +62,8 @@ public class en extends Language {
 
         private String reload = "{prefix} &aPlugin reloaded successfully.";
 
+        private String setSpawn = "{prefix} &aSpawn location set successfully.";
+
         private Register register = new Register();
         private Login login = new Login();
         /**

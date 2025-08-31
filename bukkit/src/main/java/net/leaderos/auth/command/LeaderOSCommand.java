@@ -7,9 +7,11 @@ import dev.triumphteam.cmd.core.annotation.SubCommand;
 import lombok.RequiredArgsConstructor;
 import net.leaderos.auth.Bukkit;
 import net.leaderos.auth.helpers.ChatUtil;
+import net.leaderos.auth.helpers.LocationUtil;
 import net.leaderos.shared.Shared;
 import net.leaderos.shared.helpers.UrlUtil;
 import org.bukkit.command.CommandSender;
+import org.bukkit.entity.Player;
 
 @Command("leaderosauth")
 @RequiredArgsConstructor
@@ -30,6 +32,26 @@ public class LeaderOSCommand extends BaseCommand {
         Shared.setApiKey(Bukkit.getInstance().getConfigFile().getSettings().getApiKey());
 
         ChatUtil.sendMessage(sender, Bukkit.getInstance().getLangFile().getMessages().getReload());
+    }
+
+    /**
+     * Set spawn command of plugin
+     */
+    @Permission("leaderos.setspawn")
+    @SubCommand("setspawn")
+    public void setSpawnCommand(CommandSender sender) {
+        // Prevent console from using this command
+        if (!(sender instanceof Player)) return;
+
+        // Get Location
+        Player player = (Player) sender;
+        String location = LocationUtil.locationToString(player.getLocation());
+
+        // Save to config
+        Bukkit.getInstance().getConfigFile().getSettings().getSpawn().setLocation(location);
+        Bukkit.getInstance().getConfigFile().save();
+
+        ChatUtil.sendMessage(player, Bukkit.getInstance().getLangFile().getMessages().getSetSpawn());
     }
 
 }
