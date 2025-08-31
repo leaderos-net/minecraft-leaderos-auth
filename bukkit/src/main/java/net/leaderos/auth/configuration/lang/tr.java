@@ -63,6 +63,8 @@ public class tr extends Language {
 
         private String setSpawn = "{prefix} &aSpawn noktası başarıyla ayarlandı.";
 
+        private String alreadyLoggedIn = "{prefix} &cZaten giriş yaptınız!";
+
         private Register register = new Register();
         private Login login = new Login();
         /**

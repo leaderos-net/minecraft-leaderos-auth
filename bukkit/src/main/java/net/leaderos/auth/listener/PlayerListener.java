@@ -5,7 +5,6 @@ import net.leaderos.auth.Bukkit;
 import net.leaderos.auth.helpers.LocationUtil;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
-import org.bukkit.entity.Projectile;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
@@ -15,9 +14,6 @@ import org.bukkit.event.block.SignChangeEvent;
 import org.bukkit.event.entity.*;
 import org.bukkit.event.inventory.InventoryOpenEvent;
 import org.bukkit.event.player.*;
-import org.bukkit.projectiles.ProjectileSource;
-
-import java.util.Objects;
 
 @RequiredArgsConstructor
 public class PlayerListener implements Listener {
@@ -98,7 +94,8 @@ public class PlayerListener implements Listener {
         if (plugin.isAuthenticated(event.getPlayer())) return;
 
         String message = event.getMessage().toLowerCase().substring(1).split(" ")[0];
-        if (plugin.getConfigFile().getSettings().getAllowedCommands().stream().noneMatch(message::startsWith)) {
+
+        if (plugin.getAllowedCommands().stream().noneMatch(message::startsWith)) {
             event.setCancelled(true);
         }
     }

@@ -1,5 +1,6 @@
 package net.leaderos.auth;
 
+import com.google.common.collect.Lists;
 import com.google.common.io.ByteArrayDataOutput;
 import com.google.common.io.ByteStreams;
 import dev.triumphteam.cmd.bukkit.BukkitCommandManager;
@@ -14,6 +15,7 @@ import net.leaderos.auth.command.RegisterCommand;
 import net.leaderos.auth.configuration.Config;
 import net.leaderos.auth.configuration.Language;
 import net.leaderos.auth.helpers.ChatUtil;
+import net.leaderos.auth.helpers.ConsoleLogger;
 import net.leaderos.auth.helpers.DebugBukkit;
 import net.leaderos.auth.listener.ConnectionListener;
 import net.leaderos.auth.listener.JoinListener;
@@ -25,8 +27,12 @@ import org.bstats.bukkit.Metrics;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.core.Filter;
+import org.apache.logging.log4j.core.Logger;
 
 import java.io.File;
+import java.util.List;
 import java.util.logging.Level;
 
 import static net.leaderos.auth.listener.ConnectionListener.STATUS_MAP;
@@ -44,10 +50,16 @@ public class Bukkit extends JavaPlugin {
 
     private BukkitCommandManager<CommandSender> commandManager;
 
+    @Getter
+    private List<String> allowedCommands;
+
     @Override
     public void onEnable() {
         instance = this;
         setupFiles();
+
+        // Cache allowed commands
+        cacheAllowedCommands();
 
         this.shared = new Shared(
                 UrlUtil.format(getConfigFile().getSettings().getUrl()),
@@ -66,6 +78,8 @@ public class Bukkit extends JavaPlugin {
         getServer().getMessenger().registerOutgoingPluginChannel(this, "BungeeCord");
 
         setupCommands();
+
+        registerLoggerFilters(new ConsoleLogger());
 
         getServer().getPluginManager().registerEvents(new ConnectionListener(this), this);
         getServer().getPluginManager().registerEvents(new JoinListener(this), this);
@@ -99,8 +113,8 @@ public class Bukkit extends JavaPlugin {
 
         commandManager.registerCommand(
                 new LeaderOSCommand(),
-                new LoginCommand(this),
-                new RegisterCommand(this)
+                new LoginCommand(this, "login", getConfigFile().getSettings().getLoginCommands()),
+                new RegisterCommand(this, "register", getConfigFile().getSettings().getRegisterCommands())
         );
 
         commandManager.registerMessage(MessageKey.INVALID_ARGUMENT, (sender, invalidArgumentContext) ->
@@ -167,6 +181,27 @@ public class Bukkit extends JavaPlugin {
     public boolean isAuthenticated(Player player) {
         AuthResponse response = STATUS_MAP.get(player.getName());
         return response != null && response.isAuthenticated();
+    }
+
+    public void cacheAllowedCommands() {
+        allowedCommands = Lists.newArrayList();
+        allowedCommands.addAll(getConfigFile().getSettings().getLoginCommands());
+        allowedCommands.addAll(getConfigFile().getSettings().getRegisterCommands());
+    }
+
+    private void registerLoggerFilters(Filter... filters) {
+        org.apache.logging.log4j.Logger rootLogger = LogManager.getRootLogger();
+        if (!(rootLogger instanceof Logger)) {
+            // in case the root logger is not the expected instance of Logger, just return
+            // because there is something wrong
+            return;
+        }
+
+        Logger logger = (Logger) rootLogger;
+        for (Filter filter : filters) {
+            // register all filters onto the root logger
+            logger.addFilter(filter);
+        }
     }
 
 }

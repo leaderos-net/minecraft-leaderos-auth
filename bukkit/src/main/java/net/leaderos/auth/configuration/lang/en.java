@@ -64,6 +64,8 @@ public class en extends Language {
 
         private String setSpawn = "{prefix} &aSpawn location set successfully.";
 
+        private String alreadyLoggedIn = "{prefix} &cYou are already logged in!";
+
         private Register register = new Register();
         private Login login = new Login();
         /**
