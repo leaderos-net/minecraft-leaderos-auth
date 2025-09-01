@@ -57,6 +57,12 @@ public class ConnectionListener {
                     Shared.getDebugAPI().send("Using cached response for player " + playerName + ": " + response, false);
                 }
 
+                // Kick the player if they have an invalid username
+                if (response == AuthResponse.INVALID_USERNAME) {
+                    kickPlayer(player, plugin.getLangFile().getMessages().getKickInvalidUsername());
+                    return;
+                }
+
                 // Kick the player if they are not registered and kicking is enabled
                 if (plugin.getConfigFile().getSettings().isKickNonRegistered() && response == AuthResponse.ACCOUNT_NOT_FOUND) {
                     kickPlayer(player, plugin.getLangFile().getMessages().getKickNotRegistered());

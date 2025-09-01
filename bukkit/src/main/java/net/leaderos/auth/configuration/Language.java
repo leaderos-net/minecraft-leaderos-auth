@@ -58,6 +58,10 @@ public class Language extends OkaeriConfig {
                 "&cWrong password!"
         );
 
+        private List<String> kickInvalidUsername = Lists.newArrayList(
+                "&cInvalid username!"
+        );
+
         private String unknownAuthCommand = "{prefix} &cUnknown authentication command! Please use &a/register <password> <password> &cor &a/login <password> &ccommands.";
 
         private String reload = "{prefix} &aPlugin reloaded successfully.";

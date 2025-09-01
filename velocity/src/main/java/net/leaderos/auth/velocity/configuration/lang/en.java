@@ -1,5 +1,6 @@
 package net.leaderos.auth.velocity.configuration.lang;
 
+import com.google.common.collect.Lists;
 import eu.okaeri.configs.annotation.Comment;
 import eu.okaeri.configs.annotation.NameModifier;
 import eu.okaeri.configs.annotation.NameStrategy;
@@ -55,6 +56,10 @@ public class en extends Language {
 
         private List<String> kickWrongPassword = List.of(
                 "&cWrong password!"
+        );
+
+        private List<String> kickInvalidUsername = Lists.newArrayList(
+                "&cInvalid username!"
         );
 
         private String unknownAuthCommand = "{prefix} &cUnknown authentication command! Please use &a/register <password> <password> &cor &a/login <password> &ccommands.";

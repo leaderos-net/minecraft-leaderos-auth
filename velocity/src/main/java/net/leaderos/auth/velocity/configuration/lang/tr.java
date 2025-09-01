@@ -1,5 +1,6 @@
 package net.leaderos.auth.velocity.configuration.lang;
 
+import com.google.common.collect.Lists;
 import eu.okaeri.configs.annotation.Comment;
 import eu.okaeri.configs.annotation.NameModifier;
 import eu.okaeri.configs.annotation.NameStrategy;
@@ -54,6 +55,10 @@ public class tr extends Language {
 
         private List<String> kickWrongPassword = List.of(
                 "&cHatalı şifre!"
+        );
+
+        private List<String> kickInvalidUsername = Lists.newArrayList(
+                "&cGeçersiz kullanıcı adı!"
         );
 
         private String unknownAuthCommand = "{prefix} &cBilinmeyen komut! Lütfen &a/register <şifre> <şifre> &aveya &a/login <şifre> &ckomutlarını kullanın.";

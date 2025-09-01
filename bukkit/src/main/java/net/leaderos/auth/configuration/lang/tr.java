@@ -57,6 +57,10 @@ public class tr extends Language {
                 "&cHatalı şifre!"
         );
 
+        private List<String> kickInvalidUsername = Lists.newArrayList(
+                "&cGeçersiz kullanıcı adı!"
+        );
+
         private String unknownAuthCommand = "{prefix} &cBilinmeyen komut! Lütfen &a/register <şifre> <şifre> &aveya &a/login <şifre> &ckomutlarını kullanın.";
 
         private String reload = "{prefix} &aEklenti başarıyla yeniden yüklendi.";
