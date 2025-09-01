@@ -94,6 +94,10 @@ public class tr extends Language {
 
             private String invalidName = "{prefix} &cKullanıcı adınız geçersiz! Lütfen geçerli bir kullanıcı ad kullanınız.";
 
+            private String invalidEmail = "{prefix} &cGeçerli bir email adresi giriniz.";
+
+            private String emailInUse = "{prefix} &cBu email adresi başkası tarafından kullanılıyor!";
+
             private String registerLimit = "{prefix} &cİzin verilen maksimum kayıt sayısına ulaştınız!";
 
             private String success = "{prefix} &aBaşarıyla kayıt oldunuz!";

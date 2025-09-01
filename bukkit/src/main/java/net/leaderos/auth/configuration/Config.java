@@ -80,9 +80,8 @@ public class Config extends OkaeriConfig {
 
         @Comment({
                 "Second argument the /register command should take:",
-                "NONE = no 2nd argument (/register <password>)",
-                "PASSWORD_CONFIRM = password confirmation (/register <password> <password>)",
-                "EMAIL = email address (/register <password> <email>)"
+                "PASSWORD_CONFIRM: password confirmation (/register <password> <password>)",
+                "EMAIL: email address (/register <password> <email>)"
         })
         private RegisterSecondArg registerSecondArg = RegisterSecondArg.PASSWORD_CONFIRM;
 

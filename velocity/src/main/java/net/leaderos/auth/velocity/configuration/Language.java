@@ -95,6 +95,10 @@ public class Language extends OkaeriConfig {
 
             private String invalidName = "{prefix} &cYour name is invalid! Please use a valid name.";
 
+            private String invalidEmail = "{prefix} &cEnter a valid email address.";
+
+            private String emailInUse = "{prefix} &cThis email is already in use!";
+
             private String registerLimit = "{prefix} &cYou have reached the maximum number of registrations allowed!";
 
             private String success = "{prefix} &aYou have successfully registered!";

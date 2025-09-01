@@ -12,6 +12,7 @@ import net.leaderos.auth.velocity.Velocity;
 import net.leaderos.auth.velocity.helpers.ChatUtil;
 import net.leaderos.shared.Shared;
 import net.leaderos.shared.enums.AuthResponse;
+import net.leaderos.shared.enums.RegisterSecondArg;
 import net.leaderos.shared.helpers.AuthUtil;
 import net.leaderos.shared.helpers.Placeholder;
 
@@ -125,10 +126,12 @@ public class AuthSessionHandler implements LimboSessionHandler {
                 }
             });
         } else if (plugin.getConfigFile().getSettings().getRegisterCommands().contains(command) && args.length > 2) { // Register command
-            String password = args[1];
-            String passwordRepeat = args[2];
+            RegisterSecondArg secondArgType = plugin.getConfigFile().getSettings().getRegisterSecondArg();
 
-            if (!password.equals(passwordRepeat)) {
+            String password = args[1];
+            String secondArg = args[2];
+
+            if (!password.equals(secondArg)) {
                 ChatUtil.sendMessage(proxyPlayer, plugin.getLangFile().getMessages().getRegister().getPasswordMismatch());
                 return;
             }
@@ -152,7 +155,9 @@ public class AuthSessionHandler implements LimboSessionHandler {
                 return;
             }
 
-            AuthUtil.register(proxyPlayer.getUsername(), password, ip).whenComplete((result, ex) -> {
+            String email = secondArgType == RegisterSecondArg.EMAIL ? secondArg : null;
+
+            AuthUtil.register(proxyPlayer.getUsername(), password, email, ip).whenComplete((result, ex) -> {
                 if (ex != null) {
                     ex.printStackTrace();
                     ChatUtil.sendMessage(proxyPlayer, plugin.getLangFile().getMessages().getAnErrorOccurred());
@@ -170,6 +175,10 @@ public class AuthSessionHandler implements LimboSessionHandler {
                     ChatUtil.sendMessage(proxyPlayer, plugin.getLangFile().getMessages().getRegister().getRegisterLimit());
                 } else if (result == AuthResponse.INVALID_USERNAME) {
                     ChatUtil.sendMessage(proxyPlayer, plugin.getLangFile().getMessages().getRegister().getInvalidName());
+                } else if (result == AuthResponse.INVALID_EMAIL) {
+                    ChatUtil.sendMessage(proxyPlayer, plugin.getLangFile().getMessages().getRegister().getInvalidEmail());
+                } else if (result == AuthResponse.EMAIL_ALREADY_EXIST) {
+                    ChatUtil.sendMessage(proxyPlayer, plugin.getLangFile().getMessages().getRegister().getEmailInUse());
                 } else {
                     Shared.getDebugAPI().send("An unexpected error occurred during register: " + result, true);
                     ChatUtil.sendMessage(proxyPlayer, plugin.getLangFile().getMessages().getAnErrorOccurred());

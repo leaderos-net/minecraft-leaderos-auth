@@ -16,6 +16,7 @@ public enum AuthResponse {
     EMAIL_ALREADY_EXIST,
     REGISTER_LIMIT,
     INVALID_USERNAME,
+    INVALID_EMAIL,
 
     SUCCESS,
 

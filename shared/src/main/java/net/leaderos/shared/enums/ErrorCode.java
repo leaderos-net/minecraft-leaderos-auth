@@ -11,6 +11,7 @@ public enum ErrorCode {
     EMAIL_ALREADY_EXIST,
     REGISTER_LIMIT,
     INVALID_USERNAME,
+    INVALID_EMAIL,
 
     // session
     ACCOUNT_NOT_FOUND,

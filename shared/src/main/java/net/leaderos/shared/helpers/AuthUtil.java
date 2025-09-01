@@ -43,10 +43,10 @@ public class AuthUtil {
         }, EXECUTOR);
     }
 
-    public static CompletableFuture<AuthResponse> register(String username, String password, String ip) {
+    public static CompletableFuture<AuthResponse> register(String username, String password, String email, String ip) {
         return CompletableFuture.supplyAsync(() -> {
             try {
-                RegisterRequest request = new RegisterRequest(username, password, ip);
+                RegisterRequest request = new RegisterRequest(username, password, email, ip);
                 Response response = request.getResponse();
                 if (response.isStatus()) {
                     return AuthResponse.SUCCESS;
