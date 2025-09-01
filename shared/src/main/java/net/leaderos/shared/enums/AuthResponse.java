@@ -10,6 +10,7 @@ public enum AuthResponse {
     // Login statuses
     USER_NOT_FOUND,
     WRONG_PASSWORD,
+    INVALID_PASSWORD,
 
     // Register statuses
     USERNAME_ALREADY_EXIST,

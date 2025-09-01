@@ -5,6 +5,7 @@ public enum ErrorCode {
     // login
     USER_NOT_FOUND,
     WRONG_PASSWORD,
+    INVALID_PASSWORD,
 
     // register
     USERNAME_ALREADY_EXIST,
@@ -18,6 +19,8 @@ public enum ErrorCode {
     LOGIN_REQUIRED,
     HAS_SESSION,
 
-    ;
+    // generic errors
+    UNKNOWN_ERROR,
 
+    ;
 }

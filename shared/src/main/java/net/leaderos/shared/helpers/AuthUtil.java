@@ -10,6 +10,7 @@ import java.io.IOException;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
+import org.json.JSONObject;
 
 public class AuthUtil {
 
@@ -20,7 +21,33 @@ public class AuthUtil {
             try {
                 SessionRequest request = new SessionRequest(username, ip);
                 Response response = request.getResponse();
-                return AuthResponse.valueOf(response.getResponseMessage().getString("status"));
+                
+                if (response == null) {
+                    return AuthResponse.LOGIN_REQUIRED;
+                }
+                
+                if (response.isStatus()) {
+                    JSONObject responseMessage = response.getResponseMessage();
+                    if (responseMessage != null && responseMessage.has("status")) {
+                        try {
+                            return AuthResponse.valueOf(responseMessage.getString("status"));
+                        } catch (IllegalArgumentException e) {
+                            return AuthResponse.LOGIN_REQUIRED;
+                        }
+                    }
+                    return AuthResponse.SUCCESS;
+                }
+                
+                // If there's an error, try to map it to AuthResponse
+                if (response.getError() != null) {
+                    try {
+                        return AuthResponse.valueOf(response.getError().name());
+                    } catch (IllegalArgumentException e) {
+                        return AuthResponse.LOGIN_REQUIRED;
+                    }
+                }
+                
+                return AuthResponse.LOGIN_REQUIRED;
             } catch (IOException e) {
                 throw new RuntimeException(e);
             }
@@ -32,11 +59,24 @@ public class AuthUtil {
             try {
                 LoginRequest request = new LoginRequest(username, password, ip);
                 Response response = request.getResponse();
+                
+                if (response == null) {
+                    return AuthResponse.WRONG_PASSWORD;
+                }
+                
                 if (response.isStatus()) {
                     return AuthResponse.SUCCESS;
                 }
 
-                return AuthResponse.valueOf(response.getError().name());
+                if (response.getError() != null) {
+                    try {
+                        return AuthResponse.valueOf(response.getError().name());
+                    } catch (IllegalArgumentException e) {
+                        return AuthResponse.WRONG_PASSWORD;
+                    }
+                }
+                
+                return AuthResponse.WRONG_PASSWORD;
             } catch (IOException e) {
                 throw new RuntimeException(e);
             }
@@ -48,11 +88,24 @@ public class AuthUtil {
             try {
                 RegisterRequest request = new RegisterRequest(username, password, email, ip);
                 Response response = request.getResponse();
+                
+                if (response == null) {
+                    return AuthResponse.USERNAME_ALREADY_EXIST;
+                }
+                
                 if (response.isStatus()) {
                     return AuthResponse.SUCCESS;
                 }
 
-                return AuthResponse.valueOf(response.getError().name());
+                if (response.getError() != null) {
+                    try {
+                        return AuthResponse.valueOf(response.getError().name());
+                    } catch (IllegalArgumentException e) {
+                        return AuthResponse.USERNAME_ALREADY_EXIST;
+                    }
+                }
+                
+                return AuthResponse.USERNAME_ALREADY_EXIST;
             } catch (IOException e) {
                 throw new RuntimeException(e);
             }

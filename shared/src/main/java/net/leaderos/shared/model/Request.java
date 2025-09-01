@@ -96,6 +96,24 @@ public abstract class Request {
             Shared.getDebugAPI().send(e.getMessage(), true);
             Shared.getDebugAPI().send(responseString, true);
             e.printStackTrace();
+            
+            // Create a fallback response to prevent null pointer exceptions
+            try {
+                JSONObject fallbackObj = new JSONObject();
+                fallbackObj.put("error", "PARSE_ERROR");
+                fallbackObj.put("message", "Failed to parse response: " + e.getMessage());
+                this.response = new Response(responseCode, false, fallbackObj, ErrorCode.UNKNOWN_ERROR);
+            } catch (Exception fallbackException) {
+                // If even the fallback fails, create a minimal response
+                try {
+                    JSONObject minimalObj = new JSONObject();
+                    minimalObj.put("error", "CRITICAL_ERROR");
+                    this.response = new Response(responseCode, false, minimalObj, ErrorCode.UNKNOWN_ERROR);
+                } catch (Exception criticalException) {
+                    // Last resort - this should never happen
+                    criticalException.printStackTrace();
+                }
+            }
         }
         connection.disconnect();
     }
