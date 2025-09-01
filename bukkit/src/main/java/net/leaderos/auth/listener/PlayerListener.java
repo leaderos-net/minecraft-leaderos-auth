@@ -12,6 +12,7 @@ import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.event.block.SignChangeEvent;
 import org.bukkit.event.entity.*;
+import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.inventory.InventoryOpenEvent;
 import org.bukkit.event.player.*;
 
@@ -20,7 +21,7 @@ public class PlayerListener implements Listener {
 
     private final Bukkit plugin;
 
-    @EventHandler(priority = EventPriority.HIGHEST)
+    @EventHandler(ignoreCancelled = true, priority = EventPriority.HIGHEST)
     public void onMove(PlayerMoveEvent event) {
         if (event.getTo() == null) return;
 
@@ -36,7 +37,7 @@ public class PlayerListener implements Listener {
         event.setTo(event.getFrom());
     }
 
-    @EventHandler(priority = EventPriority.HIGHEST)
+    @EventHandler(ignoreCancelled = true, priority = EventPriority.HIGHEST)
     public void onPlayerRespawn(PlayerRespawnEvent event) {
         if (plugin.isAuthenticated(event.getPlayer())) return;
 
@@ -47,81 +48,89 @@ public class PlayerListener implements Listener {
     }
 
     // block listeners
-    @EventHandler
+
+    @EventHandler(ignoreCancelled = true)
     public void onPlace(BlockPlaceEvent event) {
         if (plugin.isAuthenticated(event.getPlayer())) return;
 
         event.setCancelled(true);
     }
 
-    @EventHandler
+    @EventHandler(ignoreCancelled = true)
     public void onBreak(BlockBreakEvent event) {
         if (plugin.isAuthenticated(event.getPlayer())) return;
 
         event.setCancelled(true);
     }
 
-    @EventHandler
+    @EventHandler(ignoreCancelled = true, priority = EventPriority.LOWEST)
     public void onInteract(PlayerInteractEvent event) {
         if (plugin.isAuthenticated(event.getPlayer())) return;
 
         event.setCancelled(true);
     }
 
-    @EventHandler
+    @EventHandler(ignoreCancelled = true, priority = EventPriority.LOWEST)
     public void onInteract(PlayerInteractAtEntityEvent event) {
         if (plugin.isAuthenticated(event.getPlayer())) return;
 
         event.setCancelled(true);
     }
 
-    @EventHandler
+    @EventHandler(ignoreCancelled = true, priority = EventPriority.LOWEST)
     public void onInteract(PlayerInteractEntityEvent event) {
         if (plugin.isAuthenticated(event.getPlayer())) return;
 
         event.setCancelled(true);
     }
 
-    @EventHandler
+    @EventHandler(ignoreCancelled = true, priority = EventPriority.LOWEST)
     public void onInteract(PlayerShearEntityEvent event) {
         if (plugin.isAuthenticated(event.getPlayer())) return;
 
         event.setCancelled(true);
     }
 
-    @EventHandler
+    @EventHandler(ignoreCancelled = true, priority = EventPriority.LOWEST)
     public void onCommand(PlayerCommandPreprocessEvent event) {
         if (plugin.isAuthenticated(event.getPlayer())) return;
 
-        String message = event.getMessage().toLowerCase().substring(1).split(" ")[0];
+        String command = event.getMessage().toLowerCase().substring(1).split(" ")[0].toLowerCase();
 
-        if (plugin.getAllowedCommands().stream().noneMatch(message::startsWith)) {
+        if (!plugin.getAllowedCommands().contains(command)) {
             event.setCancelled(true);
         }
     }
 
-    @EventHandler
+    @EventHandler(ignoreCancelled = true, priority = EventPriority.LOWEST)
+    public void onPlayerChat(AsyncPlayerChatEvent event) {
+        if (plugin.isAuthenticated(event.getPlayer())) return;
+
+        event.setCancelled(true);
+    }
+
+    @EventHandler(ignoreCancelled = true, priority = EventPriority.LOWEST)
     public void onFish(PlayerFishEvent event) {
         if (plugin.isAuthenticated(event.getPlayer())) return;
 
         event.setCancelled(true);
     }
 
-    @EventHandler(ignoreCancelled = true)
+    @EventHandler(ignoreCancelled = true, priority = EventPriority.LOWEST)
     public void onPlayerBedEnter(PlayerBedEnterEvent event) {
         if (plugin.isAuthenticated(event.getPlayer())) return;
 
         event.setCancelled(true);
     }
 
-    @EventHandler(ignoreCancelled = true)
+    @EventHandler(ignoreCancelled = true, priority = EventPriority.LOWEST)
     public void onPlayerEditBook(PlayerEditBookEvent event) {
         if (plugin.isAuthenticated(event.getPlayer())) return;
 
         event.setCancelled(true);
     }
 
-    @EventHandler(ignoreCancelled = true)
+    @EventHandler(ignoreCancelled = true, priority = EventPriority.LOWEST)
     public void onSignChange(SignChangeEvent event) {
         if (plugin.isAuthenticated(event.getPlayer())) return;
 
@@ -129,50 +138,53 @@ public class PlayerListener implements Listener {
     }
 
 
-    @EventHandler(ignoreCancelled = true)
+    @EventHandler(ignoreCancelled = true, priority = EventPriority.LOWEST)
     public void onPlayerPickupItem(PlayerPickupItemEvent event) {
         if (plugin.isAuthenticated(event.getPlayer())) return;
 
         event.setCancelled(true);
     }
 
-    @EventHandler(ignoreCancelled = true)
+    @EventHandler(ignoreCancelled = true, priority = EventPriority.LOWEST)
     public void onPlayerDropItem(PlayerDropItemEvent event) {
         if (plugin.isAuthenticated(event.getPlayer())) return;
 
         event.setCancelled(true);
     }
 
-    @EventHandler(ignoreCancelled = true)
+    @EventHandler(ignoreCancelled = true, priority = EventPriority.LOWEST)
     public void onPlayerHeldItem(PlayerItemHeldEvent event) {
         if (plugin.isAuthenticated(event.getPlayer())) return;
 
         event.setCancelled(true);
     }
 
-    @EventHandler(ignoreCancelled = true)
+    @EventHandler(ignoreCancelled = true, priority = EventPriority.LOWEST)
     public void onPlayerConsumeItem(PlayerItemConsumeEvent event) {
         if (plugin.isAuthenticated(event.getPlayer())) return;
 
         event.setCancelled(true);
     }
 
-    @EventHandler(ignoreCancelled = true)
+    @EventHandler(ignoreCancelled = true, priority = EventPriority.LOWEST)
     public void onOpen(InventoryOpenEvent event) {
         if (!(event.getPlayer() instanceof Player)) return;
         if (plugin.isAuthenticated((Player) event.getPlayer())) return;
 
         event.setCancelled(true);
+
+        plugin.getServer().getScheduler().scheduleSyncDelayedTask(plugin, () -> event.getPlayer().closeInventory(), 1L);
     }
 
-    @EventHandler(ignoreCancelled = true)
-    public void onSwap(PlayerSwapHandItemsEvent event) {
-        if (plugin.isAuthenticated(event.getPlayer())) return;
+    @EventHandler(ignoreCancelled = true, priority = EventPriority.LOWEST)
+    public void onPlayerInventoryClick(InventoryClickEvent event) {
+        if (!(event.getWhoClicked() instanceof Player)) return;
+        if (plugin.isAuthenticated((Player) event.getWhoClicked())) return;
 
         event.setCancelled(true);
     }
 
-    @EventHandler(ignoreCancelled = true)
+    @EventHandler(ignoreCancelled = true, priority = EventPriority.LOWEST)
     public void onDamage(EntityDamageEvent event) {
         if (!(event.getEntity() instanceof Player)) return;
         if (plugin.isAuthenticated((Player) event.getEntity())) return;
@@ -182,7 +194,7 @@ public class PlayerListener implements Listener {
         event.setCancelled(true);
     }
 
-    @EventHandler(ignoreCancelled = true)
+    @EventHandler(ignoreCancelled = true, priority = EventPriority.LOWEST)
     public void onAttack(EntityDamageByEntityEvent event) {
         if (!(event.getDamager() instanceof Player)) return;
         if (plugin.isAuthenticated((Player) event.getDamager())) return;
@@ -190,7 +202,7 @@ public class PlayerListener implements Listener {
         event.setCancelled(true);
     }
 
-    @EventHandler(ignoreCancelled = true)
+    @EventHandler(ignoreCancelled = true, priority = EventPriority.LOWEST)
     public void onEntityTarget(EntityTargetEvent event) {
         if (!(event.getEntity() instanceof Player)) return;
         if (plugin.isAuthenticated((Player) event.getEntity())) return;
@@ -199,7 +211,7 @@ public class PlayerListener implements Listener {
         event.setCancelled(true);
     }
 
-    @EventHandler(ignoreCancelled = true)
+    @EventHandler(ignoreCancelled = true, priority = EventPriority.LOWEST)
     public void onFoodLevelChange(FoodLevelChangeEvent event) {
         if (!(event.getEntity() instanceof Player)) return;
         if (plugin.isAuthenticated((Player) event.getEntity())) return;
@@ -207,7 +219,7 @@ public class PlayerListener implements Listener {
         event.setCancelled(true);
     }
 
-    @EventHandler(ignoreCancelled = true)
+    @EventHandler(ignoreCancelled = true, priority = EventPriority.LOWEST)
     public void entityRegainHealthEvent(EntityRegainHealthEvent event) {
         if (!(event.getEntity() instanceof Player)) return;
         if (plugin.isAuthenticated((Player) event.getEntity())) return;
@@ -216,7 +228,7 @@ public class PlayerListener implements Listener {
         event.setCancelled(true);
     }
 
-    @EventHandler(ignoreCancelled = true)
+    @EventHandler(ignoreCancelled = true, priority = EventPriority.LOWEST)
     public void onLowestEntityInteract(EntityInteractEvent event) {
         if (!(event.getEntity() instanceof Player)) return;
         if (plugin.isAuthenticated((Player) event.getEntity())) return;
@@ -224,7 +236,7 @@ public class PlayerListener implements Listener {
         event.setCancelled(true);
     }
 
-    @EventHandler(ignoreCancelled = true)
+    @EventHandler(ignoreCancelled = true, priority = EventPriority.LOWEST)
     public void onProjectileLaunch(ProjectileLaunchEvent event) {
         if (!(event.getEntity().getShooter() instanceof Player)) return;
         if (plugin.isAuthenticated((Player) event.getEntity().getShooter())) return;
@@ -232,7 +244,7 @@ public class PlayerListener implements Listener {
         event.setCancelled(true);
     }
 
-    @EventHandler(ignoreCancelled = true)
+    @EventHandler(ignoreCancelled = true, priority = EventPriority.NORMAL)
     public void onShoot(EntityShootBowEvent event) {
         if (!(event.getEntity() instanceof Player)) return;
         if (plugin.isAuthenticated((Player) event.getEntity())) return;

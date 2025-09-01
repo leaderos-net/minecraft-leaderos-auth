@@ -17,9 +17,7 @@ import net.leaderos.auth.configuration.Language;
 import net.leaderos.auth.helpers.ChatUtil;
 import net.leaderos.auth.helpers.ConsoleLogger;
 import net.leaderos.auth.helpers.DebugBukkit;
-import net.leaderos.auth.listener.ConnectionListener;
-import net.leaderos.auth.listener.JoinListener;
-import net.leaderos.auth.listener.PlayerListener;
+import net.leaderos.auth.listener.*;
 import net.leaderos.shared.Shared;
 import net.leaderos.shared.helpers.AuthResponse;
 import net.leaderos.shared.helpers.UrlUtil;
@@ -84,6 +82,15 @@ public class Bukkit extends JavaPlugin {
         getServer().getPluginManager().registerEvents(new ConnectionListener(this), this);
         getServer().getPluginManager().registerEvents(new JoinListener(this), this);
         getServer().getPluginManager().registerEvents(new PlayerListener(this), this);
+
+        // Try to register 1.9 player listeners
+        if (isClassLoaded("org.bukkit.event.player.PlayerSwapHandItemsEvent")) {
+            getServer().getPluginManager().registerEvents(new PlayerListener19(this), this);
+        }
+        // Register listener for 1.11 events if available
+        if (isClassLoaded("org.bukkit.event.entity.EntityAirChangeEvent")) {
+            getServer().getPluginManager().registerEvents(new PlayerListener111(this), this);
+        }
     }
 
     public void setupFiles() {
@@ -201,6 +208,22 @@ public class Bukkit extends JavaPlugin {
         for (Filter filter : filters) {
             // register all filters onto the root logger
             logger.addFilter(filter);
+        }
+    }
+
+    /**
+     * Returns whether the class exists in the current class loader.
+     *
+     * @param className the class name to check
+     *
+     * @return true if the class is loaded, false otherwise
+     */
+    public static boolean isClassLoaded(String className) {
+        try {
+            Class.forName(className);
+            return true;
+        } catch (ClassNotFoundException e) {
+            return false;
         }
     }
 

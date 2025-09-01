@@ -12,8 +12,11 @@ import net.leaderos.shared.helpers.AuthUtil;
 import net.leaderos.shared.helpers.Placeholder;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
+import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.AsyncPlayerPreLoginEvent;
+import org.bukkit.event.player.PlayerKickEvent;
+import org.bukkit.event.player.PlayerLoginEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 
 import java.time.Duration;
@@ -32,9 +35,15 @@ public class ConnectionListener implements Listener {
         if (event.getLoginResult() != AsyncPlayerPreLoginEvent.Result.ALLOWED) return;
 
         String playerName = event.getName();
-        String ip = event.getAddress().getHostAddress();
+
+        if (plugin.getServer().getPlayerExact(playerName) != null) {
+            event.disallow(AsyncPlayerPreLoginEvent.Result.KICK_OTHER, "You are already connected to this server!");
+            return;
+        }
 
         try {
+            String ip = event.getAddress().getHostAddress();
+
             // Check cache first
             AuthResponse response = RESPONSE_CACHE.getIfPresent(playerName);
 
@@ -82,6 +91,15 @@ public class ConnectionListener implements Listener {
     public void onQuit(PlayerQuitEvent event) {
         Player player = event.getPlayer();
         STATUS_MAP.remove(player.getName());
+    }
+
+    @EventHandler(ignoreCancelled = true, priority = EventPriority.HIGHEST)
+    public void onPlayerKick(PlayerKickEvent event) {
+        // Especially for offline CraftBukkit, we need to catch players being kicked because of
+        // "logged in from another location" and to cancel their kick
+        if (event.getReason().contains("You logged in from another location")) {
+            event.setCancelled(true);
+        }
     }
 
 }

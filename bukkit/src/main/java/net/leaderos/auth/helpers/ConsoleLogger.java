@@ -40,8 +40,12 @@ public class ConsoleLogger extends AbstractFilter {
         }
 
         // Check if message contains any hidden commands
+        message = message.toLowerCase();
         for (String command : Bukkit.getInstance().getAllowedCommands()) {
-            if (message.contains("issued server command: /" + command)) {
+            if (
+                    message.contains("issued server command: /" + command.toLowerCase() + ' ') ||
+                            message.endsWith("issued server command: /" + command.toLowerCase())
+            ) {
                 return onMatch;
             }
         }
