@@ -55,7 +55,7 @@ public class Bungee extends Plugin {
                 it.load(true);
             });
         } catch (Exception exception) {
-            getLogger().log(Level.WARNING, "Error loading config.yml", exception);
+            getLogger().log(Level.WARNING, "ErrorCode loading config.yml", exception);
         }
     }
 

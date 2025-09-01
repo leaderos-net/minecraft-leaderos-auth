@@ -2,7 +2,7 @@ package net.leaderos.auth.helpers;
 
 import net.leaderos.auth.Bukkit;
 import net.leaderos.shared.helpers.DebugAPI;
-import net.leaderos.shared.model.DebugMode;
+import net.leaderos.shared.enums.DebugMode;
 
 /**
  * Sends debug to console

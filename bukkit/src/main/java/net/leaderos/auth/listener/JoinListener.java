@@ -4,7 +4,7 @@ import lombok.RequiredArgsConstructor;
 import net.leaderos.auth.Bukkit;
 import net.leaderos.auth.helpers.ChatUtil;
 import net.leaderos.auth.helpers.LocationUtil;
-import net.leaderos.shared.helpers.AuthResponse;
+import net.leaderos.shared.enums.AuthResponse;
 import net.leaderos.shared.helpers.Placeholder;
 import org.bukkit.GameMode;
 import org.bukkit.Location;

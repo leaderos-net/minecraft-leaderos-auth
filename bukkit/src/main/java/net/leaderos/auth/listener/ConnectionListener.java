@@ -7,7 +7,7 @@ import lombok.RequiredArgsConstructor;
 import net.leaderos.auth.Bukkit;
 import net.leaderos.auth.helpers.ChatUtil;
 import net.leaderos.shared.Shared;
-import net.leaderos.shared.helpers.AuthResponse;
+import net.leaderos.shared.enums.AuthResponse;
 import net.leaderos.shared.helpers.AuthUtil;
 import net.leaderos.shared.helpers.Placeholder;
 import org.bukkit.entity.Player;
@@ -16,7 +16,6 @@ import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.AsyncPlayerPreLoginEvent;
 import org.bukkit.event.player.PlayerKickEvent;
-import org.bukkit.event.player.PlayerLoginEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 
 import java.time.Duration;
@@ -85,7 +84,7 @@ public class ConnectionListener implements Listener {
             AuthResponse finalResponse = response == AuthResponse.HAS_SESSION ? AuthResponse.LOGIN_REQUIRED : response;
             STATUS_MAP.put(playerName, finalResponse);
         } catch (Exception e) {
-            Shared.getDebugAPI().send("Error processing player " + playerName + ": " + e.getMessage(), true);
+            Shared.getDebugAPI().send("ErrorCode processing player " + playerName + ": " + e.getMessage(), true);
 
             event.disallow(AsyncPlayerPreLoginEvent.Result.KICK_OTHER, String.join("\n",
                     ChatUtil.replacePlaceholders(plugin.getLangFile().getMessages().getKickAnError(),

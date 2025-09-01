@@ -1,4 +1,4 @@
-package net.leaderos.shared.model;
+package net.leaderos.shared.enums;
 
 /**
  * Debug mode enumeration

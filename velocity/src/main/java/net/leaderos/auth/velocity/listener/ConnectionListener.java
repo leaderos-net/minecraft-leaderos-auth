@@ -14,7 +14,7 @@ import net.leaderos.auth.velocity.handler.AuthSessionHandler;
 import net.leaderos.auth.velocity.handler.ValidSessionHandler;
 import net.leaderos.auth.velocity.helpers.ChatUtil;
 import net.leaderos.shared.Shared;
-import net.leaderos.shared.helpers.AuthResponse;
+import net.leaderos.shared.enums.AuthResponse;
 import net.leaderos.shared.helpers.AuthUtil;
 import net.leaderos.shared.helpers.Placeholder;
 
@@ -81,7 +81,7 @@ public class ConnectionListener {
                 Shared.getDebugAPI().send("Spawning player " + playerName + " in limbo for authentication.", false);
                 plugin.getLimboServer().spawnPlayer(player, new AuthSessionHandler(player, ip, response, plugin));
             } catch (Exception e) {
-                Shared.getDebugAPI().send("Error processing player " + playerName + ": " + e.getMessage(), true);
+                Shared.getDebugAPI().send("ErrorCode processing player " + playerName + ": " + e.getMessage(), true);
 
                 // Kick the player with an error message
                 kickPlayer(player, plugin.getLangFile().getMessages().getKickAnError());

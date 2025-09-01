@@ -1,5 +1,6 @@
 package net.leaderos.shared.helpers;
 
+import net.leaderos.shared.enums.AuthResponse;
 import net.leaderos.shared.model.Response;
 import net.leaderos.shared.model.request.impl.auth.LoginRequest;
 import net.leaderos.shared.model.request.impl.auth.RegisterRequest;

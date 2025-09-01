@@ -180,7 +180,7 @@ public class Velocity {
                 it.load(true);
             });
         } catch (Exception exception) {
-            getLogger().error("Error loading config.yml", exception);
+            getLogger().error("ErrorCode loading config.yml", exception);
         }
     }
 

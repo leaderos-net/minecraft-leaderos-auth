@@ -19,7 +19,7 @@ import net.leaderos.auth.helpers.ConsoleLogger;
 import net.leaderos.auth.helpers.DebugBukkit;
 import net.leaderos.auth.listener.*;
 import net.leaderos.shared.Shared;
-import net.leaderos.shared.helpers.AuthResponse;
+import net.leaderos.shared.enums.AuthResponse;
 import net.leaderos.shared.helpers.UrlUtil;
 import org.bstats.bukkit.Metrics;
 import org.bukkit.command.CommandSender;
@@ -111,7 +111,7 @@ public class Bukkit extends JavaPlugin {
                 it.load(true);
             });
         } catch (Exception exception) {
-            getLogger().log(Level.WARNING, "Error loading config.yml", exception);
+            getLogger().log(Level.WARNING, "ErrorCode loading config.yml", exception);
         }
     }
 

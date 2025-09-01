@@ -1,6 +1,6 @@
-package net.leaderos.shared.error;
+package net.leaderos.shared.enums;
 
-public enum Error {
+public enum ErrorCode {
 
     // login
     USER_NOT_FOUND,

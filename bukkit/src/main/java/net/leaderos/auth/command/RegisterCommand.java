@@ -6,7 +6,7 @@ import lombok.RequiredArgsConstructor;
 import net.leaderos.auth.Bukkit;
 import net.leaderos.auth.helpers.ChatUtil;
 import net.leaderos.shared.Shared;
-import net.leaderos.shared.helpers.AuthResponse;
+import net.leaderos.shared.enums.AuthResponse;
 import net.leaderos.shared.helpers.AuthUtil;
 import net.leaderos.shared.helpers.Placeholder;
 import org.bukkit.entity.Player;

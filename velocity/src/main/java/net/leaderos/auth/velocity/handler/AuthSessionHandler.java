@@ -11,7 +11,7 @@ import net.kyori.adventure.title.Title;
 import net.leaderos.auth.velocity.Velocity;
 import net.leaderos.auth.velocity.helpers.ChatUtil;
 import net.leaderos.shared.Shared;
-import net.leaderos.shared.helpers.AuthResponse;
+import net.leaderos.shared.enums.AuthResponse;
 import net.leaderos.shared.helpers.AuthUtil;
 import net.leaderos.shared.helpers.Placeholder;
 

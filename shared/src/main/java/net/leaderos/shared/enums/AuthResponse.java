@@ -1,4 +1,4 @@
-package net.leaderos.shared.helpers;
+package net.leaderos.shared.enums;
 
 public enum AuthResponse {
 

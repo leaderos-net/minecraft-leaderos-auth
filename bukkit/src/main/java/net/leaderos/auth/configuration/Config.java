@@ -8,7 +8,8 @@ import eu.okaeri.configs.annotation.NameStrategy;
 import eu.okaeri.configs.annotation.Names;
 import lombok.Getter;
 import lombok.Setter;
-import net.leaderos.shared.model.DebugMode;
+import net.leaderos.shared.enums.DebugMode;
+import net.leaderos.shared.enums.RegisterSecondArg;
 
 import java.util.List;
 
@@ -76,6 +77,14 @@ public class Config extends OkaeriConfig {
 
         @Comment("Minimum password length for registration.")
         private int minPasswordLength = 5;
+
+        @Comment({
+                "Second argument the /register command should take:",
+                "NONE = no 2nd argument (/register <password>)",
+                "PASSWORD_CONFIRM = password confirmation (/register <password> <password>)",
+                "EMAIL = email address (/register <password> <email>)"
+        })
+        private RegisterSecondArg registerSecondArg = RegisterSecondArg.PASSWORD_CONFIRM;
 
         @Comment("Send players to another server after login/register")
         private SendAfterAuth sendAfterAuth = new SendAfterAuth();

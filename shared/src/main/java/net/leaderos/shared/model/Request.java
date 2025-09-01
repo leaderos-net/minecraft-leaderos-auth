@@ -3,7 +3,7 @@ package net.leaderos.shared.model;
 import lombok.Getter;
 import lombok.SneakyThrows;
 import net.leaderos.shared.Shared;
-import net.leaderos.shared.error.Error;
+import net.leaderos.shared.enums.ErrorCode;
 import net.leaderos.shared.model.request.RequestType;
 import org.jetbrains.annotations.NotNull;
 import org.json.JSONArray;
@@ -86,7 +86,7 @@ public abstract class Request {
         try {
             JSONObject obj = getResponseObj(responseString);
             this.response = new Response(responseCode, status, obj,
-                    obj.has("error") ? obj.getEnum(Error.class, "error") : null);
+                    obj.has("error") ? obj.getEnum(ErrorCode.class, "error") : null);
 
             Shared.getDebugAPI().send("Response Code: " + responseCode, false);
             Shared.getDebugAPI().send("URL: " + this.url, false);
