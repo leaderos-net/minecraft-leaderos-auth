@@ -96,7 +96,7 @@ public class AuthSessionHandler implements LimboSessionHandler {
 
         String[] args = message.split(" ");
         String command = args[0].startsWith("/") ? args[0].toLowerCase().substring(1) : args[0].toLowerCase();
-        if (plugin.getConfigFile().getSettings().getLoginCommands().contains(command) && args.length > 1) {
+        if (plugin.getConfigFile().getSettings().getLoginCommands().contains(command) && args.length > 1) { // Login command
             String password = args[1];
             AuthUtil.login(proxyPlayer.getUsername(), password, ip).whenComplete((result, ex) -> {
                 if (ex != null) {
@@ -107,6 +107,7 @@ public class AuthSessionHandler implements LimboSessionHandler {
 
                 if (result == AuthResponse.SUCCESS) {
                     ChatUtil.sendMessage(proxyPlayer, plugin.getLangFile().getMessages().getLogin().getSuccess());
+                    ChatUtil.sendConsoleInfo(proxyPlayer.getUsername() + " has logged in successfully.");
                     this.limboPlayer.getScheduledExecutor().schedule(() -> this.limboPlayer.disconnect(), 500, TimeUnit.MILLISECONDS);
                 } else if (result == AuthResponse.USER_NOT_FOUND) {
                     ChatUtil.sendMessage(proxyPlayer, plugin.getLangFile().getMessages().getLogin().getAccountNotFound());
@@ -123,7 +124,7 @@ public class AuthSessionHandler implements LimboSessionHandler {
                     ChatUtil.sendMessage(proxyPlayer, plugin.getLangFile().getMessages().getAnErrorOccurred());
                 }
             });
-        } else if (plugin.getConfigFile().getSettings().getRegisterCommands().contains(command) && args.length > 2) {
+        } else if (plugin.getConfigFile().getSettings().getRegisterCommands().contains(command) && args.length > 2) { // Register command
             String password = args[1];
             String passwordRepeat = args[2];
 
@@ -161,6 +162,7 @@ public class AuthSessionHandler implements LimboSessionHandler {
                 if (result == AuthResponse.SUCCESS) {
                     RESPONSE_CACHE.invalidate(proxyPlayer.getUsername());
                     ChatUtil.sendMessage(proxyPlayer, plugin.getLangFile().getMessages().getRegister().getSuccess());
+                    ChatUtil.sendConsoleInfo(proxyPlayer.getUsername() + " has registered successfully.");
                     this.limboPlayer.getScheduledExecutor().schedule(() -> this.limboPlayer.disconnect(), 500, TimeUnit.MILLISECONDS);
                 } else if (result == AuthResponse.USERNAME_ALREADY_EXIST) {
                     ChatUtil.sendMessage(proxyPlayer, plugin.getLangFile().getMessages().getRegister().getAlreadyRegistered());

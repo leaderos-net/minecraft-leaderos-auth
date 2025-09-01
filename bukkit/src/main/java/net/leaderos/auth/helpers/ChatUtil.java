@@ -140,4 +140,13 @@ public class ChatUtil {
     public static List<String> replacePlaceholders(List<String> list, Placeholder... placeholders) {
         return list.stream().map(s -> replacePlaceholders(s, placeholders)).collect(Collectors.toList());
     }
+
+    /**
+     * Sends info message to console
+     *
+     * @param message to send
+     */
+    public static void sendConsoleInfo(String message) {
+        Bukkit.getInstance().getServer().getConsoleSender().sendMessage("[LeaderOS Auth] " + message);
+    }
 }

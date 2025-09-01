@@ -78,6 +78,7 @@ public class ConnectionListener implements Listener {
             if (response == AuthResponse.HAS_SESSION && plugin.getConfigFile().getSettings().isSession()) {
                 STATUS_MAP.put(playerName, response);
                 Shared.getDebugAPI().send("Player " + playerName + " has active session, allowing direct login.", false);
+                ChatUtil.sendConsoleInfo(playerName + " has active session, allowing direct login.");
                 return;
             }
 

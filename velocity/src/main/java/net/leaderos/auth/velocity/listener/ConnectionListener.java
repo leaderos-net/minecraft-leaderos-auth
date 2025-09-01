@@ -72,6 +72,7 @@ public class ConnectionListener {
                 // If the player is already authenticated, allow them to join directly
                 if (response == AuthResponse.HAS_SESSION && plugin.getConfigFile().getSettings().isSession()) {
                     Shared.getDebugAPI().send("Player " + playerName + " has active session, allowing direct login.", false);
+                    ChatUtil.sendConsoleInfo(playerName + " has logged in with an active session.");
                     plugin.getLimboServer().spawnPlayer(player, new ValidSessionHandler());
                     return;
                 }

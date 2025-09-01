@@ -127,4 +127,13 @@ public class ChatUtil {
     public static List<Component> replacePlaceholders(List<String> list, Placeholder... placeholders) {
         return list.stream().map(s -> replacePlaceholders(s, placeholders)).collect(Collectors.toList());
     }
+
+    /**
+     * Sends info message to console
+     *
+     * @param message to send
+     */
+    public static void sendConsoleInfo(String message) {
+        Velocity.getInstance().getLogger().info("[LeaderOS Auth] " + message);
+    }
 }

@@ -163,6 +163,7 @@ public class Bukkit extends JavaPlugin {
 
     public void forceLogin(Player player) {
         STATUS_MAP.put(player.getName(), AuthResponse.SUCCESS);
+        ChatUtil.sendConsoleInfo(player.getName() + " has logged in successfully.");
         ChatUtil.sendMessage(player, langFile.getMessages().getLogin().getSuccess());
         this.sendStatus(player, true);
 
@@ -175,6 +176,7 @@ public class Bukkit extends JavaPlugin {
 
     public void forceRegister(Player player) {
         STATUS_MAP.put(player.getName(), AuthResponse.SUCCESS);
+        ChatUtil.sendConsoleInfo(player.getName() + " has registered successfully.");
         ChatUtil.sendMessage(player, langFile.getMessages().getRegister().getSuccess());
         this.sendStatus(player, true);
 
