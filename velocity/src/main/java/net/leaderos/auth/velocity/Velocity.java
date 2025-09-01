@@ -20,6 +20,8 @@ import net.elytrium.limboapi.api.LimboFactory;
 import net.elytrium.limboapi.api.chunk.Dimension;
 import net.elytrium.limboapi.api.chunk.VirtualWorld;
 import net.elytrium.limboapi.api.command.LimboCommandMeta;
+import net.elytrium.limboapi.api.file.BuiltInWorldFileType;
+import net.elytrium.limboapi.api.file.WorldFile;
 import net.elytrium.limboapi.api.player.GameMode;
 import net.leaderos.auth.velocity.commands.LeaderOSCommand;
 import net.leaderos.auth.velocity.configuration.Config;
@@ -32,6 +34,7 @@ import org.bstats.velocity.Metrics;
 import org.slf4j.Logger;
 
 import java.io.File;
+import java.io.IOException;
 import java.nio.file.Path;
 import java.util.Collections;
 
@@ -185,12 +188,38 @@ public class Velocity {
     }
 
     private void createServer() {
-        VirtualWorld world = this.factory.createVirtualWorld(Dimension.THE_END, 0, 256, 0, 0, 0);
+        VirtualWorld world;
+        long worldTime = 0;
+
+        // Custom world
+        if (configFile.getSettings().getCustomWorld().isEnabled()) {
+            worldTime = configFile.getSettings().getCustomWorld().getWorldTicks();
+
+            try {
+                world = this.factory.createVirtualWorld(
+                        Dimension.OVERWORLD,
+                        configFile.getSettings().getCustomWorld().getSpawnLocation().getX(),
+                        configFile.getSettings().getCustomWorld().getSpawnLocation().getY(),
+                        configFile.getSettings().getCustomWorld().getSpawnLocation().getZ(),
+                        (float) configFile.getSettings().getCustomWorld().getSpawnLocation().getYaw(),
+                        (float) configFile.getSettings().getCustomWorld().getSpawnLocation().getPitch()
+                );
+                Path path = this.dataDirectory.resolve(configFile.getSettings().getCustomWorld().getFile());
+                WorldFile file = this.factory.openWorldFile(BuiltInWorldFileType.WORLDEDIT_SCHEM, path);
+                file.toWorld(this.factory, world, 0, 0, 0, configFile.getSettings().getCustomWorld().getLightLevel());
+            } catch (Exception e) {
+                throw new IllegalArgumentException(e);
+            }
+        } else {
+            // Empty World
+            world = this.factory.createVirtualWorld(Dimension.THE_END, 0, 256, 0, 0, 0);
+        }
 
         limboServer = factory.createLimbo(world)
                 .setName("LeaderOS-Auth")
-                .setWorldTime(0)
+                .setWorldTime(worldTime)
                 .setGameMode(GameMode.ADVENTURE);
+
 
         for (String command : this.configFile.getSettings().getLoginCommands()) {
             limboServer.registerCommand(new LimboCommandMeta(Collections.singleton(command)));

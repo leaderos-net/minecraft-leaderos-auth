@@ -90,5 +90,40 @@ public class Config extends OkaeriConfig {
         @Comment("Blacklist of passwords that cannot be used")
         private List<String> unsafePasswords = List.of("123456", "password", "qwerty", "123456789", "help", "sifre", "12345", "asd123", "qwe123");
 
+        @Comment("Custom world settings")
+        private CustomWorld customWorld = new CustomWorld();
+
+        @Getter
+        @Setter
+        public static class CustomWorld extends OkaeriConfig {
+            @Comment("Should custom world be enabled?")
+            private boolean enabled = false;
+
+            @Comment({
+                    "Schematic file in the plugin folder",
+                    "Upload your schematic file into /plugins/leaderosauth folder",
+            })
+            private String file = "world.schem";
+
+            @Comment("World time in ticks (24000 ticks == 1 in-game day)")
+            private long worldTicks = 1000L;
+
+            @Comment("World light level (from 0 to 15)")
+            private int lightLevel = 15;
+
+            @Comment("Spawn location of the world")
+            private SpawnLocation spawnLocation = new SpawnLocation();
+
+            @Getter
+            @Setter
+            public static class SpawnLocation extends OkaeriConfig {
+                private double x = 0;
+                private double y = 0;
+                private double z = 0;
+                private double yaw = 0;
+                private double pitch = 0;
+            }
+        }
+
     }
 }
