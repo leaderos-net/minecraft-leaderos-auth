@@ -9,6 +9,7 @@ import net.leaderos.shared.Shared;
 import net.leaderos.shared.enums.AuthResponse;
 import net.leaderos.shared.helpers.AuthUtil;
 import net.leaderos.shared.helpers.Placeholder;
+import net.leaderos.shared.helpers.UserAgentUtil;
 import org.bukkit.entity.Player;
 
 import java.util.List;
@@ -35,7 +36,8 @@ public class LoginCommand extends BaseCommand {
         }
 
         String ip = player.getAddress().getAddress().getHostAddress();
-        AuthUtil.login(player.getName(), password, ip).whenComplete((result, ex) -> {
+        String userAgent = UserAgentUtil.generateUserAgent(!plugin.getConfigFile().getSettings().isSession());
+        AuthUtil.login(player.getName(), password, ip, userAgent).whenComplete((result, ex) -> {
             plugin.getServer().getScheduler().runTask(plugin, () -> {
                 if (ex != null) {
                     ex.printStackTrace();

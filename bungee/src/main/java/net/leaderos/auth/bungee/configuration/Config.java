@@ -46,7 +46,7 @@ public class Config extends OkaeriConfig {
         private String authServer = "auth_lobby";
 
         @Comment("List of commands that will be allowed")
-        private List<String> allowedCommands = Lists.newArrayList("login", "log", "l", "giris", "giriş", "gir", "register", "reg", "kayit", "kayıt", "kaydol");
+        private List<String> allowedCommands = Lists.newArrayList("login", "log", "l", "giris", "giriş", "gir", "register", "reg", "kayit", "kayıt", "kaydol", "tfa");
 
     }
 

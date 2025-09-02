@@ -10,6 +10,7 @@ import net.leaderos.shared.enums.AuthResponse;
 import net.leaderos.shared.enums.RegisterSecondArg;
 import net.leaderos.shared.helpers.AuthUtil;
 import net.leaderos.shared.helpers.Placeholder;
+import net.leaderos.shared.helpers.UserAgentUtil;
 import net.leaderos.shared.helpers.ValidationUtil;
 import org.bukkit.entity.Player;
 
@@ -71,8 +72,9 @@ public class RegisterCommand extends BaseCommand {
         }
 
         String email = secondArgType == RegisterSecondArg.EMAIL ? secondArg : null;
+        String userAgent = UserAgentUtil.generateUserAgent(!plugin.getConfigFile().getSettings().isSession());
 
-        AuthUtil.register(player.getName(), password, email, ip).whenComplete((result, ex) -> {
+        AuthUtil.register(player.getName(), password, email, ip, userAgent).whenComplete((result, ex) -> {
             plugin.getServer().getScheduler().runTask(plugin, () -> {
                 if (ex != null) {
                     ex.printStackTrace();
@@ -94,6 +96,8 @@ public class RegisterCommand extends BaseCommand {
                     ChatUtil.sendMessage(player, plugin.getLangFile().getMessages().getRegister().getInvalidEmail());
                 } else if (result == AuthResponse.EMAIL_ALREADY_EXIST) {
                     ChatUtil.sendMessage(player, plugin.getLangFile().getMessages().getRegister().getEmailInUse());
+                } else if (result == AuthResponse.INVALID_PASSWORD) {
+                    ChatUtil.sendMessage(player, plugin.getLangFile().getMessages().getRegister().getInvalidPassword());
                 } else {
                     Shared.getDebugAPI().send("An unexpected error occurred during register: " + result, true);
                     ChatUtil.sendMessage(player, plugin.getLangFile().getMessages().getAnErrorOccurred());

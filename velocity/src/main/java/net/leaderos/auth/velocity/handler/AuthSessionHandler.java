@@ -15,6 +15,7 @@ import net.leaderos.shared.enums.AuthResponse;
 import net.leaderos.shared.enums.RegisterSecondArg;
 import net.leaderos.shared.helpers.AuthUtil;
 import net.leaderos.shared.helpers.Placeholder;
+import net.leaderos.shared.helpers.UserAgentUtil;
 
 import java.time.Duration;
 import java.util.concurrent.ScheduledFuture;
@@ -99,7 +100,8 @@ public class AuthSessionHandler implements LimboSessionHandler {
         String command = args[0].startsWith("/") ? args[0].toLowerCase().substring(1) : args[0].toLowerCase();
         if (plugin.getConfigFile().getSettings().getLoginCommands().contains(command) && args.length > 1) { // Login command
             String password = args[1];
-            AuthUtil.login(proxyPlayer.getUsername(), password, ip).whenComplete((result, ex) -> {
+            String userAgent = UserAgentUtil.generateUserAgent(!plugin.getConfigFile().getSettings().isSession());
+            AuthUtil.login(proxyPlayer.getUsername(), password, ip, userAgent).whenComplete((result, ex) -> {
                 if (ex != null) {
                     ex.printStackTrace();
                     ChatUtil.sendMessage(proxyPlayer, plugin.getLangFile().getMessages().getAnErrorOccurred());
@@ -156,8 +158,9 @@ public class AuthSessionHandler implements LimboSessionHandler {
             }
 
             String email = secondArgType == RegisterSecondArg.EMAIL ? secondArg : null;
+            String userAgent = UserAgentUtil.generateUserAgent(!plugin.getConfigFile().getSettings().isSession());
 
-            AuthUtil.register(proxyPlayer.getUsername(), password, email, ip).whenComplete((result, ex) -> {
+            AuthUtil.register(proxyPlayer.getUsername(), password, email, ip, userAgent).whenComplete((result, ex) -> {
                 if (ex != null) {
                     ex.printStackTrace();
                     ChatUtil.sendMessage(proxyPlayer, plugin.getLangFile().getMessages().getAnErrorOccurred());
@@ -179,11 +182,15 @@ public class AuthSessionHandler implements LimboSessionHandler {
                     ChatUtil.sendMessage(proxyPlayer, plugin.getLangFile().getMessages().getRegister().getInvalidEmail());
                 } else if (result == AuthResponse.EMAIL_ALREADY_EXIST) {
                     ChatUtil.sendMessage(proxyPlayer, plugin.getLangFile().getMessages().getRegister().getEmailInUse());
+                } else if (result == AuthResponse.INVALID_PASSWORD) {
+                    ChatUtil.sendMessage(proxyPlayer, plugin.getLangFile().getMessages().getRegister().getInvalidPassword());
                 } else {
                     Shared.getDebugAPI().send("An unexpected error occurred during register: " + result, true);
                     ChatUtil.sendMessage(proxyPlayer, plugin.getLangFile().getMessages().getAnErrorOccurred());
                 }
             });
+        } else if (plugin.getConfigFile().getSettings().getTfaCommands().contains(command) && args.length > 1) { // TFA command
+            String code = args[1];
         } else {
             ChatUtil.sendMessage(proxyPlayer, plugin.getLangFile().getMessages().getUnknownAuthCommand());
         }

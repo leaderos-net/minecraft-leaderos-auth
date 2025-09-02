@@ -228,5 +228,9 @@ public class Velocity {
         for (String command : this.configFile.getSettings().getRegisterCommands()) {
             limboServer.registerCommand(new LimboCommandMeta(Collections.singleton(command)));
         }
+
+        for (String command : this.configFile.getSettings().getTfaCommands()) {
+            limboServer.registerCommand(new LimboCommandMeta(Collections.singleton(command)));
+        }
     }
 }

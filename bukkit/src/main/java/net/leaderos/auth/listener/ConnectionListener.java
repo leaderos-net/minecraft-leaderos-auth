@@ -10,6 +10,7 @@ import net.leaderos.shared.Shared;
 import net.leaderos.shared.enums.AuthResponse;
 import net.leaderos.shared.helpers.AuthUtil;
 import net.leaderos.shared.helpers.Placeholder;
+import net.leaderos.shared.helpers.UserAgentUtil;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
@@ -49,7 +50,8 @@ public class ConnectionListener implements Listener {
             if (response == null) {
                 // Make API request if not cached
                 Shared.getDebugAPI().send("Making API request for player " + playerName, false);
-                response = AuthUtil.checkGameSession(playerName, ip).join();
+                String userAgent = UserAgentUtil.generateUserAgent(!plugin.getConfigFile().getSettings().isSession());
+                response = AuthUtil.checkGameSession(playerName, ip, userAgent).join();
 
                 // Cache the response for future use
                 RESPONSE_CACHE.put(playerName, response);

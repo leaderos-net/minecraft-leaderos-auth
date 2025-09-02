@@ -120,6 +120,9 @@ public class Config extends OkaeriConfig {
         @Comment("List of register commands")
         private List<String> registerCommands = Lists.newArrayList("register", "reg", "kayit", "kayıt", "kaydol");
 
+        @Comment("List of tfa commands")
+        private List<String> tfaCommands = Lists.newArrayList("tfa", "2fa");
+
         @Comment("Blacklist of passwords that cannot be used")
         private List<String> unsafePasswords = Lists.newArrayList("123456", "password", "qwerty", "123456789", "help", "sifre", "12345", "asd123", "qwe123");
     }

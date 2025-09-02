@@ -6,10 +6,11 @@ import java.io.IOException;
 import java.util.HashMap;
 
 public class SessionRequest extends PostRequest {
-    public SessionRequest(String username, String ip) throws IOException {
+    public SessionRequest(String username, String ip, String userAgent) throws IOException {
         super("auth/game-sessions", new HashMap<String, String>() {{
             put("username", username);
             put("ip", ip);
+            put("useragent", userAgent);
         }});
     }
 }

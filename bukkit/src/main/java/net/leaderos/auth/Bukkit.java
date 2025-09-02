@@ -12,6 +12,7 @@ import lombok.Getter;
 import net.leaderos.auth.command.LeaderOSCommand;
 import net.leaderos.auth.command.LoginCommand;
 import net.leaderos.auth.command.RegisterCommand;
+import net.leaderos.auth.command.TfaCommand;
 import net.leaderos.auth.configuration.Config;
 import net.leaderos.auth.configuration.Language;
 import net.leaderos.auth.helpers.ChatUtil;
@@ -121,7 +122,8 @@ public class Bukkit extends JavaPlugin {
         commandManager.registerCommand(
                 new LeaderOSCommand(),
                 new LoginCommand(this, "login", getConfigFile().getSettings().getLoginCommands()),
-                new RegisterCommand(this, "register", getConfigFile().getSettings().getRegisterCommands())
+                new RegisterCommand(this, "register", getConfigFile().getSettings().getRegisterCommands()),
+                new TfaCommand(this, "tfa", getConfigFile().getSettings().getTfaCommands())
         );
 
         commandManager.registerMessage(MessageKey.INVALID_ARGUMENT, (sender, invalidArgumentContext) ->
@@ -196,6 +198,7 @@ public class Bukkit extends JavaPlugin {
         allowedCommands = Lists.newArrayList();
         allowedCommands.addAll(getConfigFile().getSettings().getLoginCommands());
         allowedCommands.addAll(getConfigFile().getSettings().getRegisterCommands());
+        allowedCommands.addAll(getConfigFile().getSettings().getTfaCommands());
     }
 
     private void registerLoggerFilters(Filter... filters) {

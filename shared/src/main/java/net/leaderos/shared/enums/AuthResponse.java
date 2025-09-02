@@ -17,6 +17,7 @@ public enum AuthResponse {
     REGISTER_LIMIT,
     INVALID_USERNAME,
     INVALID_EMAIL,
+    INVALID_PASSWORD,
 
     SUCCESS,
 

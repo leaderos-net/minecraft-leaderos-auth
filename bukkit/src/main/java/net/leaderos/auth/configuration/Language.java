@@ -72,6 +72,8 @@ public class Language extends OkaeriConfig {
 
         private Register register = new Register();
         private Login login = new Login();
+        private Tfa tfa = new Tfa();
+
         /**
          * Command object
          */
@@ -96,6 +98,8 @@ public class Language extends OkaeriConfig {
             private String passwordTooLong = "{prefix} &cPassword must be shorter than {max} characters long!";
 
             private String alreadyRegistered = "{prefix} &cYou are already registered!";
+
+            private String invalidPassword = "{prefix} &cPassword is invalid! Please enter a valid password.";
 
             private String invalidName = "{prefix} &cYour name is invalid! Please use a valid name.";
 
@@ -128,6 +132,32 @@ public class Language extends OkaeriConfig {
             private String accountNotFound = "{prefix} &cYou are not registered!";
 
             private String success = "{prefix} &aYou have successfully logged in!";
+
+        }
+
+        @Getter
+        @Setter
+        public static class Tfa extends OkaeriConfig {
+
+            private String title = "&6TFA";
+
+            private String subtitle = "&e/tfa <code>";
+
+            private int titleDuration = 30; // in seconds
+
+            private String required = "{prefix} &eTwo-factor authentication is required! Please enter your TFA code using &a/tfa <code> &ecommand.";
+
+            private String usage = "{prefix} &ePlease enter your TFA code using &a/tfa <code> &ecommand.";
+
+            private String notRequired = "{prefix} &cTwo-factor authentication is not required at this time.";
+
+            private String invalidCode = "{prefix} &cInvalid TFA code! Please try again.";
+
+            private String sessionNotFound = "{prefix} &cSession not found! Please login again.";
+
+            private String verificationFailed = "{prefix} &cTFA verification failed! Please try again.";
+
+            private String success = "{prefix} &aTwo-factor authentication successful!";
 
         }
 

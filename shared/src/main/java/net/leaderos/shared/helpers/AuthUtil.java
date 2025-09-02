@@ -15,10 +15,10 @@ public class AuthUtil {
 
     private static final Executor EXECUTOR = Executors.newSingleThreadExecutor();
 
-    public static CompletableFuture<AuthResponse> checkGameSession(String username, String ip) {
+    public static CompletableFuture<AuthResponse> checkGameSession(String username, String ip, String userAgent) {
         return CompletableFuture.supplyAsync(() -> {
             try {
-                SessionRequest request = new SessionRequest(username, ip);
+                SessionRequest request = new SessionRequest(username, ip, userAgent);
                 Response response = request.getResponse();
                 return AuthResponse.valueOf(response.getResponseMessage().getString("status"));
             } catch (IOException e) {
@@ -27,10 +27,10 @@ public class AuthUtil {
         }, EXECUTOR);
     }
 
-    public static CompletableFuture<AuthResponse> login(String username, String password, String ip) {
+    public static CompletableFuture<AuthResponse> login(String username, String password, String ip, String userAgent) {
         return CompletableFuture.supplyAsync(() -> {
             try {
-                LoginRequest request = new LoginRequest(username, password, ip);
+                LoginRequest request = new LoginRequest(username, password, ip, userAgent);
                 Response response = request.getResponse();
                 if (response.isStatus()) {
                     return AuthResponse.SUCCESS;
@@ -43,10 +43,10 @@ public class AuthUtil {
         }, EXECUTOR);
     }
 
-    public static CompletableFuture<AuthResponse> register(String username, String password, String email, String ip) {
+    public static CompletableFuture<AuthResponse> register(String username, String password, String email, String ip, String userAgent) {
         return CompletableFuture.supplyAsync(() -> {
             try {
-                RegisterRequest request = new RegisterRequest(username, password, email, ip);
+                RegisterRequest request = new RegisterRequest(username, password, email, ip, userAgent);
                 Response response = request.getResponse();
                 if (response.isStatus()) {
                     return AuthResponse.SUCCESS;

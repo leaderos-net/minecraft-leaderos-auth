@@ -67,6 +67,8 @@ public class tr extends Language {
 
         private Register register = new Register();
         private Login login = new Login();
+        private Tfa tfa = new Tfa();
+
         /**
          * Command object
          */
@@ -91,6 +93,8 @@ public class tr extends Language {
             private String passwordTooLong = "{prefix} &cŞifre {max} karakterden kısa olmalıdır!";
 
             private String alreadyRegistered = "{prefix} &cZaten kayıtlısınız! Lütfen giriş yapınız.";
+
+            private String invalidPassword = "{prefix} &cŞifre geçersiz! Lütfen geçerli bir şifre giriniz.";
 
             private String invalidName = "{prefix} &cKullanıcı adınız geçersiz! Lütfen geçerli bir kullanıcı ad kullanınız.";
 
@@ -123,6 +127,32 @@ public class tr extends Language {
             private String accountNotFound = "{prefix} &cSunucumuza kayıtlı değilsiniz! Lütfen kayıt olunuz.";
 
             private String success = "{prefix} &aBaşarıyla giriş yaptınız!";
+
+        }
+
+        @Getter
+        @Setter
+        public static class Tfa extends Language.Messages.Tfa {
+
+            private String title = "&6TFA";
+
+            private String subtitle = "&e/tfa <kod>";
+
+            private int titleDuration = 30; // in seconds
+
+            private String required = "{prefix} &eİki faktörlü kimlik doğrulama gerekli! Lütfen TFA kodunuzu &a/tfa <kod> &ekomutu ile girin.";
+
+            private String usage = "{prefix} &eLütfen TFA kodunuzu &a/tfa <kod> &ekomutu ile girin.";
+
+            private String notRequired = "{prefix} &cŞu anda iki faktörlü kimlik doğrulama gerekli değil.";
+
+            private String invalidCode = "{prefix} &cGeçersiz TFA kodu! Lütfen tekrar deneyin.";
+
+            private String sessionNotFound = "{prefix} &cOturum bulunamadı! Lütfen tekrar giriş yapın.";
+
+            private String verificationFailed = "{prefix} &cTFA doğrulaması başarısız! Lütfen tekrar deneyin.";
+
+            private String success = "{prefix} &aİki faktörlü kimlik doğrulama başarılı!";
 
         }
 
