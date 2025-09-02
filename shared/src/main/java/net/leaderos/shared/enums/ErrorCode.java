@@ -12,6 +12,7 @@ public enum ErrorCode {
     REGISTER_LIMIT,
     INVALID_USERNAME,
     INVALID_EMAIL,
+    INVALID_PASSWORD,
 
     // session
     ACCOUNT_NOT_FOUND,
