@@ -24,16 +24,17 @@ public class TitleUtil {
     private static Method getHandleMethod;
 
     static {
-        SERVER_VERSION = Bukkit.getServer().getClass().getPackage().getName().split("\\.")[3];
         IS_LEGACY = isLegacyVersion();
 
         if (IS_LEGACY) {
             try {
+                SERVER_VERSION = Bukkit.getServer().getClass().getPackage().getName().split("\\.")[3];
                 initializeNMS();
             } catch (Exception e) {
-                System.err.println("[TitleUtil] Failed to initialize NMS for version: " + SERVER_VERSION);
-                e.printStackTrace();
+                throw new RuntimeException("[TitleUtil] Failed to initialize NMS for legacy version", e);
             }
+        } else {
+            SERVER_VERSION = "";
         }
     }
 

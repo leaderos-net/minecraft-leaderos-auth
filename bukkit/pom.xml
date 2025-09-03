@@ -40,7 +40,6 @@
                     </execution>
                 </executions>
                 <configuration>
-                    <minimizeJar>false</minimizeJar>
                     <relocations>
                         <relocation>
                             <pattern>dev.triumphteam</pattern>
