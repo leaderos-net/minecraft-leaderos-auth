@@ -5,6 +5,7 @@ import dev.triumphteam.cmd.core.annotation.Default;
 import lombok.RequiredArgsConstructor;
 import net.leaderos.auth.Bukkit;
 import net.leaderos.auth.helpers.ChatUtil;
+import net.leaderos.auth.helpers.TitleUtil;
 import net.leaderos.shared.Shared;
 import net.leaderos.shared.enums.ErrorCode;
 import net.leaderos.shared.enums.RegisterSecondArg;
@@ -100,7 +101,7 @@ public class RegisterCommand extends BaseCommand {
                     }
 
                     if (result.isStatus()) {
-                        player.resetTitle();
+                        TitleUtil.clearTitle(player);
 
                         session.setStatus(SessionStatus.AUTHENTICATED);
                         session.setToken(result.getToken());

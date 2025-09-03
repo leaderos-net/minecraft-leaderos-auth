@@ -4,6 +4,7 @@ import lombok.RequiredArgsConstructor;
 import net.leaderos.auth.Bukkit;
 import net.leaderos.auth.helpers.ChatUtil;
 import net.leaderos.auth.helpers.LocationUtil;
+import net.leaderos.auth.helpers.TitleUtil;
 import net.leaderos.shared.Shared;
 import net.leaderos.shared.enums.SessionStatus;
 import net.leaderos.shared.helpers.Placeholder;
@@ -69,17 +70,17 @@ public class JoinListener implements Listener {
             if (session.getStatus() == SessionStatus.LOGIN_REQUIRED) {
                 String title = ChatUtil.color(plugin.getLangFile().getMessages().getLogin().getTitle());
                 String subtitle = ChatUtil.color(plugin.getLangFile().getMessages().getLogin().getSubtitle());
-                player.sendTitle(title, subtitle, 10, plugin.getLangFile().getMessages().getLogin().getTitleDuration() * 20, 10);
+                TitleUtil.sendTitle(player, title, subtitle, 10, plugin.getLangFile().getMessages().getLogin().getTitleDuration() * 20, 10);
             }
             if (session.getStatus() == SessionStatus.ACCOUNT_NOT_FOUND) {
                 String title = ChatUtil.color(plugin.getLangFile().getMessages().getRegister().getTitle());
                 String subtitle = ChatUtil.color(plugin.getLangFile().getMessages().getRegister().getSubtitle());
-                player.sendTitle(title, subtitle, 10, plugin.getLangFile().getMessages().getRegister().getTitleDuration() * 20, 10);
+                TitleUtil.sendTitle(player, title, subtitle, 10, plugin.getLangFile().getMessages().getRegister().getTitleDuration() * 20, 10);
             }
             if (session.getStatus() == SessionStatus.TFA_REQUIRED) {
                 String title = ChatUtil.color(plugin.getLangFile().getMessages().getTfa().getTitle());
                 String subtitle = ChatUtil.color(plugin.getLangFile().getMessages().getTfa().getSubtitle());
-                player.sendTitle(title, subtitle, 10, plugin.getLangFile().getMessages().getTfa().getTitleDuration() * 20, 10);
+                TitleUtil.sendTitle(player, title, subtitle, 10, plugin.getLangFile().getMessages().getTfa().getTitleDuration() * 20, 10);
             }
 
             long joinTime = System.currentTimeMillis();

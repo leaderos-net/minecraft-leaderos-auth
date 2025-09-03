@@ -5,6 +5,7 @@ import dev.triumphteam.cmd.core.annotation.Default;
 import lombok.RequiredArgsConstructor;
 import net.leaderos.auth.Bukkit;
 import net.leaderos.auth.helpers.ChatUtil;
+import net.leaderos.auth.helpers.TitleUtil;
 import net.leaderos.shared.Shared;
 import net.leaderos.shared.enums.ErrorCode;
 import net.leaderos.shared.enums.SessionStatus;
@@ -55,7 +56,7 @@ public class TfaCommand extends BaseCommand {
 
                 if (result.isStatus()) {
                     // Clear title
-                    player.resetTitle();
+                    TitleUtil.clearTitle(player);
 
                     // Change session status to authenticated
                     session.setStatus(SessionStatus.AUTHENTICATED);

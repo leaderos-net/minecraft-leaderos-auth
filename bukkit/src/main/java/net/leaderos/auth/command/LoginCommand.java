@@ -6,6 +6,7 @@ import lombok.RequiredArgsConstructor;
 import net.kyori.adventure.title.Title;
 import net.leaderos.auth.Bukkit;
 import net.leaderos.auth.helpers.ChatUtil;
+import net.leaderos.auth.helpers.TitleUtil;
 import net.leaderos.shared.Shared;
 import net.leaderos.shared.enums.ErrorCode;
 import net.leaderos.shared.enums.SessionStatus;
@@ -76,13 +77,13 @@ public class LoginCommand extends BaseCommand {
                             // Update title to TFA
                             String tfaTitle = ChatUtil.color(plugin.getLangFile().getMessages().getTfa().getTitle());
                             String tfaSubtitle = ChatUtil.color(plugin.getLangFile().getMessages().getTfa().getSubtitle());
-                            player.sendTitle(tfaTitle, tfaSubtitle, 0, plugin.getLangFile().getMessages().getTfa().getTitleDuration() * 20, 10);
+                            TitleUtil.sendTitle(player, tfaTitle, tfaSubtitle, 0, plugin.getLangFile().getMessages().getTfa().getTitleDuration() * 20, 10);
 
                             ChatUtil.sendMessage(player, plugin.getLangFile().getMessages().getTfa().getRequired());
                             ChatUtil.sendMessage(player, plugin.getLangFile().getMessages().getTfa().getUsage());
                         } else {
                             // Clear title
-                            player.resetTitle();
+                            TitleUtil.clearTitle(player);
 
                             // Change session status to authenticated
                             session.setStatus(SessionStatus.AUTHENTICATED);
