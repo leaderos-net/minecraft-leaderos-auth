@@ -40,11 +40,7 @@ public class JoinListener implements Listener {
                 if (location != null && location.getWorld() != null) {
                     // Only teleport if forceTeleportOnJoin is true or if the player is joining for the first time
                     if (plugin.getConfigFile().getSettings().getSpawn().isForceTeleportOnJoin() || !player.hasPlayedBefore()) {
-                        plugin.getServer().getScheduler().runTaskLater(plugin, () -> {
-                            if (player.isOnline()) {
-                                player.teleport(location);
-                            }
-                        }, 5L);
+                        plugin.getFoliaLib().getScheduler().teleportAsync(player, location);
                     }
 
                 }
@@ -55,12 +51,12 @@ public class JoinListener implements Listener {
             // No need for a isSession check here, as we handle it in the ConnectionListener
             if (session.isAuthenticated()) {
                 ChatUtil.sendMessage(player, plugin.getLangFile().getMessages().getLogin().getSuccess());
-                plugin.getServer().getScheduler().runTaskLater(plugin, () -> {
+                plugin.getFoliaLib().getScheduler().runLater(() -> {
                     plugin.sendStatus(player, true);
                 }, 5);
 
                 if (plugin.getConfigFile().getSettings().getSendAfterAuth().isEnabled()) {
-                    plugin.getServer().getScheduler().runTaskLater(plugin, () -> {
+                    plugin.getFoliaLib().getScheduler().runLater(() -> {
                         plugin.sendPlayerToServer(player, plugin.getConfigFile().getSettings().getSendAfterAuth().getServer());
                     }, 20L);
                 }
@@ -85,7 +81,8 @@ public class JoinListener implements Listener {
 
             long joinTime = System.currentTimeMillis();
             AtomicInteger i = new AtomicInteger();
-            plugin.getServer().getScheduler().runTaskTimer(plugin, (task) -> {
+
+            plugin.getFoliaLib().getScheduler().runTimer((task) -> {
                 if (plugin.isAuthenticated(player)) {
                     task.cancel();
                     return;
@@ -113,7 +110,7 @@ public class JoinListener implements Listener {
                 }
             }, 10L, 20L);
 
-            plugin.getServer().getScheduler().runTaskLater(plugin, () -> {
+            plugin.getFoliaLib().getScheduler().runLater(() -> {
                 plugin.sendStatus(player, session.isAuthenticated());
             }, 5);
         } catch (Exception e) {

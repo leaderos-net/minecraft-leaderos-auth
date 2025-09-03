@@ -173,7 +173,7 @@ public class PlayerListener implements Listener {
 
         event.setCancelled(true);
 
-        plugin.getServer().getScheduler().scheduleSyncDelayedTask(plugin, () -> event.getPlayer().closeInventory(), 1L);
+        plugin.getFoliaLib().getScheduler().runLater(() -> event.getPlayer().closeInventory(), 1);
     }
 
     @EventHandler(ignoreCancelled = true, priority = EventPriority.LOWEST)

@@ -59,7 +59,7 @@ public class LoginCommand extends BaseCommand {
             String ip = player.getAddress().getAddress().getHostAddress();
             String userAgent = UserAgentUtil.generateUserAgent(!plugin.getConfigFile().getSettings().isSession());
             AuthUtil.login(player.getName(), password, ip, userAgent).whenComplete((result, ex) -> {
-                plugin.getServer().getScheduler().runTask(plugin, () -> {
+                plugin.getFoliaLib().getScheduler().runNextTick((task) -> {
                     if (ex != null) {
                         ex.printStackTrace();
                         ChatUtil.sendMessage(player, plugin.getLangFile().getMessages().getAnErrorOccurred());
@@ -93,7 +93,7 @@ public class LoginCommand extends BaseCommand {
                             plugin.sendStatus(player, true);
 
                             if (plugin.getConfigFile().getSettings().getSendAfterAuth().isEnabled()) {
-                                plugin.getServer().getScheduler().runTaskLater(plugin, () -> {
+                                plugin.getFoliaLib().getScheduler().runLater(() -> {
                                     plugin.sendPlayerToServer(player, plugin.getConfigFile().getSettings().getSendAfterAuth().getServer());
                                 }, 20L);
                             }

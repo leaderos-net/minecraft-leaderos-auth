@@ -98,7 +98,7 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-shade-plugin</artifactId>
-                <version>3.5.0</version>
+                <version>3.6.0</version>
                 <configuration>
                     <createDependencyReducedPom>false</createDependencyReducedPom>
                     <minimizeJar>true</minimizeJar>
@@ -106,18 +106,6 @@
                         <relocation>
                             <pattern>org.jetbrains.annotations</pattern>
                             <shadedPattern>net.leaderos.auth.shades.jetbrains</shadedPattern>
-                        </relocation>
-                        <relocation>
-                            <pattern>dev.triumphteam</pattern>
-                            <shadedPattern>net.leaderos.auth.shades.triumphteam</shadedPattern>
-                        </relocation>
-                        <relocation>
-                            <pattern>eu.okaeri</pattern>
-                            <shadedPattern>net.leaderos.auth.shades.okaeri</shadedPattern>
-                        </relocation>
-                        <relocation>
-                            <pattern>org.bstats</pattern>
-                            <shadedPattern>net.leaderos.auth.shades.bstats</shadedPattern>
                         </relocation>
                     </relocations>
                 </configuration>

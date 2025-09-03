@@ -4,6 +4,7 @@ import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.google.common.io.ByteArrayDataOutput;
 import com.google.common.io.ByteStreams;
+import com.tcoded.folialib.FoliaLib;
 import dev.triumphteam.cmd.bukkit.BukkitCommandManager;
 import dev.triumphteam.cmd.bukkit.message.BukkitMessageKey;
 import dev.triumphteam.cmd.core.message.MessageKey;
@@ -43,6 +44,8 @@ public class Bukkit extends JavaPlugin {
     @Getter
     private static Bukkit instance;
 
+    private FoliaLib foliaLib;
+
     private Language langFile;
     private Config configFile;
 
@@ -59,6 +62,8 @@ public class Bukkit extends JavaPlugin {
     @Override
     public void onEnable() {
         instance = this;
+        foliaLib = new FoliaLib(this);
+
         setupFiles();
 
         // Cache allowed commands
@@ -96,6 +101,11 @@ public class Bukkit extends JavaPlugin {
         if (isClassLoaded("org.bukkit.event.entity.EntityAirChangeEvent")) {
             getServer().getPluginManager().registerEvents(new PlayerListener111(this), this);
         }
+    }
+
+    @Override
+    public void onDisable() {
+        foliaLib.getScheduler().cancelAllTasks();
     }
 
     public void setupFiles() {
