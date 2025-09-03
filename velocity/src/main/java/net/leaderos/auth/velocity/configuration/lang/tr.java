@@ -65,6 +65,8 @@ public class tr extends Language {
 
         private String reload = "{prefix} &aEklenti başarıyla yeniden yüklendi.";
 
+        private String alreadyAuthenticated = "{prefix} &cZaten giriş yaptınız!";
+
         private Register register = new Register();
         private Login login = new Login();
         private Tfa tfa = new Tfa();

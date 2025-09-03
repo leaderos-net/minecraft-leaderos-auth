@@ -1,7 +1,5 @@
 package net.leaderos.auth.velocity.listener;
 
-import com.google.common.cache.Cache;
-import com.google.common.cache.CacheBuilder;
 import com.velocitypowered.api.event.PostOrder;
 import com.velocitypowered.api.event.Subscribe;
 import com.velocitypowered.api.proxy.Player;
@@ -14,22 +12,16 @@ import net.leaderos.auth.velocity.handler.AuthSessionHandler;
 import net.leaderos.auth.velocity.handler.ValidSessionHandler;
 import net.leaderos.auth.velocity.helpers.ChatUtil;
 import net.leaderos.shared.Shared;
-import net.leaderos.shared.enums.AuthResponse;
+import net.leaderos.shared.enums.SessionStatus;
 import net.leaderos.shared.helpers.AuthUtil;
 import net.leaderos.shared.helpers.Placeholder;
 import net.leaderos.shared.helpers.UserAgentUtil;
+import net.leaderos.shared.model.response.GameSessionResponse;
 
-import java.time.Duration;
 import java.util.List;
 
 @RequiredArgsConstructor
 public class ConnectionListener {
-
-    // Cache to store responses for 60 seconds
-    // This is to avoid hitting the API too frequently for the same player
-    // May be useful for bot attacks or repeated login attempts
-    private static final int CACHE_EXPIRATION_SECONDS = 60;
-    public static final Cache<String, AuthResponse> RESPONSE_CACHE = CacheBuilder.newBuilder().expireAfterWrite(Duration.ofSeconds(CACHE_EXPIRATION_SECONDS)).build();
     private final Velocity plugin;
 
     @Subscribe(order = PostOrder.LAST)
@@ -44,52 +36,43 @@ public class ConnectionListener {
         // it processes the player first before our logic runs.
         event.addOnJoinCallback(() -> {
             try {
-                // Check cache first
-                AuthResponse response = RESPONSE_CACHE.getIfPresent(playerName);
-
-                if (response == null) {
-                    // Make API request if not cached
-                    Shared.getDebugAPI().send("Making API request for player " + playerName, false);
-                    String userAgent = UserAgentUtil.generateUserAgent(!plugin.getConfigFile().getSettings().isSession());
-                    response = AuthUtil.checkGameSession(playerName, ip, userAgent).join();
-
-                    // Cache the response for future use
-                    RESPONSE_CACHE.put(playerName, response);
-                } else {
-                    Shared.getDebugAPI().send("Using cached response for player " + playerName + ": " + response, false);
-                }
+                // Make API request for game session
+                Shared.getDebugAPI().send("Making API request for player " + playerName, false);
+                String userAgent = UserAgentUtil.generateUserAgent(!plugin.getConfigFile().getSettings().isSession());
+                GameSessionResponse session = AuthUtil.checkGameSession(playerName, ip, userAgent).join();
 
                 // Kick the player if they have an invalid username
-                if (response == AuthResponse.INVALID_USERNAME) {
+                if (session.getStatus() == SessionStatus.INVALID_USERNAME) {
                     kickPlayer(player, plugin.getLangFile().getMessages().getKickInvalidUsername());
                     return;
                 }
 
                 // Kick the player if they are not registered and kicking is enabled
-                if (plugin.getConfigFile().getSettings().isKickNonRegistered() && response == AuthResponse.ACCOUNT_NOT_FOUND) {
+                if (plugin.getConfigFile().getSettings().isKickNonRegistered() && session.getStatus() == SessionStatus.ACCOUNT_NOT_FOUND) {
                     kickPlayer(player, plugin.getLangFile().getMessages().getKickNotRegistered());
                     return;
                 }
 
                 // If the player is already authenticated, allow them to join directly
-                if (response == AuthResponse.HAS_SESSION && plugin.getConfigFile().getSettings().isSession()) {
+                if (session.getStatus() == SessionStatus.HAS_SESSION && plugin.getConfigFile().getSettings().isSession()) {
+                    // Change session status to authenticated
+                    session.setStatus(SessionStatus.AUTHENTICATED);
+
                     Shared.getDebugAPI().send("Player " + playerName + " has active session, allowing direct login.", false);
                     ChatUtil.sendConsoleInfo(playerName + " has logged in with an active session.");
+                    ChatUtil.sendMessage(player, plugin.getLangFile().getMessages().getLogin().getSuccess());
                     plugin.getLimboServer().spawnPlayer(player, new ValidSessionHandler());
                     return;
                 }
 
                 // Spawn player in auth limbo
                 Shared.getDebugAPI().send("Spawning player " + playerName + " in limbo for authentication.", false);
-                plugin.getLimboServer().spawnPlayer(player, new AuthSessionHandler(player, ip, response, plugin));
+                plugin.getLimboServer().spawnPlayer(player, new AuthSessionHandler(plugin, player, ip, session));
             } catch (Exception e) {
                 Shared.getDebugAPI().send("ErrorCode processing player " + playerName + ": " + e.getMessage(), true);
 
                 // Kick the player with an error message
                 kickPlayer(player, plugin.getLangFile().getMessages().getKickAnError());
-
-                // Invalidate the cache for this player to avoid repeated errors
-                RESPONSE_CACHE.invalidate(playerName);
             }
         });
     }

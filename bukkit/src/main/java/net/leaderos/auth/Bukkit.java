@@ -1,6 +1,7 @@
 package net.leaderos.auth;
 
 import com.google.common.collect.Lists;
+import com.google.common.collect.Maps;
 import com.google.common.io.ByteArrayDataOutput;
 import com.google.common.io.ByteStreams;
 import dev.triumphteam.cmd.bukkit.BukkitCommandManager;
@@ -20,8 +21,9 @@ import net.leaderos.auth.helpers.ConsoleLogger;
 import net.leaderos.auth.helpers.DebugBukkit;
 import net.leaderos.auth.listener.*;
 import net.leaderos.shared.Shared;
-import net.leaderos.shared.enums.AuthResponse;
+import net.leaderos.shared.enums.SessionStatus;
 import net.leaderos.shared.helpers.UrlUtil;
+import net.leaderos.shared.model.response.GameSessionResponse;
 import org.bstats.bukkit.Metrics;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
@@ -32,9 +34,8 @@ import org.apache.logging.log4j.core.Logger;
 
 import java.io.File;
 import java.util.List;
+import java.util.Map;
 import java.util.logging.Level;
-
-import static net.leaderos.auth.listener.ConnectionListener.STATUS_MAP;
 
 @Getter
 public class Bukkit extends JavaPlugin {
@@ -51,6 +52,9 @@ public class Bukkit extends JavaPlugin {
 
     @Getter
     private List<String> allowedCommands;
+
+    @Getter
+    private final Map<String, GameSessionResponse> sessions = Maps.newHashMap();
 
     @Override
     public void onEnable() {
@@ -163,35 +167,9 @@ public class Bukkit extends JavaPlugin {
         player.sendPluginMessage(this, "BungeeCord", out.toByteArray());
     }
 
-    public void forceLogin(Player player) {
-        STATUS_MAP.put(player.getName(), AuthResponse.SUCCESS);
-        ChatUtil.sendConsoleInfo(player.getName() + " has logged in successfully.");
-        ChatUtil.sendMessage(player, langFile.getMessages().getLogin().getSuccess());
-        this.sendStatus(player, true);
-
-        if (configFile.getSettings().getSendAfterAuth().isEnabled()) {
-            this.getServer().getScheduler().runTaskLater(this, () -> {
-                this.sendPlayerToServer(player, configFile.getSettings().getSendAfterAuth().getServer());
-            }, 20L);
-        }
-    }
-
-    public void forceRegister(Player player) {
-        STATUS_MAP.put(player.getName(), AuthResponse.SUCCESS);
-        ChatUtil.sendConsoleInfo(player.getName() + " has registered successfully.");
-        ChatUtil.sendMessage(player, langFile.getMessages().getRegister().getSuccess());
-        this.sendStatus(player, true);
-
-        if (configFile.getSettings().getSendAfterAuth().isEnabled()) {
-            this.getServer().getScheduler().runTaskLater(this, () -> {
-                this.sendPlayerToServer(player, configFile.getSettings().getSendAfterAuth().getServer());
-            }, 20L);
-        }
-    }
-
     public boolean isAuthenticated(Player player) {
-        AuthResponse response = STATUS_MAP.get(player.getName());
-        return response != null && response.isAuthenticated();
+        GameSessionResponse response = sessions.get(player.getName());
+        return response != null && response.getStatus() == SessionStatus.AUTHENTICATED;
     }
 
     public void cacheAllowedCommands() {

@@ -14,11 +14,11 @@ public enum ErrorCode {
     INVALID_EMAIL,
     INVALID_PASSWORD,
 
-    // session
-    ACCOUNT_NOT_FOUND,
-    LOGIN_REQUIRED,
-    HAS_SESSION,
+    // tfa
+    WRONG_CODE,
+    SESSION_NOT_FOUND,
+    TFA_VERIFICATION_FAILED,
 
-    ;
+    UNKNOWN_ERROR
 
 }

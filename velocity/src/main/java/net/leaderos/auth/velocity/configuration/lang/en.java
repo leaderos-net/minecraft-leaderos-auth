@@ -67,6 +67,8 @@ public class en extends Language {
 
         private String reload = "{prefix} &aPlugin reloaded successfully.";
 
+        private String alreadyAuthenticated = "{prefix} &cYou are already authenticated!";
+
         private Register register = new Register();
         private Login login = new Login();
         private Tfa tfa = new Tfa();
