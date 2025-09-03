@@ -1,4 +1,4 @@
-package net.leaderos.auth;
+package net.leaderos.auth.bukkit;
 
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
@@ -11,16 +11,16 @@ import dev.triumphteam.cmd.core.message.MessageKey;
 import eu.okaeri.configs.ConfigManager;
 import eu.okaeri.configs.yaml.bukkit.YamlBukkitConfigurer;
 import lombok.Getter;
-import net.leaderos.auth.command.LeaderOSCommand;
-import net.leaderos.auth.command.LoginCommand;
-import net.leaderos.auth.command.RegisterCommand;
-import net.leaderos.auth.command.TfaCommand;
-import net.leaderos.auth.configuration.Config;
-import net.leaderos.auth.configuration.Language;
-import net.leaderos.auth.helpers.ChatUtil;
-import net.leaderos.auth.helpers.ConsoleLogger;
-import net.leaderos.auth.helpers.DebugBukkit;
-import net.leaderos.auth.listener.*;
+import net.leaderos.auth.bukkit.command.LeaderOSCommand;
+import net.leaderos.auth.bukkit.command.LoginCommand;
+import net.leaderos.auth.bukkit.command.RegisterCommand;
+import net.leaderos.auth.bukkit.command.TfaCommand;
+import net.leaderos.auth.bukkit.configuration.Config;
+import net.leaderos.auth.bukkit.configuration.Language;
+import net.leaderos.auth.bukkit.helpers.ChatUtil;
+import net.leaderos.auth.bukkit.helpers.ConsoleLogger;
+import net.leaderos.auth.bukkit.helpers.DebugBukkit;
+import net.leaderos.auth.bukkit.listener.*;
 import net.leaderos.shared.Shared;
 import net.leaderos.shared.enums.SessionStatus;
 import net.leaderos.shared.helpers.UrlUtil;
@@ -117,7 +117,7 @@ public class Bukkit extends JavaPlugin {
                 it.load(true);
             });
             String langName = configFile.getSettings().getLang();
-            Class langClass = Class.forName("net.leaderos.auth.configuration.lang." + langName);
+            Class langClass = Class.forName("net.leaderos.auth.bukkit.configuration.lang." + langName);
             Class<Language> languageClass = langClass;
             this.langFile = ConfigManager.create(languageClass, (it) -> {
                 it.withConfigurer(new YamlBukkitConfigurer());

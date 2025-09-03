@@ -1,6 +1,6 @@
 name: LeaderOS-Auth
 authors: [ leaderos, efekurbann ]
-main: net.leaderos.auth.Bukkit
+main: net.leaderos.auth.bukkit.Bukkit
 version: "${shared.version}"
 api-version: 1.13
 folia-supported: true

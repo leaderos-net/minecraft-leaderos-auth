@@ -1,12 +1,11 @@
-package net.leaderos.auth.command;
+package net.leaderos.auth.bukkit.command;
 
 import dev.triumphteam.cmd.core.BaseCommand;
 import dev.triumphteam.cmd.core.annotation.Default;
 import lombok.RequiredArgsConstructor;
-import net.kyori.adventure.title.Title;
-import net.leaderos.auth.Bukkit;
-import net.leaderos.auth.helpers.ChatUtil;
-import net.leaderos.auth.helpers.TitleUtil;
+import net.leaderos.auth.bukkit.Bukkit;
+import net.leaderos.auth.bukkit.helpers.ChatUtil;
+import net.leaderos.auth.bukkit.helpers.TitleUtil;
 import net.leaderos.shared.Shared;
 import net.leaderos.shared.enums.ErrorCode;
 import net.leaderos.shared.enums.SessionStatus;
@@ -16,9 +15,7 @@ import net.leaderos.shared.helpers.UserAgentUtil;
 import net.leaderos.shared.model.response.GameSessionResponse;
 import org.bukkit.entity.Player;
 
-import java.time.Duration;
 import java.util.List;
-import java.util.concurrent.TimeUnit;
 
 @RequiredArgsConstructor
 public class LoginCommand extends BaseCommand {

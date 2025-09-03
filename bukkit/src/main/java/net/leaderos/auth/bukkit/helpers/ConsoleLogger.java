@@ -1,6 +1,6 @@
-package net.leaderos.auth.helpers;
+package net.leaderos.auth.bukkit.helpers;
 
-import net.leaderos.auth.Bukkit;
+import net.leaderos.auth.bukkit.Bukkit;
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.Marker;
 import org.apache.logging.log4j.core.Filter;

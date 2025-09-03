@@ -1,10 +1,10 @@
-package net.leaderos.auth.listener;
+package net.leaderos.auth.bukkit.listener;
 
 import lombok.RequiredArgsConstructor;
-import net.leaderos.auth.Bukkit;
-import net.leaderos.auth.helpers.ChatUtil;
-import net.leaderos.auth.helpers.LocationUtil;
-import net.leaderos.auth.helpers.TitleUtil;
+import net.leaderos.auth.bukkit.Bukkit;
+import net.leaderos.auth.bukkit.helpers.ChatUtil;
+import net.leaderos.auth.bukkit.helpers.LocationUtil;
+import net.leaderos.auth.bukkit.helpers.TitleUtil;
 import net.leaderos.shared.Shared;
 import net.leaderos.shared.enums.SessionStatus;
 import net.leaderos.shared.helpers.Placeholder;

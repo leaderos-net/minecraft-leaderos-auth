@@ -1,7 +1,7 @@
-package net.leaderos.auth.listener;
+package net.leaderos.auth.bukkit.listener;
 
 import lombok.RequiredArgsConstructor;
-import net.leaderos.auth.Bukkit;
+import net.leaderos.auth.bukkit.Bukkit;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;

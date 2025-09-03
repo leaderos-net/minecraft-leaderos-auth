@@ -1,13 +1,13 @@
-package net.leaderos.auth.command;
+package net.leaderos.auth.bukkit.command;
 
 import dev.triumphteam.cmd.bukkit.annotation.Permission;
 import dev.triumphteam.cmd.core.BaseCommand;
 import dev.triumphteam.cmd.core.annotation.Command;
 import dev.triumphteam.cmd.core.annotation.SubCommand;
 import lombok.RequiredArgsConstructor;
-import net.leaderos.auth.Bukkit;
-import net.leaderos.auth.helpers.ChatUtil;
-import net.leaderos.auth.helpers.LocationUtil;
+import net.leaderos.auth.bukkit.Bukkit;
+import net.leaderos.auth.bukkit.helpers.ChatUtil;
+import net.leaderos.auth.bukkit.helpers.LocationUtil;
 import net.leaderos.shared.Shared;
 import net.leaderos.shared.helpers.UrlUtil;
 import org.bukkit.command.CommandSender;

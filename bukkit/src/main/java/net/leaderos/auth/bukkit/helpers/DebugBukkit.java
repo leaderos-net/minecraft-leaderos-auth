@@ -1,6 +1,6 @@
-package net.leaderos.auth.helpers;
+package net.leaderos.auth.bukkit.helpers;
 
-import net.leaderos.auth.Bukkit;
+import net.leaderos.auth.bukkit.Bukkit;
 import net.leaderos.shared.helpers.DebugAPI;
 import net.leaderos.shared.enums.DebugMode;
 

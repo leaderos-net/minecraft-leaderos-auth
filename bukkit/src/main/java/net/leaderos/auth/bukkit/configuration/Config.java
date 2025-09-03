@@ -1,4 +1,4 @@
-package net.leaderos.auth.configuration;
+package net.leaderos.auth.bukkit.configuration;
 
 import com.google.common.collect.Lists;
 import eu.okaeri.configs.OkaeriConfig;

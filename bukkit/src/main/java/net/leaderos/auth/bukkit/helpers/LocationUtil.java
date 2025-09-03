@@ -1,4 +1,4 @@
-package net.leaderos.auth.helpers;
+package net.leaderos.auth.bukkit.helpers;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Location;

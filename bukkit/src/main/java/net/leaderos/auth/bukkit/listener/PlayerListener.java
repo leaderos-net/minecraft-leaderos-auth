@@ -1,8 +1,8 @@
-package net.leaderos.auth.listener;
+package net.leaderos.auth.bukkit.listener;
 
 import lombok.RequiredArgsConstructor;
-import net.leaderos.auth.Bukkit;
-import net.leaderos.auth.helpers.LocationUtil;
+import net.leaderos.auth.bukkit.Bukkit;
+import net.leaderos.auth.bukkit.helpers.LocationUtil;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;

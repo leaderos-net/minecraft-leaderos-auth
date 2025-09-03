@@ -44,19 +44,19 @@
                     <relocations>
                         <relocation>
                             <pattern>dev.triumphteam</pattern>
-                            <shadedPattern>net.leaderos.auth.shades.triumphteam</shadedPattern>
+                            <shadedPattern>net.leaderos.auth.bukkit.shades.triumphteam</shadedPattern>
                         </relocation>
                         <relocation>
                             <pattern>eu.okaeri</pattern>
-                            <shadedPattern>net.leaderos.auth.shades.okaeri</shadedPattern>
+                            <shadedPattern>net.leaderos.auth.bukkit.shades.okaeri</shadedPattern>
                         </relocation>
                         <relocation>
                             <pattern>org.bstats</pattern>
-                            <shadedPattern>net.leaderos.auth.shades.bstats</shadedPattern>
+                            <shadedPattern>net.leaderos.auth.bukkit.shades.bstats</shadedPattern>
                         </relocation>
                         <relocation>
                             <pattern>com.tcoded.folialib</pattern>
-                            <shadedPattern>net.leaderos.auth.shades.folialib</shadedPattern>
+                            <shadedPattern>net.leaderos.auth.bukkit.shades.folialib</shadedPattern>
                         </relocation>
                     </relocations>
                 </configuration>

@@ -1,4 +1,4 @@
-package net.leaderos.auth.configuration.lang;
+package net.leaderos.auth.bukkit.configuration.lang;
 
 import com.google.common.collect.Lists;
 import eu.okaeri.configs.annotation.Comment;
@@ -7,7 +7,7 @@ import eu.okaeri.configs.annotation.NameStrategy;
 import eu.okaeri.configs.annotation.Names;
 import lombok.Getter;
 import lombok.Setter;
-import net.leaderos.auth.configuration.Language;
+import net.leaderos.auth.bukkit.configuration.Language;
 
 import java.util.List;
 
