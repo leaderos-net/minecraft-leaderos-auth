@@ -5,7 +5,7 @@ import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.TextColor;
 import net.kyori.adventure.text.serializer.legacy.LegacyComponentSerializer;
 import net.leaderos.auth.velocity.Velocity;
-import net.leaderos.shared.helpers.Placeholder;
+import net.leaderos.auth.shared.helpers.Placeholder;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.List;

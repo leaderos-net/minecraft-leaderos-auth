@@ -5,10 +5,10 @@ import net.leaderos.auth.bukkit.Bukkit;
 import net.leaderos.auth.bukkit.helpers.ChatUtil;
 import net.leaderos.auth.bukkit.helpers.LocationUtil;
 import net.leaderos.auth.bukkit.helpers.TitleUtil;
-import net.leaderos.shared.Shared;
-import net.leaderos.shared.enums.SessionStatus;
-import net.leaderos.shared.helpers.Placeholder;
-import net.leaderos.shared.model.response.GameSessionResponse;
+import net.leaderos.auth.shared.Shared;
+import net.leaderos.auth.shared.enums.SessionStatus;
+import net.leaderos.auth.shared.helpers.Placeholder;
+import net.leaderos.auth.shared.model.response.GameSessionResponse;
 
 import org.bukkit.GameMode;
 import org.bukkit.Location;

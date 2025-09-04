@@ -1,8 +1,8 @@
 package net.leaderos.auth.bukkit.helpers;
 
 import net.leaderos.auth.bukkit.Bukkit;
-import net.leaderos.shared.helpers.DebugAPI;
-import net.leaderos.shared.enums.DebugMode;
+import net.leaderos.auth.shared.helpers.DebugAPI;
+import net.leaderos.auth.shared.enums.DebugMode;
 
 /**
  * Sends debug to console

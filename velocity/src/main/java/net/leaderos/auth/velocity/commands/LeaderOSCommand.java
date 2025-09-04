@@ -4,8 +4,8 @@ import com.velocitypowered.api.command.CommandSource;
 import com.velocitypowered.api.command.SimpleCommand;
 import net.leaderos.auth.velocity.Velocity;
 import net.leaderos.auth.velocity.helpers.ChatUtil;
-import net.leaderos.shared.Shared;
-import net.leaderos.shared.helpers.UrlUtil;
+import net.leaderos.auth.shared.Shared;
+import net.leaderos.auth.shared.helpers.UrlUtil;
 
 public class LeaderOSCommand implements SimpleCommand {
 

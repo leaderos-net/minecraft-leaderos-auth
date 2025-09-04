@@ -2,7 +2,7 @@ package net.leaderos.auth.bungee.listener;
 
 import lombok.RequiredArgsConstructor;
 import net.leaderos.auth.bungee.Bungee;
-import net.leaderos.shared.Shared;
+import net.leaderos.auth.shared.Shared;
 import net.md_5.bungee.api.connection.ProxiedPlayer;
 import net.md_5.bungee.api.event.ChatEvent;
 import net.md_5.bungee.api.event.PlayerDisconnectEvent;

@@ -8,8 +8,8 @@ import lombok.RequiredArgsConstructor;
 import net.leaderos.auth.bukkit.Bukkit;
 import net.leaderos.auth.bukkit.helpers.ChatUtil;
 import net.leaderos.auth.bukkit.helpers.LocationUtil;
-import net.leaderos.shared.Shared;
-import net.leaderos.shared.helpers.UrlUtil;
+import net.leaderos.auth.shared.Shared;
+import net.leaderos.auth.shared.helpers.UrlUtil;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 

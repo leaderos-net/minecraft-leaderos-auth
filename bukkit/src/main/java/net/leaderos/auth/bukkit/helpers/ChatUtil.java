@@ -2,7 +2,7 @@ package net.leaderos.auth.bukkit.helpers;
 
 import me.clip.placeholderapi.PlaceholderAPI;
 import net.leaderos.auth.bukkit.Bukkit;
-import net.leaderos.shared.helpers.Placeholder;
+import net.leaderos.auth.shared.helpers.Placeholder;
 import net.md_5.bungee.api.ChatColor;
 import org.apache.commons.lang3.StringEscapeUtils;
 import org.bukkit.command.CommandSender;

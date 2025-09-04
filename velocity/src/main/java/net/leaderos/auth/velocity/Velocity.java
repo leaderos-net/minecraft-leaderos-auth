@@ -28,8 +28,8 @@ import net.leaderos.auth.velocity.configuration.Config;
 import net.leaderos.auth.velocity.configuration.Language;
 import net.leaderos.auth.velocity.helpers.DebugVelocity;
 import net.leaderos.auth.velocity.listener.ConnectionListener;
-import net.leaderos.shared.Shared;
-import net.leaderos.shared.helpers.UrlUtil;
+import net.leaderos.auth.shared.Shared;
+import net.leaderos.auth.shared.helpers.UrlUtil;
 import org.bstats.velocity.Metrics;
 import org.slf4j.Logger;
 

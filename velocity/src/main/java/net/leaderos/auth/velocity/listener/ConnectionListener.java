@@ -11,12 +11,12 @@ import net.leaderos.auth.velocity.Velocity;
 import net.leaderos.auth.velocity.handler.AuthSessionHandler;
 import net.leaderos.auth.velocity.handler.ValidSessionHandler;
 import net.leaderos.auth.velocity.helpers.ChatUtil;
-import net.leaderos.shared.Shared;
-import net.leaderos.shared.enums.SessionStatus;
-import net.leaderos.shared.helpers.AuthUtil;
-import net.leaderos.shared.helpers.Placeholder;
-import net.leaderos.shared.helpers.UserAgentUtil;
-import net.leaderos.shared.model.response.GameSessionResponse;
+import net.leaderos.auth.shared.Shared;
+import net.leaderos.auth.shared.enums.SessionStatus;
+import net.leaderos.auth.shared.helpers.AuthUtil;
+import net.leaderos.auth.shared.helpers.Placeholder;
+import net.leaderos.auth.shared.helpers.UserAgentUtil;
+import net.leaderos.auth.shared.model.response.GameSessionResponse;
 
 import java.util.List;
 

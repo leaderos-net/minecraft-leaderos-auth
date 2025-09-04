@@ -100,10 +100,27 @@
                 <artifactId>maven-shade-plugin</artifactId>
                 <version>3.6.0</version>
                 <configuration>
+                    <createDependencyReducedPom>false</createDependencyReducedPom>
                     <relocations>
                         <relocation>
                             <pattern>org.jetbrains.annotations</pattern>
                             <shadedPattern>net.leaderos.auth.shades.jetbrains</shadedPattern>
+                        </relocation>
+                        <relocation>
+                            <pattern>eu.okaeri</pattern>
+                            <shadedPattern>net.leaderos.auth.shades.okaeri</shadedPattern>
+                        </relocation>
+                        <relocation>
+                            <pattern>org.bstats</pattern>
+                            <shadedPattern>net.leaderos.auth.shades.bstats</shadedPattern>
+                        </relocation>
+                        <relocation>
+                            <pattern>dev.triumphteam</pattern>
+                            <shadedPattern>net.leaderos.auth.shades.triumphteam</shadedPattern>
+                        </relocation>
+                        <relocation>
+                            <pattern>com.tcoded.folialib</pattern>
+                            <shadedPattern>net.leaderos.auth.shades.folialib</shadedPattern>
                         </relocation>
                     </relocations>
                 </configuration>

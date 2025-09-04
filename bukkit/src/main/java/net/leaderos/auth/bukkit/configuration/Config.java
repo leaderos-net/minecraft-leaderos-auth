@@ -8,8 +8,8 @@ import eu.okaeri.configs.annotation.NameStrategy;
 import eu.okaeri.configs.annotation.Names;
 import lombok.Getter;
 import lombok.Setter;
-import net.leaderos.shared.enums.DebugMode;
-import net.leaderos.shared.enums.RegisterSecondArg;
+import net.leaderos.auth.shared.enums.DebugMode;
+import net.leaderos.auth.shared.enums.RegisterSecondArg;
 
 import java.util.List;
 

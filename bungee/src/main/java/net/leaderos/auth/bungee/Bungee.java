@@ -7,7 +7,7 @@ import net.leaderos.auth.bungee.configuration.Config;
 import net.leaderos.auth.bungee.helpers.DebugBungee;
 import net.leaderos.auth.bungee.listener.PlayerListener;
 import net.leaderos.auth.bungee.listener.PluginMessageListener;
-import net.leaderos.shared.Shared;
+import net.leaderos.auth.shared.Shared;
 import net.md_5.bungee.api.config.ServerInfo;
 import net.md_5.bungee.api.plugin.Plugin;
 import org.bstats.bungeecord.Metrics;

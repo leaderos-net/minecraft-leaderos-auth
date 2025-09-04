@@ -4,7 +4,7 @@ import com.google.common.io.ByteArrayDataInput;
 import com.google.common.io.ByteStreams;
 import lombok.RequiredArgsConstructor;
 import net.leaderos.auth.bungee.Bungee;
-import net.leaderos.shared.Shared;
+import net.leaderos.auth.shared.Shared;
 import net.md_5.bungee.api.connection.Server;
 import net.md_5.bungee.api.event.PluginMessageEvent;
 import net.md_5.bungee.api.plugin.Listener;
