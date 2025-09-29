@@ -8,6 +8,7 @@ import net.elytrium.limboapi.api.player.LimboPlayer;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.JoinConfiguration;
 import net.kyori.adventure.title.Title;
+import net.leaderos.auth.shared.helpers.ValidationUtil;
 import net.leaderos.auth.velocity.Velocity;
 import net.leaderos.auth.velocity.helpers.ChatUtil;
 import net.leaderos.auth.shared.Shared;
@@ -217,8 +218,15 @@ public class AuthSessionHandler implements LimboSessionHandler {
             String password = args[1];
             String secondArg = args[2];
 
-            if (!password.equals(secondArg)) {
+            // Check if second arg is confirmation and if it matches
+            if (secondArgType == RegisterSecondArg.PASSWORD_CONFIRM && !password.equals(secondArg)) {
                 ChatUtil.sendMessage(proxyPlayer, plugin.getLangFile().getMessages().getRegister().getPasswordMismatch());
+                return;
+            }
+
+            // Check if second arg is email and if it is valid
+            if (secondArgType == RegisterSecondArg.EMAIL && !ValidationUtil.isValidEmail(secondArg)) {
+                ChatUtil.sendMessage(proxyPlayer, plugin.getLangFile().getMessages().getRegister().getInvalidEmail());
                 return;
             }
 
