@@ -13,6 +13,7 @@ import org.json.JSONObject;
 import java.io.*;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
 import java.util.Map;
 
@@ -115,10 +116,10 @@ public abstract class Request {
                 }
                 encodedData.append(entry.getKey());
                 encodedData.append("=");
-                encodedData.append(entry.getValue());
+                encodedData.append(URLEncoder.encode(entry.getValue(), "UTF-8"));
             }
             return encodedData.toString();
-        } catch (NullPointerException e) {
+        } catch (NullPointerException | UnsupportedEncodingException e) {
             return null;
         }
     }
