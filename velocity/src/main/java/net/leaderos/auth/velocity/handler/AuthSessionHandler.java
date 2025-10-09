@@ -111,6 +111,8 @@ public class AuthSessionHandler implements LimboSessionHandler {
 
     @Override
     public void onChat(String message) {
+        if (!message.startsWith("/")) return;
+
         if (lastCommand > 0 && System.currentTimeMillis() - lastCommand < (plugin.getConfigFile().getSettings().getCommandCooldown() * 1000L)) {
             ChatUtil.sendMessage(proxyPlayer, plugin.getLangFile().getMessages().getWait());
             return;
