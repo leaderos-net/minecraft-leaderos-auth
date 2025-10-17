@@ -62,6 +62,10 @@ public class Language extends OkaeriConfig {
                 "&cInvalid username!"
         );
 
+        private List<String> kickEmailNotVerified = Lists.newArrayList(
+                "&cPlease verify your email on our website to continue."
+        );
+
         private String unknownAuthCommand = "{prefix} &cUnknown authentication command! Please use &a/register <password> <password> &cor &a/login <password> &ccommands.";
 
         private String reload = "{prefix} &aPlugin reloaded successfully.";

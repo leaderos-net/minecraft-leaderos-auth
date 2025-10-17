@@ -78,7 +78,8 @@ public class AuthUtil {
                     return new RegisterResponse(
                             true,
                             null,
-                            response.getResponseMessage().getJSONObject("data").getString("token")
+                            response.getResponseMessage().getJSONObject("data").getString("token"),
+                            response.getResponseMessage().getJSONObject("data").getBoolean("isEmailVerificationRequired")
                     );
                 }
 
@@ -86,7 +87,8 @@ public class AuthUtil {
                 return new RegisterResponse(
                         false,
                         ErrorCode.valueOf(response.getError().name()),
-                        null
+                        null,
+                        false
                 );
             } catch (IOException e) {
                 throw new RuntimeException(e);

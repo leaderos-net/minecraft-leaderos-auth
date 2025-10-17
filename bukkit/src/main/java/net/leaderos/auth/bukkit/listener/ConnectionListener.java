@@ -53,6 +53,22 @@ public class ConnectionListener implements Listener {
                 return;
             }
 
+            // Check email verification status
+            if (session.getStatus() == SessionStatus.EMAIL_NOT_VERIFIED) {
+                // Kick the player if their email is not verified and kicking is enabled
+                if (plugin.getConfigFile().getSettings().getEmailVerification().isKickNonVerified()) {
+                    event.disallow(AsyncPlayerPreLoginEvent.Result.KICK_OTHER, String.join("\n",
+                            ChatUtil.replacePlaceholders(plugin.getLangFile().getMessages().getKickEmailNotVerified(),
+                                    new Placeholder("{prefix}", plugin.getLangFile().getMessages().getPrefix()))));
+
+                    plugin.getSessions().remove(playerName);
+                    return;
+                } else {
+                    // If email verification is disabled, set status to LOGIN_REQUIRED
+                    session.setStatus(SessionStatus.LOGIN_REQUIRED);
+                }
+            }
+
             // Kick the player if they are not registered and kicking is enabled
             if (plugin.getConfigFile().getSettings().isKickNonRegistered() && session.getStatus() == SessionStatus.ACCOUNT_NOT_FOUND) {
                 event.disallow(AsyncPlayerPreLoginEvent.Result.KICK_OTHER, String.join("\n",

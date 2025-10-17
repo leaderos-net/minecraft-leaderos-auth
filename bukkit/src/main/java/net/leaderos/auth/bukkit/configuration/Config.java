@@ -98,6 +98,22 @@ public class Config extends OkaeriConfig {
             private String server = "lobby";
         }
 
+        @Comment({
+                "Email verification settings",
+                "To use this feature, make sure the Email Verification module is enabled on your website."
+        })
+        private EmailVerification emailVerification = new EmailVerification();
+
+        @Getter
+        @Setter
+        public static class EmailVerification extends OkaeriConfig {
+            @Comment("Should unverified players be kicked?")
+            private boolean kickNonVerified = false;
+
+            @Comment("Should players be kicked immediately after registration to verify their email?")
+            private boolean kickAfterRegister = false;
+        }
+
         @Comment("Teleport players to spawn on join")
         private Spawn spawn = new Spawn();
 

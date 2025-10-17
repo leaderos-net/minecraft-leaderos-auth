@@ -12,4 +12,5 @@ public class RegisterResponse {
     private boolean status;
     private ErrorCode error;
     private String token;
+    private boolean isEmailVerificationRequired;
 }

@@ -101,6 +101,15 @@ public class RegisterCommand extends BaseCommand {
                     }
 
                     if (result.isStatus()) {
+                        // Kick the player if email verification is required
+                        if (result.isEmailVerificationRequired() && plugin.getConfigFile().getSettings().getEmailVerification().isKickAfterRegister()) {
+                            player.kickPlayer(String.join("\n",
+                                    ChatUtil.replacePlaceholders(plugin.getLangFile().getMessages().getKickEmailNotVerified(),
+                                            new Placeholder("{prefix}", plugin.getLangFile().getMessages().getPrefix()))
+                            ));
+                            return;
+                        }
+
                         TitleUtil.clearTitle(player);
 
                         session.setStatus(SessionStatus.AUTHENTICATED);

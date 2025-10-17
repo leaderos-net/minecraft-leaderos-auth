@@ -61,6 +61,10 @@ public class tr extends Language {
                 "&cGeçersiz kullanıcı adı!"
         );
 
+        private List<String> kickEmailNotVerified = Lists.newArrayList(
+                "&cSunucumuzda oynayabilmek için lütfen email adresinizi websitemizden doğrulayınız."
+        );
+
         private String unknownAuthCommand = "{prefix} &cBilinmeyen komut! Lütfen &a/register <şifre> <şifre> &aveya &a/login <şifre> &ckomutlarını kullanın.";
 
         private String reload = "{prefix} &aEklenti başarıyla yeniden yüklendi.";

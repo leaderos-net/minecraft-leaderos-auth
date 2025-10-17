@@ -262,6 +262,13 @@ public class AuthSessionHandler implements LimboSessionHandler {
                 }
 
                 if (result.isStatus()) {
+                    // Kick the player if email verification is required
+                    if (result.isEmailVerificationRequired() && plugin.getConfigFile().getSettings().getEmailVerification().isKickAfterRegister()) {
+                        proxyPlayer.disconnect(Component.join(JoinConfiguration.newlines(),
+                                ChatUtil.replacePlaceholders(plugin.getLangFile().getMessages().getKickEmailNotVerified(), new Placeholder("{prefix}", plugin.getLangFile().getMessages().getPrefix()))));
+                        return;
+                    }
+
                     // Change session status to authenticated
                     session.setStatus(SessionStatus.AUTHENTICATED);
 

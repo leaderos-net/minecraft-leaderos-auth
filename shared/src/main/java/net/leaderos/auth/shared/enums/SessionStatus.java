@@ -7,6 +7,7 @@ public enum SessionStatus {
     ACCOUNT_NOT_FOUND,
     HAS_SESSION,
     TFA_REQUIRED,
-    INVALID_USERNAME
+    INVALID_USERNAME,
+    EMAIL_NOT_VERIFIED
 
 }
