@@ -2,7 +2,9 @@ package net.leaderos.auth.bukkit.listener;
 
 import lombok.RequiredArgsConstructor;
 import net.leaderos.auth.bukkit.Bukkit;
+import net.leaderos.auth.bukkit.helpers.BossBarUtil;
 import net.leaderos.auth.bukkit.helpers.ChatUtil;
+import net.leaderos.auth.bukkit.helpers.TitleUtil;
 import net.leaderos.auth.shared.Shared;
 import net.leaderos.auth.shared.enums.SessionStatus;
 import net.leaderos.auth.shared.helpers.AuthUtil;
@@ -101,6 +103,16 @@ public class ConnectionListener implements Listener {
     public void onQuit(PlayerQuitEvent event) {
         Player player = event.getPlayer();
         plugin.getSessions().remove(player.getName());
+
+        // Clear title
+        if (plugin.getConfigFile().getSettings().isShowTitle()) {
+            TitleUtil.clearTitle(player);
+        }
+
+        // Clear boss bar
+        if (plugin.getConfigFile().getSettings().getBossBar().isEnabled()) {
+            BossBarUtil.hideBossBar(player);
+        }
     }
 
     @EventHandler(ignoreCancelled = true, priority = EventPriority.HIGHEST)

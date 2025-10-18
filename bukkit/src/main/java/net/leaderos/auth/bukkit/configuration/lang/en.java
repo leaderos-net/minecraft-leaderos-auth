@@ -91,7 +91,7 @@ public class en extends Language {
 
             private String subtitle = "&e/register <password> <password>";
 
-            private int titleDuration = 30; // in seconds
+            private String bossBar = "&fPlease register within {seconds} seconds!";
 
             private String message = "{prefix} &ePlease register using &a/register <password> <password> &ecommand.";
 
@@ -127,7 +127,7 @@ public class en extends Language {
 
             private String subtitle = "&e/login <password>";
 
-            private int titleDuration = 30; // in seconds
+            private String bossBar = "&fPlease login within {seconds} seconds!";
 
             private String message = "{prefix} &ePlease login using &a/login <password> &ecommand.";
 
@@ -147,7 +147,7 @@ public class en extends Language {
 
             private String subtitle = "&e/tfa <code>";
 
-            private int titleDuration = 30; // in seconds
+            private String bossBar = "&fEnter your TFA code within {seconds} seconds!";
 
             private String required = "{prefix} &eTwo-factor authentication is required! Please enter your TFA code using &a/tfa <code> &ecommand.";
 

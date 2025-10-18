@@ -130,6 +130,32 @@ public class Config extends OkaeriConfig {
             private String location = "";
         }
 
+        @Comment("Should the title messages be shown to players?")
+        private boolean showTitle = true;
+
+        @Comment("Bossbar settings")
+        private BossBar bossBar = new BossBar();
+
+        @Getter
+        @Setter
+        public static class BossBar extends OkaeriConfig {
+            @Comment("Should bossbar be enabled?")
+            private boolean enabled = false;
+
+            @Comment({
+                    "Bossbar color",
+                    "AUTO: The color will change based on the remaining time.",
+                    "Available colors: PINK, BLUE, RED, GREEN, YELLOW, PURPLE, WHITE, BLACK, AUTO"
+            })
+            private String color = "AUTO";
+
+            @Comment({
+                    "Bossbar style",
+                    "Available styles: PROGRESS, NOTCHED_6, NOTCHED_10, NOTCHED_12, NOTCHED_20"
+            })
+            private String style = "PROGRESS";
+        }
+
         @Comment("List of login commands")
         private List<String> loginCommands = Lists.newArrayList("login", "log", "l", "giris", "giriş", "gir");
 

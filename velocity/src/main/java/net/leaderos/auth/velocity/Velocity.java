@@ -45,7 +45,7 @@ import java.util.Collections;
 @Plugin(
         id = "leaderosauth",
         name = "LeaderOS-Auth",
-        version = "1.0.2",
+        version = "1.0.3",
         url = "https://leaderos.net",
         description = "LeaderOS Auth for Velocity",
         authors = {"leaderos", "efekurbann"},

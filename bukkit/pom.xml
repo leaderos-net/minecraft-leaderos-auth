@@ -105,5 +105,11 @@
             <version>0.5.1</version>
             <scope>compile</scope>
         </dependency>
+        <!-- BossBarAPI -->
+        <dependency>
+            <groupId>com.github.InventivetalentDev</groupId>
+            <artifactId>BossBarAPI</artifactId>
+            <version>2.4.3-SNAPSHOT</version>
+        </dependency>
     </dependencies>
 </project>

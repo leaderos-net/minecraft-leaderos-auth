@@ -4,6 +4,7 @@ import dev.triumphteam.cmd.core.BaseCommand;
 import dev.triumphteam.cmd.core.annotation.Default;
 import lombok.RequiredArgsConstructor;
 import net.leaderos.auth.bukkit.Bukkit;
+import net.leaderos.auth.bukkit.helpers.BossBarUtil;
 import net.leaderos.auth.bukkit.helpers.ChatUtil;
 import net.leaderos.auth.bukkit.helpers.TitleUtil;
 import net.leaderos.auth.shared.Shared;
@@ -72,15 +73,28 @@ public class LoginCommand extends BaseCommand {
                             session.setStatus(SessionStatus.TFA_REQUIRED);
 
                             // Update title to TFA
-                            String tfaTitle = ChatUtil.color(plugin.getLangFile().getMessages().getTfa().getTitle());
-                            String tfaSubtitle = ChatUtil.color(plugin.getLangFile().getMessages().getTfa().getSubtitle());
-                            TitleUtil.sendTitle(player, tfaTitle, tfaSubtitle, 0, plugin.getLangFile().getMessages().getTfa().getTitleDuration() * 20, 10);
+                            if (plugin.getConfigFile().getSettings().isShowTitle()) {
+                                TitleUtil.sendTitle(
+                                        player,
+                                        ChatUtil.color(plugin.getLangFile().getMessages().getTfa().getTitle()),
+                                        ChatUtil.color(plugin.getLangFile().getMessages().getTfa().getSubtitle()),
+                                        0,
+                                        plugin.getConfigFile().getSettings().getAuthTimeout() * 20, 10
+                                );
+                            }
 
                             ChatUtil.sendMessage(player, plugin.getLangFile().getMessages().getTfa().getRequired());
                             ChatUtil.sendMessage(player, plugin.getLangFile().getMessages().getTfa().getUsage());
                         } else {
                             // Clear title
-                            TitleUtil.clearTitle(player);
+                            if (plugin.getConfigFile().getSettings().isShowTitle()) {
+                                TitleUtil.clearTitle(player);
+                            }
+
+                            // Clear boss bar
+                            if (plugin.getConfigFile().getSettings().getBossBar().isEnabled()) {
+                                BossBarUtil.hideBossBar(player);
+                            }
 
                             // Change session status to authenticated
                             session.setStatus(SessionStatus.AUTHENTICATED);

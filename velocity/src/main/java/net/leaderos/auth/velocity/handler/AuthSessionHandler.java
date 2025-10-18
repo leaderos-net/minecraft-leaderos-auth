@@ -5,6 +5,7 @@ import lombok.RequiredArgsConstructor;
 import net.elytrium.limboapi.api.Limbo;
 import net.elytrium.limboapi.api.LimboSessionHandler;
 import net.elytrium.limboapi.api.player.LimboPlayer;
+import net.kyori.adventure.bossbar.BossBar;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.JoinConfiguration;
 import net.kyori.adventure.title.Title;
@@ -39,6 +40,8 @@ public class AuthSessionHandler implements LimboSessionHandler {
 
     private ScheduledFuture<?> authMainTask;
 
+    private BossBar bossBar;
+
     @Override
     public void onSpawn(Limbo server, LimboPlayer player) {
         this.limboPlayer = player;
@@ -54,36 +57,45 @@ public class AuthSessionHandler implements LimboSessionHandler {
 
         if (session.getStatus() == SessionStatus.LOGIN_REQUIRED) {
             ChatUtil.sendMessage(proxyPlayer, plugin.getLangFile().getMessages().getLogin().getMessage());
-            proxyPlayer.showTitle(Title.title(ChatUtil.color(plugin.getLangFile().getMessages().getLogin().getTitle()),
-                    ChatUtil.color(plugin.getLangFile().getMessages().getLogin().getSubtitle()),
-                    Title.Times.times(
-                            Duration.ZERO,
-                            Duration.ofSeconds(plugin.getLangFile().getMessages().getLogin().getTitleDuration()),
-                            Duration.ZERO
-                    ))
-            );
+
+            if (plugin.getConfigFile().getSettings().isShowTitle()) {
+                proxyPlayer.showTitle(Title.title(ChatUtil.color(plugin.getLangFile().getMessages().getLogin().getTitle()),
+                        ChatUtil.color(plugin.getLangFile().getMessages().getLogin().getSubtitle()),
+                        Title.Times.times(
+                                Duration.ZERO,
+                                Duration.ofSeconds(plugin.getConfigFile().getSettings().getAuthTimeout()),
+                                Duration.ZERO
+                        ))
+                );
+            }
         }
         if (session.getStatus() == SessionStatus.ACCOUNT_NOT_FOUND) {
-            proxyPlayer.showTitle(Title.title(ChatUtil.color(plugin.getLangFile().getMessages().getRegister().getTitle()),
-                    ChatUtil.color(plugin.getLangFile().getMessages().getRegister().getSubtitle()),
-                    Title.Times.times(
-                            Duration.ZERO,
-                            Duration.ofSeconds(plugin.getLangFile().getMessages().getRegister().getTitleDuration()),
-                            Duration.ZERO
-                    ))
-            );
             ChatUtil.sendMessage(proxyPlayer, plugin.getLangFile().getMessages().getRegister().getMessage());
+
+            if (plugin.getConfigFile().getSettings().isShowTitle()) {
+                proxyPlayer.showTitle(Title.title(ChatUtil.color(plugin.getLangFile().getMessages().getRegister().getTitle()),
+                        ChatUtil.color(plugin.getLangFile().getMessages().getRegister().getSubtitle()),
+                        Title.Times.times(
+                                Duration.ZERO,
+                                Duration.ofSeconds(plugin.getConfigFile().getSettings().getAuthTimeout()),
+                                Duration.ZERO
+                        ))
+                );
+            }
         }
         if (session.getStatus() == SessionStatus.TFA_REQUIRED) {
-            proxyPlayer.showTitle(Title.title(ChatUtil.color(plugin.getLangFile().getMessages().getTfa().getTitle()),
-                    ChatUtil.color(plugin.getLangFile().getMessages().getTfa().getSubtitle()),
-                    Title.Times.times(
-                            Duration.ZERO,
-                            Duration.ofSeconds(plugin.getLangFile().getMessages().getTfa().getTitleDuration()),
-                            Duration.ZERO
-                    ))
-            );
             ChatUtil.sendMessage(proxyPlayer, plugin.getLangFile().getMessages().getTfa().getRequired());
+
+            if (plugin.getConfigFile().getSettings().isShowTitle()) {
+                proxyPlayer.showTitle(Title.title(ChatUtil.color(plugin.getLangFile().getMessages().getTfa().getTitle()),
+                        ChatUtil.color(plugin.getLangFile().getMessages().getTfa().getSubtitle()),
+                        Title.Times.times(
+                                Duration.ZERO,
+                                Duration.ofSeconds(plugin.getConfigFile().getSettings().getAuthTimeout()),
+                                Duration.ZERO
+                        ))
+                );
+            }
         }
 
         AtomicInteger i = new AtomicInteger();
@@ -105,6 +117,54 @@ public class AuthSessionHandler implements LimboSessionHandler {
                 if (session.getStatus() == SessionStatus.TFA_REQUIRED) {
                     ChatUtil.sendMessage(proxyPlayer, plugin.getLangFile().getMessages().getTfa().getRequired());
                 }
+            }
+
+            // Update boss bar progress
+            if (plugin.getConfigFile().getSettings().getBossBar().isEnabled()) {
+                int remainingSeconds = (int) ((plugin.getConfigFile().getSettings().getAuthTimeout() * 1000L - (System.currentTimeMillis() - this.joinTime)) / 1000L);
+                float progress = 1.0f - ((System.currentTimeMillis() - this.joinTime) / (float)(plugin.getConfigFile().getSettings().getAuthTimeout() * 1000L));
+                float barProgress = (Math.max(0f, Math.min(1f, progress)));
+
+                String barTitle = "";
+                if (session.getStatus() == SessionStatus.LOGIN_REQUIRED) {
+                    barTitle = plugin.getLangFile().getMessages().getLogin().getBossBar().replace("{seconds}", String.valueOf(remainingSeconds));
+                }
+                if (session.getStatus() == SessionStatus.ACCOUNT_NOT_FOUND) {
+                    barTitle = plugin.getLangFile().getMessages().getRegister().getBossBar().replace("{seconds}", String.valueOf(remainingSeconds));
+                }
+                if (session.getStatus() == SessionStatus.TFA_REQUIRED) {
+                    barTitle = plugin.getLangFile().getMessages().getTfa().getBossBar().replace("{seconds}", String.valueOf(remainingSeconds));
+                }
+
+                // Set bar color to auto if enabled
+                BossBar.Color barColor;
+                if (plugin.getConfigFile().getSettings().getBossBar().getColor().equals("AUTO")) {
+                    if (progress > 0.5f) {
+                        barColor = BossBar.Color.GREEN;
+                    } else if (progress > 0.25f) {
+                        barColor = BossBar.Color.YELLOW;
+                    } else {
+                        barColor = BossBar.Color.RED;
+                    }
+                } else {
+                    barColor = BossBar.Color.valueOf(plugin.getConfigFile().getSettings().getBossBar().getColor());
+                }
+
+                if (bossBar == null) {
+                    bossBar = BossBar.bossBar(
+                            ChatUtil.color(barTitle),
+                            barProgress,
+                            barColor,
+                            plugin.getConfigFile().getSettings().getBossBar().getStyle()
+                    );
+                } else {
+                    bossBar.name(ChatUtil.color(barTitle));
+                    bossBar.progress(barProgress);
+                    bossBar.color(barColor);
+                }
+
+                // Show boss bar to player
+                proxyPlayer.showBossBar(bossBar);
             }
         }, 0, 1, TimeUnit.SECONDS);
     }
@@ -162,14 +222,16 @@ public class AuthSessionHandler implements LimboSessionHandler {
                         this.joinTime = System.currentTimeMillis();
 
                         // Update title to TFA
-                        proxyPlayer.showTitle(Title.title(ChatUtil.color(plugin.getLangFile().getMessages().getTfa().getTitle()),
-                                ChatUtil.color(plugin.getLangFile().getMessages().getTfa().getSubtitle()),
-                                Title.Times.times(
-                                        Duration.ZERO,
-                                        Duration.ofSeconds(plugin.getLangFile().getMessages().getTfa().getTitleDuration()),
-                                        Duration.ZERO
-                                ))
-                        );
+                        if (plugin.getConfigFile().getSettings().isShowTitle()) {
+                            proxyPlayer.showTitle(Title.title(ChatUtil.color(plugin.getLangFile().getMessages().getTfa().getTitle()),
+                                    ChatUtil.color(plugin.getLangFile().getMessages().getTfa().getSubtitle()),
+                                    Title.Times.times(
+                                            Duration.ZERO,
+                                            Duration.ofSeconds(plugin.getConfigFile().getSettings().getAuthTimeout()),
+                                            Duration.ZERO
+                                    ))
+                            );
+                        }
 
                         ChatUtil.sendMessage(proxyPlayer, plugin.getLangFile().getMessages().getTfa().getRequired());
                         ChatUtil.sendMessage(proxyPlayer, plugin.getLangFile().getMessages().getTfa().getUsage());
@@ -354,6 +416,12 @@ public class AuthSessionHandler implements LimboSessionHandler {
             authMainTask.cancel(true);
         }
 
-        proxyPlayer.clearTitle();
+        if (plugin.getConfigFile().getSettings().isShowTitle()) {
+            proxyPlayer.clearTitle();
+        }
+
+        if (bossBar != null) {
+            proxyPlayer.hideBossBar(bossBar);
+        }
     }
 }

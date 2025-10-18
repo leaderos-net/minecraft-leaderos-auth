@@ -4,6 +4,7 @@ import dev.triumphteam.cmd.core.BaseCommand;
 import dev.triumphteam.cmd.core.annotation.Default;
 import lombok.RequiredArgsConstructor;
 import net.leaderos.auth.bukkit.Bukkit;
+import net.leaderos.auth.bukkit.helpers.BossBarUtil;
 import net.leaderos.auth.bukkit.helpers.ChatUtil;
 import net.leaderos.auth.bukkit.helpers.TitleUtil;
 import net.leaderos.auth.shared.Shared;
@@ -110,7 +111,15 @@ public class RegisterCommand extends BaseCommand {
                             return;
                         }
 
-                        TitleUtil.clearTitle(player);
+                        // Clear title
+                        if (plugin.getConfigFile().getSettings().isShowTitle()) {
+                            TitleUtil.clearTitle(player);
+                        }
+
+                        // Clear boss bar
+                        if (plugin.getConfigFile().getSettings().getBossBar().isEnabled()) {
+                            BossBarUtil.hideBossBar(player);
+                        }
 
                         session.setStatus(SessionStatus.AUTHENTICATED);
                         session.setToken(result.getToken());

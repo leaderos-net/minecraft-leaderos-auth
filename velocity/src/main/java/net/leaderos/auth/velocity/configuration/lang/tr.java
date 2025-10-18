@@ -88,7 +88,7 @@ public class tr extends Language {
 
             private String subtitle = "&e/register <şifre> <şifre>";
 
-            private int titleDuration = 30; // in seconds
+            private String bossBar = "&fKayıt olmak için {seconds} saniye kaldı!";
 
             private String message = "{prefix} &eLütfen &a/register <şifre> <şifre> &ekomutu ile kayıt olun.";
 
@@ -124,7 +124,7 @@ public class tr extends Language {
 
             private String subtitle = "&e/login <şifre>";
 
-            private int titleDuration = 30; // in seconds
+            private String bossBar = "&fGiriş yapmak için {seconds} saniye kaldı!";
 
             private String message = "{prefix} &eLütfen &a/login <şifre> &ekomutu ile giriş yapın.";
 
@@ -144,7 +144,7 @@ public class tr extends Language {
 
             private String subtitle = "&e/tfa <kod>";
 
-            private int titleDuration = 30; // in seconds
+            private String bossBar = "&fLütfen {seconds} saniye içinde kodu giriniz.";
 
             private String required = "{prefix} &eİki faktörlü kimlik doğrulama gerekli! Lütfen TFA kodunuzu &a/tfa <kod> &ekomutu ile girin.";
 

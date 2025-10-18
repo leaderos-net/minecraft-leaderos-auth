@@ -2,6 +2,7 @@ package net.leaderos.auth.bukkit.listener;
 
 import lombok.RequiredArgsConstructor;
 import net.leaderos.auth.bukkit.Bukkit;
+import net.leaderos.auth.bukkit.helpers.BossBarUtil;
 import net.leaderos.auth.bukkit.helpers.ChatUtil;
 import net.leaderos.auth.bukkit.helpers.LocationUtil;
 import net.leaderos.auth.bukkit.helpers.TitleUtil;
@@ -64,19 +65,37 @@ public class JoinListener implements Listener {
             }
 
             if (session.getStatus() == SessionStatus.LOGIN_REQUIRED) {
-                String title = ChatUtil.color(plugin.getLangFile().getMessages().getLogin().getTitle());
-                String subtitle = ChatUtil.color(plugin.getLangFile().getMessages().getLogin().getSubtitle());
-                TitleUtil.sendTitle(player, title, subtitle, 10, plugin.getLangFile().getMessages().getLogin().getTitleDuration() * 20, 10);
+                if (plugin.getConfigFile().getSettings().isShowTitle()) {
+                    TitleUtil.sendTitle(
+                            player,
+                            ChatUtil.color(plugin.getLangFile().getMessages().getLogin().getTitle()),
+                            ChatUtil.color(plugin.getLangFile().getMessages().getLogin().getSubtitle()),
+                            10,
+                            plugin.getConfigFile().getSettings().getAuthTimeout() * 20, 10
+                    );
+                }
             }
             if (session.getStatus() == SessionStatus.ACCOUNT_NOT_FOUND) {
-                String title = ChatUtil.color(plugin.getLangFile().getMessages().getRegister().getTitle());
-                String subtitle = ChatUtil.color(plugin.getLangFile().getMessages().getRegister().getSubtitle());
-                TitleUtil.sendTitle(player, title, subtitle, 10, plugin.getLangFile().getMessages().getRegister().getTitleDuration() * 20, 10);
+                if (plugin.getConfigFile().getSettings().isShowTitle()) {
+                    TitleUtil.sendTitle(
+                            player,
+                            ChatUtil.color(plugin.getLangFile().getMessages().getRegister().getTitle()),
+                            ChatUtil.color(plugin.getLangFile().getMessages().getRegister().getSubtitle()),
+                            10,
+                            plugin.getConfigFile().getSettings().getAuthTimeout() * 20, 10
+                    );
+                }
             }
             if (session.getStatus() == SessionStatus.TFA_REQUIRED) {
-                String title = ChatUtil.color(plugin.getLangFile().getMessages().getTfa().getTitle());
-                String subtitle = ChatUtil.color(plugin.getLangFile().getMessages().getTfa().getSubtitle());
-                TitleUtil.sendTitle(player, title, subtitle, 10, plugin.getLangFile().getMessages().getTfa().getTitleDuration() * 20, 10);
+                if (plugin.getConfigFile().getSettings().isShowTitle()) {
+                    TitleUtil.sendTitle(
+                            player,
+                            ChatUtil.color(plugin.getLangFile().getMessages().getTfa().getTitle()),
+                            ChatUtil.color(plugin.getLangFile().getMessages().getTfa().getSubtitle()),
+                            10,
+                            plugin.getConfigFile().getSettings().getAuthTimeout() * 20, 10
+                    );
+                }
             }
 
             long joinTime = System.currentTimeMillis();
@@ -107,6 +126,40 @@ public class JoinListener implements Listener {
                     if (session.getStatus() == SessionStatus.TFA_REQUIRED) {
                         ChatUtil.sendMessage(player, plugin.getLangFile().getMessages().getTfa().getRequired());
                     }
+                }
+
+                // Update boss bar progress
+                if (plugin.getConfigFile().getSettings().getBossBar().isEnabled()) {
+                    int remainingSeconds = (int) ((plugin.getConfigFile().getSettings().getAuthTimeout() * 1000L - (System.currentTimeMillis() - joinTime)) / 1000L);
+                    float progress = 1.0f - ((System.currentTimeMillis() - joinTime) / (float) (plugin.getConfigFile().getSettings().getAuthTimeout() * 1000L));
+                    float barProgress = (Math.max(0f, Math.min(1f, progress)));
+
+                    String barTitle = "";
+                    if (session.getStatus() == SessionStatus.LOGIN_REQUIRED) {
+                        barTitle = plugin.getLangFile().getMessages().getLogin().getBossBar().replace("{seconds}", String.valueOf(remainingSeconds));
+                    }
+                    if (session.getStatus() == SessionStatus.ACCOUNT_NOT_FOUND) {
+                        barTitle = plugin.getLangFile().getMessages().getRegister().getBossBar().replace("{seconds}", String.valueOf(remainingSeconds));
+                    }
+                    if (session.getStatus() == SessionStatus.TFA_REQUIRED) {
+                        barTitle = plugin.getLangFile().getMessages().getTfa().getBossBar().replace("{seconds}", String.valueOf(remainingSeconds));
+                    }
+
+                    // Set bar color to auto if enabled
+                    String barColor;
+                    if (plugin.getConfigFile().getSettings().getBossBar().getColor().equals("AUTO")) {
+                        if (progress > 0.5f) {
+                            barColor = "GREEN";
+                        } else if (progress > 0.25f) {
+                            barColor = "YELLOW";
+                        } else {
+                            barColor = "RED";
+                        }
+                    } else {
+                        barColor = plugin.getConfigFile().getSettings().getBossBar().getColor();
+                    }
+
+                    BossBarUtil.showBossBar(player, barTitle, barProgress, barColor, plugin.getConfigFile().getSettings().getBossBar().getStyle());
                 }
             }, 10L, 20L);
 

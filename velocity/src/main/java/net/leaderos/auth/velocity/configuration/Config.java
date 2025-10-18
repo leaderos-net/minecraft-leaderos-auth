@@ -7,6 +7,7 @@ import eu.okaeri.configs.annotation.NameStrategy;
 import eu.okaeri.configs.annotation.Names;
 import lombok.Getter;
 import lombok.Setter;
+import net.kyori.adventure.bossbar.BossBar;
 import net.leaderos.auth.shared.enums.DebugMode;
 import net.leaderos.auth.shared.enums.RegisterSecondArg;
 
@@ -81,18 +82,6 @@ public class Config extends OkaeriConfig {
         })
         private RegisterSecondArg registerSecondArg = RegisterSecondArg.PASSWORD_CONFIRM;
 
-        @Comment("List of commands that will be used to log in")
-        private List<String> loginCommands = List.of("login", "log", "l", "giris", "giriş", "gir");
-
-        @Comment("List of commands that will be used to register")
-        private List<String> registerCommands = List.of("register", "reg", "kayit", "kayıt", "kaydol");
-
-        @Comment("List of commands that will be used to tfa")
-        private List<String> tfaCommands = List.of("tfa", "2fa");
-
-        @Comment("Blacklist of passwords that cannot be used")
-        private List<String> unsafePasswords = List.of("123456", "password", "qwerty", "123456789", "help", "sifre", "12345", "asd123", "qwe123");
-
         @Comment({
                 "Email verification settings",
                 "To use this feature, make sure the Email Verification module is enabled on your website."
@@ -107,6 +96,32 @@ public class Config extends OkaeriConfig {
 
             @Comment("Should players be kicked immediately after registration to verify their email?")
             private boolean kickAfterRegister = false;
+        }
+
+        @Comment("Should the title messages be shown to players?")
+        private boolean showTitle = true;
+
+        @Comment("Bossbar settings")
+        private BossBar bossBar = new BossBar();
+
+        @Getter
+        @Setter
+        public static class BossBar extends OkaeriConfig {
+            @Comment("Should bossbar be enabled?")
+            private boolean enabled = false;
+
+            @Comment({
+                    "Bossbar color",
+                    "AUTO: The color will change based on the remaining time.",
+                    "Available colors: PINK, BLUE, RED, GREEN, YELLOW, PURPLE, WHITE, BLACK, AUTO"
+            })
+            private String color = "AUTO";
+
+            @Comment({
+                    "Bossbar style",
+                    "Available styles: PROGRESS, NOTCHED_6, NOTCHED_10, NOTCHED_12, NOTCHED_20"
+            })
+            private net.kyori.adventure.bossbar.BossBar.Overlay style = net.kyori.adventure.bossbar.BossBar.Overlay.PROGRESS;
         }
 
         @Comment("Custom world settings")
@@ -143,6 +158,18 @@ public class Config extends OkaeriConfig {
                 private double pitch = 0;
             }
         }
+
+        @Comment("List of commands that will be used to log in")
+        private List<String> loginCommands = List.of("login", "log", "l", "giris", "giriş", "gir");
+
+        @Comment("List of commands that will be used to register")
+        private List<String> registerCommands = List.of("register", "reg", "kayit", "kayıt", "kaydol");
+
+        @Comment("List of commands that will be used to tfa")
+        private List<String> tfaCommands = List.of("tfa", "2fa");
+
+        @Comment("Blacklist of passwords that cannot be used")
+        private List<String> unsafePasswords = List.of("123456", "password", "qwerty", "123456789", "help", "sifre", "12345", "asd123", "qwe123");
 
     }
 }
