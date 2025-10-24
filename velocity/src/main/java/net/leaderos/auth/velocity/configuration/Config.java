@@ -83,6 +83,12 @@ public class Config extends OkaeriConfig {
         private RegisterSecondArg registerSecondArg = RegisterSecondArg.PASSWORD_CONFIRM;
 
         @Comment({
+                "Maximum number of players that can join from the same IP address.",
+                "Set to 0 to disable this feature."
+        })
+        private int maxJoinPerIP = 0;
+
+        @Comment({
                 "Email verification settings",
                 "To use this feature, make sure the Email Verification module is enabled on your website."
         })

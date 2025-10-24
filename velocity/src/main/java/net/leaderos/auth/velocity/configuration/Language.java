@@ -66,6 +66,10 @@ public class Language extends OkaeriConfig {
                 "&cPlease verify your email on our website to continue."
         );
 
+        private List<String> kickMaxConnectionsPerIP = Lists.newArrayList(
+                "&cToo many connections from your IP address!"
+        );
+
         private String unknownAuthCommand = "{prefix} &cUnknown authentication command! Please use &a/register <password> <password> &cor &a/login <password> &ccommands.";
 
         private String reload = "{prefix} &aPlugin reloaded successfully.";

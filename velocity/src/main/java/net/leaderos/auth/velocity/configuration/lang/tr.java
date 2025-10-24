@@ -65,6 +65,10 @@ public class tr extends Language {
                 "&cSunucumuzda oynayabilmek için lütfen email adresinizi websitemizden doğrulayınız."
         );
 
+        private List<String> kickMaxConnectionsPerIP = Lists.newArrayList(
+                "&cBu IP adresinden sunucuya izin verilen maksimum bağlantı sayısına ulaşıldı."
+        );
+
         private String unknownAuthCommand = "{prefix} &cBilinmeyen komut! Lütfen &a/register <şifre> <şifre> &aveya &a/login <şifre> &ckomutlarını kullanın.";
 
         private String reload = "{prefix} &aEklenti başarıyla yeniden yüklendi.";

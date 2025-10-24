@@ -30,6 +30,7 @@ import net.leaderos.auth.velocity.helpers.DebugVelocity;
 import net.leaderos.auth.velocity.listener.ConnectionListener;
 import net.leaderos.auth.shared.Shared;
 import net.leaderos.auth.shared.helpers.UrlUtil;
+import net.leaderos.auth.velocity.listener.IpConnectionLimitListener;
 import org.bstats.velocity.Metrics;
 import org.slf4j.Logger;
 
@@ -45,7 +46,7 @@ import java.util.Collections;
 @Plugin(
         id = "leaderosauth",
         name = "LeaderOS-Auth",
-        version = "1.0.3",
+        version = "1.0.4",
         url = "https://leaderos.net",
         description = "LeaderOS Auth for Velocity",
         authors = {"leaderos", "efekurbann"},
@@ -149,6 +150,7 @@ public class Velocity {
         createServer();
 
         this.server.getEventManager().register(this, new ConnectionListener(this));
+        this.server.getEventManager().register(this, new IpConnectionLimitListener(this));
     }
 
     /**
