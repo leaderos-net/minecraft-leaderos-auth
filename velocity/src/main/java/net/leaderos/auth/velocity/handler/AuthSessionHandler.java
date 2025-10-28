@@ -15,7 +15,7 @@ import net.leaderos.auth.velocity.helpers.ChatUtil;
 import net.leaderos.auth.shared.Shared;
 import net.leaderos.auth.shared.enums.ErrorCode;
 import net.leaderos.auth.shared.enums.RegisterSecondArg;
-import net.leaderos.auth.shared.enums.SessionStatus;
+import net.leaderos.auth.shared.enums.SessionState;
 import net.leaderos.auth.shared.helpers.AuthUtil;
 import net.leaderos.auth.shared.helpers.Placeholder;
 import net.leaderos.auth.shared.helpers.UserAgentUtil;
@@ -55,7 +55,7 @@ public class AuthSessionHandler implements LimboSessionHandler {
             return;
         }
 
-        if (session.getStatus() == SessionStatus.LOGIN_REQUIRED) {
+        if (session.getState() == SessionState.LOGIN_REQUIRED) {
             ChatUtil.sendMessage(proxyPlayer, plugin.getLangFile().getMessages().getLogin().getMessage());
 
             if (plugin.getConfigFile().getSettings().isShowTitle()) {
@@ -69,7 +69,7 @@ public class AuthSessionHandler implements LimboSessionHandler {
                 );
             }
         }
-        if (session.getStatus() == SessionStatus.ACCOUNT_NOT_FOUND) {
+        if (session.getState() == SessionState.REGISTER_REQUIRED) {
             ChatUtil.sendMessage(proxyPlayer, plugin.getLangFile().getMessages().getRegister().getMessage());
 
             if (plugin.getConfigFile().getSettings().isShowTitle()) {
@@ -83,7 +83,7 @@ public class AuthSessionHandler implements LimboSessionHandler {
                 );
             }
         }
-        if (session.getStatus() == SessionStatus.TFA_REQUIRED) {
+        if (session.getState() == SessionState.TFA_REQUIRED) {
             ChatUtil.sendMessage(proxyPlayer, plugin.getLangFile().getMessages().getTfa().getRequired());
 
             if (plugin.getConfigFile().getSettings().isShowTitle()) {
@@ -108,13 +108,13 @@ public class AuthSessionHandler implements LimboSessionHandler {
 
             // We'll send a message every 5 seconds to remind the player to login or register
             if (i.incrementAndGet() % 5 == 0) {
-                if (session.getStatus() == SessionStatus.LOGIN_REQUIRED) {
+                if (session.getState() == SessionState.LOGIN_REQUIRED) {
                     ChatUtil.sendMessage(proxyPlayer, plugin.getLangFile().getMessages().getLogin().getMessage());
                 }
-                if (session.getStatus() == SessionStatus.ACCOUNT_NOT_FOUND) {
+                if (session.getState() == SessionState.REGISTER_REQUIRED) {
                     ChatUtil.sendMessage(proxyPlayer, plugin.getLangFile().getMessages().getRegister().getMessage());
                 }
-                if (session.getStatus() == SessionStatus.TFA_REQUIRED) {
+                if (session.getState() == SessionState.TFA_REQUIRED) {
                     ChatUtil.sendMessage(proxyPlayer, plugin.getLangFile().getMessages().getTfa().getRequired());
                 }
             }
@@ -126,13 +126,13 @@ public class AuthSessionHandler implements LimboSessionHandler {
                 float barProgress = (Math.max(0f, Math.min(1f, progress)));
 
                 String barTitle = "";
-                if (session.getStatus() == SessionStatus.LOGIN_REQUIRED) {
+                if (session.getState() == SessionState.LOGIN_REQUIRED) {
                     barTitle = plugin.getLangFile().getMessages().getLogin().getBossBar().replace("{seconds}", String.valueOf(remainingSeconds));
                 }
-                if (session.getStatus() == SessionStatus.ACCOUNT_NOT_FOUND) {
+                if (session.getState() == SessionState.REGISTER_REQUIRED) {
                     barTitle = plugin.getLangFile().getMessages().getRegister().getBossBar().replace("{seconds}", String.valueOf(remainingSeconds));
                 }
-                if (session.getStatus() == SessionStatus.TFA_REQUIRED) {
+                if (session.getState() == SessionState.TFA_REQUIRED) {
                     barTitle = plugin.getLangFile().getMessages().getTfa().getBossBar().replace("{seconds}", String.valueOf(remainingSeconds));
                 }
 
@@ -184,19 +184,19 @@ public class AuthSessionHandler implements LimboSessionHandler {
         String command = args[0].startsWith("/") ? args[0].toLowerCase().substring(1) : args[0].toLowerCase();
         if (plugin.getConfigFile().getSettings().getLoginCommands().contains(command) && args.length > 1) { // Login command
             // Prevent trying to login if already authenticated
-            if (session.getStatus() == SessionStatus.AUTHENTICATED) {
+            if (session.getState() == SessionState.AUTHENTICATED) {
                 ChatUtil.sendMessage(proxyPlayer, plugin.getLangFile().getMessages().getAlreadyAuthenticated());
                 return;
             }
 
             // Prevent trying to login if TFA is required
-            if (session.getStatus() == SessionStatus.TFA_REQUIRED) {
+            if (session.getState() == SessionState.TFA_REQUIRED) {
                 ChatUtil.sendMessage(proxyPlayer, plugin.getLangFile().getMessages().getTfa().getRequired());
                 return;
             }
 
             // Prevent trying to login if need to register
-            if (session.getStatus() == SessionStatus.ACCOUNT_NOT_FOUND) {
+            if (session.getState() == SessionState.REGISTER_REQUIRED) {
                 ChatUtil.sendMessage(proxyPlayer, plugin.getLangFile().getMessages().getRegister().getMessage());
                 return;
             }
@@ -215,8 +215,8 @@ public class AuthSessionHandler implements LimboSessionHandler {
                     session.setToken(result.getToken());
 
                     if (result.isTfaRequired()) {
-                        // Change session status to TFA required
-                        session.setStatus(SessionStatus.TFA_REQUIRED);
+                        // Change session state to TFA required
+                        session.setState(SessionState.TFA_REQUIRED);
 
                         // Reset timeout timer for TFA verification
                         this.joinTime = System.currentTimeMillis();
@@ -236,8 +236,8 @@ public class AuthSessionHandler implements LimboSessionHandler {
                         ChatUtil.sendMessage(proxyPlayer, plugin.getLangFile().getMessages().getTfa().getRequired());
                         ChatUtil.sendMessage(proxyPlayer, plugin.getLangFile().getMessages().getTfa().getUsage());
                     } else {
-                        // Change session status to authenticated
-                        session.setStatus(SessionStatus.AUTHENTICATED);
+                        // Change session state to authenticated
+                        session.setState(SessionState.AUTHENTICATED);
 
                         ChatUtil.sendMessage(proxyPlayer, plugin.getLangFile().getMessages().getLogin().getSuccess());
                         ChatUtil.sendConsoleInfo(proxyPlayer.getUsername() + " has logged in successfully.");
@@ -260,19 +260,19 @@ public class AuthSessionHandler implements LimboSessionHandler {
             });
         } else if (plugin.getConfigFile().getSettings().getRegisterCommands().contains(command) && args.length > 2) { // Register command
             // Prevent trying to register if already authenticated
-            if (session.getStatus() == SessionStatus.AUTHENTICATED) {
+            if (session.getState() == SessionState.AUTHENTICATED) {
                 ChatUtil.sendMessage(proxyPlayer, plugin.getLangFile().getMessages().getAlreadyAuthenticated());
                 return;
             }
 
             // Prevent trying to register if TFA is required
-            if (session.getStatus() == SessionStatus.TFA_REQUIRED) {
+            if (session.getState() == SessionState.TFA_REQUIRED) {
                 ChatUtil.sendMessage(proxyPlayer, plugin.getLangFile().getMessages().getTfa().getRequired());
                 return;
             }
 
             // Prevent trying to register if need to login
-            if (session.getStatus() == SessionStatus.LOGIN_REQUIRED || session.getStatus() == SessionStatus.HAS_SESSION) {
+            if (session.getState() == SessionState.LOGIN_REQUIRED || session.getState() == SessionState.HAS_SESSION) {
                 ChatUtil.sendMessage(proxyPlayer, plugin.getLangFile().getMessages().getLogin().getMessage());
                 return;
             }
@@ -331,8 +331,8 @@ public class AuthSessionHandler implements LimboSessionHandler {
                         return;
                     }
 
-                    // Change session status to authenticated
-                    session.setStatus(SessionStatus.AUTHENTICATED);
+                    // Change session state to authenticated
+                    session.setState(SessionState.AUTHENTICATED);
 
                     // Set session token
                     session.setToken(result.getToken());
@@ -361,13 +361,13 @@ public class AuthSessionHandler implements LimboSessionHandler {
             String code = args[1];
 
             // Prevent trying to verify TFA if already authenticated
-            if (session.getStatus() == SessionStatus.AUTHENTICATED) {
+            if (session.getState() == SessionState.AUTHENTICATED) {
                 ChatUtil.sendMessage(proxyPlayer, plugin.getLangFile().getMessages().getAlreadyAuthenticated());
                 return;
             }
 
             // Prevent trying to verify TFA if not TFA required
-            if (session.getStatus() != SessionStatus.TFA_REQUIRED) {
+            if (session.getState() != SessionState.TFA_REQUIRED) {
                 ChatUtil.sendMessage(proxyPlayer, plugin.getLangFile().getMessages().getTfa().getNotRequired());
                 return;
             }
@@ -386,8 +386,8 @@ public class AuthSessionHandler implements LimboSessionHandler {
                 }
 
                 if (result.isStatus()) {
-                    // Change session status to authenticated
-                    session.setStatus(SessionStatus.AUTHENTICATED);
+                    // Change session state to authenticated
+                    session.setState(SessionState.AUTHENTICATED);
 
                     ChatUtil.sendMessage(proxyPlayer, plugin.getLangFile().getMessages().getTfa().getSuccess());
                     ChatUtil.sendConsoleInfo(proxyPlayer.getUsername() + " has completed TFA verification successfully.");

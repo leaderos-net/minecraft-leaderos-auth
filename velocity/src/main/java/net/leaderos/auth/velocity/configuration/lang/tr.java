@@ -61,6 +61,10 @@ public class tr extends Language {
                 "&cGeçersiz kullanıcı adı!"
         );
 
+        private List<String> kickUsernameCaseMismatch = Lists.newArrayList(
+                "&cLütfen &e{invalid} &cyerine doğru kullanıcı adınız olan &a{valid} &cile giriş yapın."
+        );
+
         private List<String> kickEmailNotVerified = Lists.newArrayList(
                 "&cSunucumuzda oynayabilmek için lütfen email adresinizi websitemizden doğrulayınız."
         );

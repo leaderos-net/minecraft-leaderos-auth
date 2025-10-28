@@ -10,7 +10,7 @@ import net.leaderos.auth.bukkit.helpers.TitleUtil;
 import net.leaderos.auth.shared.Shared;
 import net.leaderos.auth.shared.enums.ErrorCode;
 import net.leaderos.auth.shared.enums.RegisterSecondArg;
-import net.leaderos.auth.shared.enums.SessionStatus;
+import net.leaderos.auth.shared.enums.SessionState;
 import net.leaderos.auth.shared.helpers.AuthUtil;
 import net.leaderos.auth.shared.helpers.Placeholder;
 import net.leaderos.auth.shared.helpers.UserAgentUtil;
@@ -45,13 +45,13 @@ public class RegisterCommand extends BaseCommand {
             }
 
             // Prevent trying to register if TFA is required
-            if (session.getStatus() == SessionStatus.TFA_REQUIRED) {
+            if (session.getState() == SessionState.TFA_REQUIRED) {
                 ChatUtil.sendMessage(player, plugin.getLangFile().getMessages().getTfa().getRequired());
                 return;
             }
 
             // Prevent trying to register if need to login
-            if (session.getStatus() == SessionStatus.LOGIN_REQUIRED || session.getStatus() == SessionStatus.HAS_SESSION) {
+            if (session.getState() == SessionState.LOGIN_REQUIRED || session.getState() == SessionState.HAS_SESSION) {
                 ChatUtil.sendMessage(player, plugin.getLangFile().getMessages().getLogin().getMessage());
                 return;
             }
@@ -121,7 +121,7 @@ public class RegisterCommand extends BaseCommand {
                             BossBarUtil.hideBossBar(player);
                         }
 
-                        session.setStatus(SessionStatus.AUTHENTICATED);
+                        session.setState(SessionState.AUTHENTICATED);
                         session.setToken(result.getToken());
                         plugin.getSessions().put(player.getName(), session);
 

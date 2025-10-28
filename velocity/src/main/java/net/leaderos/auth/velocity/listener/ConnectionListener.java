@@ -7,18 +7,20 @@ import lombok.RequiredArgsConstructor;
 import net.elytrium.limboapi.api.event.LoginLimboRegisterEvent;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.JoinConfiguration;
+import net.leaderos.auth.shared.enums.ErrorCode;
 import net.leaderos.auth.velocity.Velocity;
 import net.leaderos.auth.velocity.handler.AuthSessionHandler;
 import net.leaderos.auth.velocity.handler.ValidSessionHandler;
 import net.leaderos.auth.velocity.helpers.ChatUtil;
 import net.leaderos.auth.shared.Shared;
-import net.leaderos.auth.shared.enums.SessionStatus;
+import net.leaderos.auth.shared.enums.SessionState;
 import net.leaderos.auth.shared.helpers.AuthUtil;
 import net.leaderos.auth.shared.helpers.Placeholder;
 import net.leaderos.auth.shared.helpers.UserAgentUtil;
 import net.leaderos.auth.shared.model.response.GameSessionResponse;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
 public class ConnectionListener {
@@ -41,34 +43,52 @@ public class ConnectionListener {
                 String userAgent = UserAgentUtil.generateUserAgent(!plugin.getConfigFile().getSettings().isSession());
                 GameSessionResponse session = AuthUtil.checkGameSession(playerName, ip, userAgent).join();
 
-                // Kick the player if they have an invalid username
-                if (session.getStatus() == SessionStatus.INVALID_USERNAME) {
-                    kickPlayer(player, plugin.getLangFile().getMessages().getKickInvalidUsername());
+                // If the session response status is false, handle errors
+                if (!session.isStatus()) {
+                    // Kick the player if they have an invalid username
+                    if (session.getError() == ErrorCode.INVALID_USERNAME) {
+                        kickPlayer(player, plugin.getLangFile().getMessages().getKickInvalidUsername());
+                        return;
+                    }
+
+                    // Kick the player with a generic error message for other errors
+                    kickPlayer(player, plugin.getLangFile().getMessages().getKickAnError());
+                    return;
+                }
+
+                // Kick the player if their username case does not match
+                if (session.getUsername() != null && !session.getUsername().equals(playerName)) {
+                    List<String> kickMessage = plugin.getLangFile().getMessages().getKickUsernameCaseMismatch()
+                            .stream()
+                            .map(s -> s.replace("{valid}", session.getUsername()))
+                            .map(s -> s.replace("{invalid}", playerName))
+                            .collect(Collectors.toList());
+                    kickPlayer(player, kickMessage);
                     return;
                 }
 
                 // Check email verification status
-                if (session.getStatus() == SessionStatus.EMAIL_NOT_VERIFIED) {
+                if (session.getState() == SessionState.EMAIL_NOT_VERIFIED) {
                     // Kick the player if their email is not verified and kicking is enabled
                     if (plugin.getConfigFile().getSettings().getEmailVerification().isKickNonVerified()) {
                         kickPlayer(player, plugin.getLangFile().getMessages().getKickEmailNotVerified());
                         return;
                     } else {
                         // If email verification is disabled, set status to LOGIN_REQUIRED
-                        session.setStatus(SessionStatus.LOGIN_REQUIRED);
+                        session.setState(SessionState.LOGIN_REQUIRED);
                     }
                 }
 
                 // Kick the player if they are not registered and kicking is enabled
-                if (plugin.getConfigFile().getSettings().isKickNonRegistered() && session.getStatus() == SessionStatus.ACCOUNT_NOT_FOUND) {
+                if (plugin.getConfigFile().getSettings().isKickNonRegistered() && session.getState() == SessionState.REGISTER_REQUIRED) {
                     kickPlayer(player, plugin.getLangFile().getMessages().getKickNotRegistered());
                     return;
                 }
 
                 // If the player is already authenticated, allow them to join directly
-                if (session.getStatus() == SessionStatus.HAS_SESSION && plugin.getConfigFile().getSettings().isSession()) {
-                    // Change session status to authenticated
-                    session.setStatus(SessionStatus.AUTHENTICATED);
+                if (session.getState() == SessionState.HAS_SESSION && plugin.getConfigFile().getSettings().isSession()) {
+                    // Change session state to authenticated
+                    session.setState(SessionState.AUTHENTICATED);
 
                     Shared.getDebugAPI().send("Player " + playerName + " has active session, allowing direct login.", false);
                     ChatUtil.sendConsoleInfo(playerName + " has logged in with an active session.");

@@ -62,6 +62,10 @@ public class Language extends OkaeriConfig {
                 "&cInvalid username!"
         );
 
+        private List<String> kickUsernameCaseMismatch = Lists.newArrayList(
+                "&cYou should join using username &a{valid}&c, not &e{invalid}&c!"
+        );
+
         private List<String> kickEmailNotVerified = Lists.newArrayList(
                 "&cPlease verify your email on our website to continue."
         );

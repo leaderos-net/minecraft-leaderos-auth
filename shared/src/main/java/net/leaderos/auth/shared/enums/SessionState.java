@@ -1,13 +1,13 @@
 package net.leaderos.auth.shared.enums;
 
-public enum SessionStatus {
+public enum SessionState {
 
     AUTHENTICATED,
     LOGIN_REQUIRED,
-    ACCOUNT_NOT_FOUND,
+    REGISTER_REQUIRED,
     HAS_SESSION,
     TFA_REQUIRED,
-    INVALID_USERNAME,
-    EMAIL_NOT_VERIFIED
+    EMAIL_NOT_VERIFIED,
+    USERNAME_CASE_MISMATCH
 
 }

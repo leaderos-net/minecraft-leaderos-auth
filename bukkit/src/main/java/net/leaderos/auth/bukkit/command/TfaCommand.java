@@ -9,7 +9,7 @@ import net.leaderos.auth.bukkit.helpers.ChatUtil;
 import net.leaderos.auth.bukkit.helpers.TitleUtil;
 import net.leaderos.auth.shared.Shared;
 import net.leaderos.auth.shared.enums.ErrorCode;
-import net.leaderos.auth.shared.enums.SessionStatus;
+import net.leaderos.auth.shared.enums.SessionState;
 import net.leaderos.auth.shared.helpers.AuthUtil;
 import net.leaderos.auth.shared.model.response.GameSessionResponse;
 import org.bukkit.entity.Player;
@@ -36,8 +36,8 @@ public class TfaCommand extends BaseCommand {
                 return;
             }
 
-            // Check if session status is TFA required
-            if (session.getStatus() != SessionStatus.TFA_REQUIRED) {
+            // Check if session state is TFA required
+            if (session.getState() != SessionState.TFA_REQUIRED) {
                 ChatUtil.sendMessage(player, plugin.getLangFile().getMessages().getTfa().getNotRequired());
                 return;
             }
@@ -67,8 +67,8 @@ public class TfaCommand extends BaseCommand {
                             BossBarUtil.hideBossBar(player);
                         }
 
-                        // Change session status to authenticated
-                        session.setStatus(SessionStatus.AUTHENTICATED);
+                        // Change session state to authenticated
+                        session.setState(SessionState.AUTHENTICATED);
 
                         ChatUtil.sendMessage(player, plugin.getLangFile().getMessages().getTfa().getSuccess());
                         ChatUtil.sendConsoleInfo(player.getName() + " has completed TFA verification successfully.");

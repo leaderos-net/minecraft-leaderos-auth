@@ -1,7 +1,7 @@
 package net.leaderos.auth.shared.helpers;
 
 import net.leaderos.auth.shared.enums.ErrorCode;
-import net.leaderos.auth.shared.enums.SessionStatus;
+import net.leaderos.auth.shared.enums.SessionState;
 import net.leaderos.auth.shared.model.Response;
 import net.leaderos.auth.shared.model.request.impl.auth.LoginRequest;
 import net.leaderos.auth.shared.model.request.impl.auth.RegisterRequest;
@@ -27,9 +27,28 @@ public class AuthUtil {
                 SessionRequest request = new SessionRequest(username, ip, userAgent);
                 Response response = request.getResponse();
 
+                if (response.isStatus() && response.getError() == null && response.getResponseMessage().getJSONObject("data") != null) {
+                    String sessionUsername = null;
+                    if (response.getResponseMessage().getJSONObject("data").optJSONObject("user") != null) {
+                        sessionUsername = response.getResponseMessage().getJSONObject("data").getJSONObject("user").optString("realname", null);
+                    }
+
+                    return new GameSessionResponse(
+                            true,
+                            null,
+                            SessionState.valueOf(response.getResponseMessage().getJSONObject("data").getString("state")),
+                            response.getResponseMessage().getJSONObject("data").optString("token", null),
+                            sessionUsername
+                    );
+                }
+
+                // Error response
                 return new GameSessionResponse(
-                        SessionStatus.valueOf(response.getResponseMessage().getString("status")),
-                        response.getResponseMessage().optString("token", null)
+                        false,
+                        response.getError() != null ? ErrorCode.valueOf(response.getError().name()) : ErrorCode.UNKNOWN_ERROR,
+                        null,
+                        null,
+                        null
                 );
 
             } catch (IOException e) {
@@ -44,7 +63,7 @@ public class AuthUtil {
                 LoginRequest request = new LoginRequest(username, password, ip, userAgent);
                 Response response = request.getResponse();
 
-                if (response.isStatus() && response.getError() == null) {
+                if (response.isStatus() && response.getError() == null && response.getResponseMessage().getJSONObject("data") != null) {
                     // Successful response
                     return new LoginResponse(
                             true,
@@ -57,7 +76,7 @@ public class AuthUtil {
                 // Error response
                 return new LoginResponse(
                         false,
-                        ErrorCode.valueOf(response.getError().name()),
+                        response.getError() != null ? ErrorCode.valueOf(response.getError().name()) : ErrorCode.UNKNOWN_ERROR,
                         null,
                         false
                 );
@@ -73,7 +92,7 @@ public class AuthUtil {
                 RegisterRequest request = new RegisterRequest(username, password, email, ip, userAgent);
                 Response response = request.getResponse();
 
-                if (response.isStatus() && response.getError() == null) {
+                if (response.isStatus() && response.getError() == null && response.getResponseMessage().getJSONObject("data") != null) {
                     // Successful response
                     return new RegisterResponse(
                             true,
@@ -86,7 +105,7 @@ public class AuthUtil {
                 // Error response
                 return new RegisterResponse(
                         false,
-                        ErrorCode.valueOf(response.getError().name()),
+                        response.getError() != null ? ErrorCode.valueOf(response.getError().name()) : ErrorCode.UNKNOWN_ERROR,
                         null,
                         false
                 );
@@ -105,7 +124,10 @@ public class AuthUtil {
                     return new VerifyTfaResponse(true, null);
                 }
 
-                return new VerifyTfaResponse(false, ErrorCode.valueOf(response.getError().name()));
+                return new VerifyTfaResponse(
+                        false,
+                        response.getError() != null ? ErrorCode.valueOf(response.getError().name()) : ErrorCode.UNKNOWN_ERROR
+                );
             } catch (IOException e) {
                 throw new RuntimeException(e);
             }

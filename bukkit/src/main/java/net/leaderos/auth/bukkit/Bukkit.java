@@ -22,7 +22,7 @@ import net.leaderos.auth.bukkit.helpers.ConsoleLogger;
 import net.leaderos.auth.bukkit.helpers.DebugBukkit;
 import net.leaderos.auth.bukkit.listener.*;
 import net.leaderos.auth.shared.Shared;
-import net.leaderos.auth.shared.enums.SessionStatus;
+import net.leaderos.auth.shared.enums.SessionState;
 import net.leaderos.auth.shared.helpers.UrlUtil;
 import net.leaderos.auth.shared.model.response.GameSessionResponse;
 import org.bstats.bukkit.Metrics;
@@ -179,7 +179,7 @@ public class Bukkit extends JavaPlugin {
 
     public boolean isAuthenticated(Player player) {
         GameSessionResponse response = sessions.get(player.getName());
-        return response != null && response.getStatus() == SessionStatus.AUTHENTICATED;
+        return response != null && response.getState() == SessionState.AUTHENTICATED;
     }
 
     public void cacheAllowedCommands() {

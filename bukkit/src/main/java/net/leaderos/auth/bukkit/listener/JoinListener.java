@@ -7,7 +7,7 @@ import net.leaderos.auth.bukkit.helpers.ChatUtil;
 import net.leaderos.auth.bukkit.helpers.LocationUtil;
 import net.leaderos.auth.bukkit.helpers.TitleUtil;
 import net.leaderos.auth.shared.Shared;
-import net.leaderos.auth.shared.enums.SessionStatus;
+import net.leaderos.auth.shared.enums.SessionState;
 import net.leaderos.auth.shared.helpers.Placeholder;
 import net.leaderos.auth.shared.model.response.GameSessionResponse;
 
@@ -64,7 +64,7 @@ public class JoinListener implements Listener {
                 return;
             }
 
-            if (session.getStatus() == SessionStatus.LOGIN_REQUIRED) {
+            if (session.getState() == SessionState.LOGIN_REQUIRED) {
                 if (plugin.getConfigFile().getSettings().isShowTitle()) {
                     TitleUtil.sendTitle(
                             player,
@@ -75,7 +75,7 @@ public class JoinListener implements Listener {
                     );
                 }
             }
-            if (session.getStatus() == SessionStatus.ACCOUNT_NOT_FOUND) {
+            if (session.getState() == SessionState.REGISTER_REQUIRED) {
                 if (plugin.getConfigFile().getSettings().isShowTitle()) {
                     TitleUtil.sendTitle(
                             player,
@@ -86,7 +86,7 @@ public class JoinListener implements Listener {
                     );
                 }
             }
-            if (session.getStatus() == SessionStatus.TFA_REQUIRED) {
+            if (session.getState() == SessionState.TFA_REQUIRED) {
                 if (plugin.getConfigFile().getSettings().isShowTitle()) {
                     TitleUtil.sendTitle(
                             player,
@@ -117,13 +117,13 @@ public class JoinListener implements Listener {
 
                 // We'll send a message every 5 seconds to remind the player to login or register
                 if (i.incrementAndGet() % 5 == 0) {
-                    if (session.getStatus() == SessionStatus.LOGIN_REQUIRED) {
+                    if (session.getState() == SessionState.LOGIN_REQUIRED) {
                         ChatUtil.sendMessage(player, plugin.getLangFile().getMessages().getLogin().getMessage());
                     }
-                    if (session.getStatus() == SessionStatus.ACCOUNT_NOT_FOUND) {
+                    if (session.getState() == SessionState.REGISTER_REQUIRED) {
                         ChatUtil.sendMessage(player, plugin.getLangFile().getMessages().getRegister().getMessage());
                     }
-                    if (session.getStatus() == SessionStatus.TFA_REQUIRED) {
+                    if (session.getState() == SessionState.TFA_REQUIRED) {
                         ChatUtil.sendMessage(player, plugin.getLangFile().getMessages().getTfa().getRequired());
                     }
                 }
@@ -135,13 +135,13 @@ public class JoinListener implements Listener {
                     float barProgress = (Math.max(0f, Math.min(1f, progress)));
 
                     String barTitle = "";
-                    if (session.getStatus() == SessionStatus.LOGIN_REQUIRED) {
+                    if (session.getState() == SessionState.LOGIN_REQUIRED) {
                         barTitle = plugin.getLangFile().getMessages().getLogin().getBossBar().replace("{seconds}", String.valueOf(remainingSeconds));
                     }
-                    if (session.getStatus() == SessionStatus.ACCOUNT_NOT_FOUND) {
+                    if (session.getState() == SessionState.REGISTER_REQUIRED) {
                         barTitle = plugin.getLangFile().getMessages().getRegister().getBossBar().replace("{seconds}", String.valueOf(remainingSeconds));
                     }
-                    if (session.getStatus() == SessionStatus.TFA_REQUIRED) {
+                    if (session.getState() == SessionState.TFA_REQUIRED) {
                         barTitle = plugin.getLangFile().getMessages().getTfa().getBossBar().replace("{seconds}", String.valueOf(remainingSeconds));
                     }
 

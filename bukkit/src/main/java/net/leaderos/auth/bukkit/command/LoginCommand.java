@@ -9,7 +9,7 @@ import net.leaderos.auth.bukkit.helpers.ChatUtil;
 import net.leaderos.auth.bukkit.helpers.TitleUtil;
 import net.leaderos.auth.shared.Shared;
 import net.leaderos.auth.shared.enums.ErrorCode;
-import net.leaderos.auth.shared.enums.SessionStatus;
+import net.leaderos.auth.shared.enums.SessionState;
 import net.leaderos.auth.shared.helpers.AuthUtil;
 import net.leaderos.auth.shared.helpers.Placeholder;
 import net.leaderos.auth.shared.helpers.UserAgentUtil;
@@ -43,13 +43,13 @@ public class LoginCommand extends BaseCommand {
             }
 
             // Prevent trying to login if TFA is required
-            if (session.getStatus() == SessionStatus.TFA_REQUIRED) {
+            if (session.getState() == SessionState.TFA_REQUIRED) {
                 ChatUtil.sendMessage(player, plugin.getLangFile().getMessages().getTfa().getRequired());
                 return;
             }
 
             // Prevent trying to login if need to register
-            if (session.getStatus() == SessionStatus.ACCOUNT_NOT_FOUND) {
+            if (session.getState() == SessionState.REGISTER_REQUIRED) {
                 ChatUtil.sendMessage(player, plugin.getLangFile().getMessages().getRegister().getMessage());
                 return;
             }
@@ -69,8 +69,8 @@ public class LoginCommand extends BaseCommand {
                         session.setToken(result.getToken());
 
                         if (result.isTfaRequired()) {
-                            // Change session status to TFA required
-                            session.setStatus(SessionStatus.TFA_REQUIRED);
+                            // Change session state to TFA required
+                            session.setState(SessionState.TFA_REQUIRED);
 
                             // Update title to TFA
                             if (plugin.getConfigFile().getSettings().isShowTitle()) {
@@ -96,8 +96,8 @@ public class LoginCommand extends BaseCommand {
                                 BossBarUtil.hideBossBar(player);
                             }
 
-                            // Change session status to authenticated
-                            session.setStatus(SessionStatus.AUTHENTICATED);
+                            // Change session state to authenticated
+                            session.setState(SessionState.AUTHENTICATED);
 
                             ChatUtil.sendConsoleInfo(player.getName() + " has logged in successfully.");
                             ChatUtil.sendMessage(player, plugin.getLangFile().getMessages().getLogin().getSuccess());
